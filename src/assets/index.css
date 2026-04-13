@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #121212;
+    color: #FFFFFF;
+    font-family: 'STKaiti', 'KaiTi', 'STXingkai', 'HanziPen SC', 'Ma Shan Zheng', 'FZKai-Z03', 'Songti SC', serif;
+    overflow-x: hidden;
+    margin: 0;
+  }
+}
+
+.glass-nav {
+  backdrop-filter: blur(12px);
+  background: rgba(10, 10, 10, 0.0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-nav.scrolled {
+  background: rgba(10, 10, 10, 0.85);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.hero-title {
+  font-size: 12rem;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(48px) scale(0.97);
+  filter: blur(8px);
+  transition: transform 1s cubic-bezier(0.2, 1, 0.3, 1), opacity 1s cubic-bezier(0.2, 1, 0.3, 1), filter 1s cubic-bezier(0.2, 1, 0.3, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.parallax-bg {
+  transition: transform 0.1s ease-out;
+}
+
+.product-card img {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+.tech-card {
+  background: linear-gradient(145deg, #1A1A1A 0%, #0F0F0F 100%);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.accessories-track {
+  perspective: 1200px;
+}
+
+.accessory-card {
+  --mx: 0px;
+  --my: 0px;
+  --stagger-delay: 0ms;
+  opacity: 0;
+  transform: translate3d(0, 70px, 0) scale(0.96);
+  filter: blur(10px);
+  transition: transform 1s cubic-bezier(0.2, 1, 0.3, 1), opacity 1s cubic-bezier(0.2, 1, 0.3, 1), filter 1s cubic-bezier(0.2, 1, 0.3, 1), border-color 0.4s ease;
+  transition-delay: var(--stagger-delay);
+}
+
+.accessory-card.active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+.accessory-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.accessory-media {
+  overflow: hidden;
+}
+
+.accessory-media .mask-reveal {
+  clip-path: inset(100% 0 0 0);
+  transform: translate3d(var(--mx), var(--my), 0) scale(1.06);
+  transition: clip-path 1.1s cubic-bezier(0.2, 1, 0.3, 1), transform 0.3s ease-out;
+  will-change: transform;
+}
+
+.accessory-card.active .accessory-media .mask-reveal {
+  clip-path: inset(0 0 0 0);
+}
+
+.accessory-card:hover .accessory-media .mask-reveal {
+  transform: translate3d(calc(var(--mx) * 1.2), calc(var(--my) * 1.2), 0) scale(1.12);
+}
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #121212;
+}
+::-webkit-scrollbar-thumb {
+  background: #2D2D2D;
+  border-radius: 10px;
+}
