@@ -1,5 +1,5 @@
 <template>
-  <div class="laptop-container">
+  <div ref="laptopRef" class="laptop-container" :class="{ 'is-active': isVisible }">
     <div class="laptop">
       <div class="screen">
         <div class="header"></div>
@@ -11,6 +11,38 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
+const laptopRef = ref(null)
+const isVisible = ref(false)
+let observer = null
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        isVisible.value = entry.isIntersecting
+      })
+    },
+    {
+      threshold: 0.2,
+    }
+  )
+
+  if (laptopRef.value) {
+    observer.observe(laptopRef.value)
+  }
+})
+
+onBeforeUnmount(() => {
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
+})
+</script>
 
 <style scoped>
 .laptop-container {
@@ -56,8 +88,13 @@
   transform-style: preserve-3d;
   transform: perspective(1900px) rotateX(-88.5deg);
   transform-origin: 50% 100%;
-  animation: open 4s infinite alternate;
   overflow: hidden;
+  transition: transform 0.45s ease;
+}
+
+.laptop-container.is-active .screen {
+  animation: open 1.5s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: none;
 }
 
 @keyframes open {

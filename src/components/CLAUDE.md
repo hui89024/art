@@ -16,9 +16,9 @@
 |------|-------|-------|------|
 | `NavBar.vue` | 无 | 无（内部用 `RouterLink`） | 固定顶部导航栏，滚动后加磨砂背景；包含登录/登出逻辑 |
 | `Carousel.vue` | 无 | 无 | 全屏 Hero 区域，视差背景图 + 品牌大字 + 两个 CTA 按钮 |
-| `LoginModal.vue` | `isOpen: Boolean` | `close`、`login-success` | 登录弹窗，含表单验证、loading 状态、错误提示 |
+| `LoginModal.vue` | 无（由父组件 `v-if` 控制） | `close`、`login-success` | 登录弹窗，含表单验证、loading 状态、错误提示 |
 | `CollectibleDisplay.vue` | 无 | `open-story` | 藏品 3D 展台：悬浮动画、玻璃反光、亚克力台座 |
-| `StoryModal.vue` | `isOpen: Boolean` | `close` | 作品档案弹窗（两栏：左侧 PDF 文档模拟 + 右侧元数据） |
+| `StoryModal.vue` | 无（由父组件 `v-if` 控制） | `close` | 作品档案弹窗（两栏：左侧 PDF 文档模拟 + 右侧元数据） |
 | `LaptopAnimation.vue` | 无 | 无 | 纯 CSS 3D 笔记本开盖动画（循环） |
 | `PhoneAnimation.vue` | 无 | 无 | 纯 CSS 手机外壳展示 |
 

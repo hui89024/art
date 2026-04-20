@@ -3,12 +3,30 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-size: 112.5%;
+  }
+
   body {
-    background-color: #121212;
-    color: #FFFFFF;
+    background-color: #fcfaf7;
+    background-image:
+      radial-gradient(circle at center, rgba(252, 250, 247, 0) 0%, rgba(252, 250, 247, 0.92) 88%),
+      url('./屏幕截图 2026-04-14 134526.png');
+    background-repeat: no-repeat, repeat;
+    background-size: cover, auto;
+    background-position: center, top left;
+    background-attachment: fixed, scroll;
+    opacity: 1;
+    color: #3a2f23;
     font-family: 'STKaiti', 'KaiTi', 'STXingkai', 'HanziPen SC', 'Ma Shan Zheng', 'FZKai-Z03', 'Songti SC', serif;
     overflow-x: hidden;
     margin: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 106.25%;
   }
 }
 
@@ -18,7 +36,7 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .glass-nav.scrolled {
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(238, 225, 198, 0.92);
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
@@ -104,9 +122,84 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #121212;
+  background: #e5d7b9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2D2D2D;
+  background: #9f8b69;
   border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #9f8b69;
+  border-radius: 10px;
+}
+
+/* 模块分割线：克制、无装饰图案 */
+.section-divider {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-divider__line {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 1360px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(216, 207, 189, 0),
+    rgba(216, 207, 189, 0.46) 18%,
+    rgba(216, 207, 189, 0.74) 50%,
+    rgba(216, 207, 189, 0.46) 82%,
+    rgba(216, 207, 189, 0)
+  );
+}
+
+.section-divider__line::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(216, 207, 189, 0),
+    rgba(216, 207, 189, 0.18) 24%,
+    rgba(216, 207, 189, 0.28) 50%,
+    rgba(216, 207, 189, 0.18) 76%,
+    rgba(216, 207, 189, 0)
+  );
+}
+
+.section-divider__line::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -14px;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 28px;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(216, 207, 189, 0.22), rgba(216, 207, 189, 0));
+}
+
+@media (max-width: 768px) {
+  .section-divider {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .section-divider__line::before {
+    top: -5px;
+  }
+
+  .section-divider__line::after {
+    width: 92px;
+    top: -12px;
+  }
 }

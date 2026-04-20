@@ -3,9 +3,7 @@ import { ref } from 'vue'
 import { X, Loader2, AlertCircle } from 'lucide-vue-next'
 import { loginWithPassword } from '../services/authService'
 
-const props = defineProps({
-  isOpen: Boolean
-})
+defineProps({})
 
 const emit = defineEmits(['close', 'login-success'])
 
@@ -39,40 +37,40 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div v-if="isOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
     <!-- Backdrop -->
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="emit('close')"></div>
     
     <!-- Modal Content -->
-    <div class="relative w-full max-w-md bg-background-light border border-primary/40 rounded-2xl shadow-2xl overflow-hidden shadow-primary/10">
+    <div class="relative w-full max-w-md bg-evasion-stone border border-evasion-sand/35 rounded-2xl shadow-2xl overflow-hidden shadow-black/40">
       <!-- Top decorative bar -->
-      <div class="h-2 w-full bg-gradient-to-r from-primary-dark via-primary to-primary-light"></div>
+      <div class="h-2 w-full bg-gradient-to-r from-evasion-sand-dark via-evasion-sand to-evasion-sand-dark"></div>
       
-      <button @click="emit('close')" class="absolute top-6 right-6 text-text-light/50 hover:text-text transition-colors">
+      <button @click="emit('close')" class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors">
         <X class="w-6 h-6" />
       </button>
       
       <div class="p-8">
-        <h2 class="text-2xl font-bold text-text mb-2 text-center">欢迎回来</h2>
-        <p class="text-text-light/60 text-center text-sm mb-8">请登录以探索更多剪艺珍品</p>
+        <h2 class="text-2xl font-bold text-white mb-2 text-center">欢迎回来</h2>
+        <p class="text-white/60 text-center text-sm mb-8">请登录以探索更多剪艺珍品</p>
         
         <form @submit.prevent="handleLogin" class="space-y-5">
           <div>
-            <label class="block text-sm font-medium text-text-light mb-1">用户名</label>
+            <label class="block text-sm font-medium text-white/80 mb-1">用户名</label>
             <input 
               v-model="username" 
               type="text" 
-              class="w-full bg-background border border-primary/30 rounded-xl px-4 py-3 text-text-white focus:outline-none focus:border-text focus:ring-1 focus:ring-text transition-all placeholder-text-light/30"
+              class="w-full bg-evasion-grey border border-evasion-sand/35 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-evasion-sand focus:ring-1 focus:ring-evasion-sand/70 transition-all placeholder-white/30"
               placeholder="输入用户名"
             />
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-text-light mb-1">密码</label>
+            <label class="block text-sm font-medium text-white/80 mb-1">密码</label>
             <input 
               v-model="password" 
               type="password" 
-              class="w-full bg-background border border-primary/30 rounded-xl px-4 py-3 text-text-white focus:outline-none focus:border-text focus:ring-1 focus:ring-text transition-all placeholder-text-light/30"
+              class="w-full bg-evasion-grey border border-evasion-sand/35 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-evasion-sand focus:ring-1 focus:ring-evasion-sand/70 transition-all placeholder-white/30"
               placeholder="输入密码"
             />
           </div>
@@ -85,16 +83,16 @@ const handleLogin = async () => {
           <button 
             type="submit" 
             :disabled="loading"
-            class="w-full py-3.5 mt-2 bg-gradient-to-r from-primary to-primary-light hover:from-primary-light hover:to-primary text-text-white rounded-xl font-bold tracking-wide shadow-lg shadow-primary/20 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+            class="w-full py-3.5 mt-2 bg-gradient-to-r from-evasion-sand-dark to-evasion-sand hover:from-evasion-sand hover:to-evasion-sand-dark text-evasion-black rounded-xl font-bold tracking-wide shadow-lg shadow-black/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
           >
             <Loader2 v-if="loading" class="w-5 h-5 animate-spin mr-2" />
             {{ loading ? '登录中...' : '登 录' }}
           </button>
         </form>
         
-        <div class="mt-8 pt-6 border-t border-primary/20 text-center">
-          <p class="text-sm text-text-light/70 mb-2">还没有账号？请在此网站注册：</p>
-          <a href="https://nwiexwzoxsyb.sealosbja.site" target="_blank" rel="noopener noreferrer" class="text-text hover:text-text-light text-sm font-medium border-b border-text/30 hover:border-text transition-colors">
+        <div class="mt-8 pt-6 border-t border-evasion-sand/25 text-center">
+          <p class="text-sm text-white/70 mb-2">还没有账号？请在此网站注册：</p>
+          <a href="https://nwiexwzoxsyb.sealosbja.site" target="_blank" rel="noopener noreferrer" class="text-white hover:text-white/80 text-sm font-medium border-b border-white/30 hover:border-white transition-colors">
             https://nwiexwzoxsyb.sealosbja.site
           </a>
         </div>
