@@ -1,4 +1,4 @@
-[根目录](../../CLAUDE.md) > **src/services**
+[根目录](../../CLAUDE.md) > [src](../) > **services**
 
 # services — 业务服务层
 
@@ -6,57 +6,77 @@
 
 ## 模块职责
 
-封装所有与外部 API 和本地持久化相关的业务逻辑，组件层不直接操作 localStorage 或调用 fetch。
+封装会话认证与本地持久化，避免组件层直接操作 localStorage。
 
 ---
 
-## authService.js
+## 入口与启动
 
-### 常量
+- 被 `NavBar.vue`（读取/清理登录态）与 `LoginModal.vue`（登录提交）调用。
+- 被路由守卫 `src/router/index.js` 用于权限判断。
 
-| 常量 | 值 | 说明 |
-|------|----|------|
-| `LOGIN_URL` | `https://bpsljpqucopd.sealosbja.site/api/auth/login` | 后端登录接口 |
-| `TOKEN_KEY` | `paper-cut-jwt-token` | localStorage 键名 |
-| `USERNAME_KEY` | `paper-cut-username` | localStorage 键名 |
+---
 
-### 导出函数
+## 对外接口
 
 | 函数 | 签名 | 说明 |
 |------|------|------|
-| `saveAuth` | `(token, username) => void` | 写入 token 和用户名到 localStorage |
-| `clearAuth` | `() => void` | 清除 token 和用户名（登出） |
-| `getStoredAuth` | `() => { token, username }` | 读取当前存储的认证信息 |
-| `loginWithPassword` | `({ username, password }) => Promise<Result>` | POST 登录，成功后自动调用 `saveAuth` |
-| `getAuthorizationHeader` | `() => string` | 返回 `"Bearer <token>"` 或空字符串 |
+| `saveAuth` | `(token, username) => void` | 写入 token/username |
+| `clearAuth` | `() => void` | 清除会话 |
+| `getStoredAuth` | `() => { token, username }` | 读取会话 |
+| `loginWithPassword` | `({ username, password }) => Promise<{ok,...}>` | 调用登录 API 并落盘 |
+| `getAuthorizationHeader` | `() => string` | 返回 `Bearer <token>` |
 
-### loginWithPassword 返回值结构
+---
 
-```js
-// 成功
-{ ok: true, token: string, username: string, message: string }
+## 关键依赖与配置
 
-// 失败（HTTP 错误 / 无 token / 网络异常）
-{ ok: false, message: string }
-```
+- 登录接口：`https://bpsljpqucopd.sealosbja.site/api/auth/login`
+- localStorage 键：
+  - `paper-cut-jwt-token`
+  - `paper-cut-username`
 
-### 错误处理策略
+---
 
-- HTTP 响应非 OK 或 body 中无 `token` 字段 → 返回 `{ ok: false, message: data.message || '用户名或密码错误' }`
-- fetch 抛出异常（网络不通）→ 返回 `{ ok: false, message: '登录服务暂不可用...' }`
+## 数据模型
+
+`loginWithPassword` 统一返回：
+- 成功：`{ ok: true, token, username, message }`
+- 失败：`{ ok: false, message }`
 
 ---
 
 ## 测试与质量
 
-当前无测试文件。建议：
-- 使用 Vitest + `vi.spyOn(window, 'fetch')` Mock 接口
-- 分别覆盖：成功登录、HTTP 错误、网络异常、空字段校验四个分支
+当前无测试。
+
+建议覆盖：
+1. HTTP 非 2xx + message 回传；
+2. 2xx 但无 token 的异常响应；
+3. 网络异常分支；
+4. localStorage 读写一致性。
+
+---
+
+## 常见问题 (FAQ)
+
+### 1) 路由守卫为何只检查 token？
+当前权限模型为最简登录门槛，不区分角色与过期时间。
+
+### 2) 如何在 API 层使用 token？
+调用 `getAuthorizationHeader()` 并注入 `Authorization` 请求头。
+
+---
+
+## 相关文件清单
+
+- `src/services/authService.js`
 
 ---
 
 ## 变更记录 (Changelog)
 
-| 时间 | 操作 |
-|------|------|
-| 2026-04-13T07:07:57+0000 | 初始化创建 |
+| 时间 | 操作 | 说明 |
+|------|------|------|
+| 2026-04-24T11:14:37 | 增量更新 | 补充路由守卫与组件消费关系，统一返回模型说明 |
+| 2026-04-13T07:07:57+0000 | 初始化创建 | 首次生成 |

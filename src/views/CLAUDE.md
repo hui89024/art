@@ -1,73 +1,96 @@
-[根目录](../../CLAUDE.md) > **src/views**
+[根目录](../../CLAUDE.md) > [src](../) > **views**
 
-# views — 页面级路由组件
+# views — 页面级路由视图
 
 ---
 
 ## 模块职责
 
-存放与路由一一对应的顶层页面组件。每个文件即一个页面，负责布局编排和子组件的组合，业务逻辑委托给 `src/services/` 与 `src/data/`。
+承载所有路由页面，负责页面结构编排、状态调度与组件组合；API 调用主要通过 `src/api`，动画能力通过 `src/composables`。
 
 ---
 
-## 文件清单
+## 入口与启动
 
-| 文件 | 路由 | 说明 |
-|------|------|------|
-| `HomeView.vue` | `/` | 品牌营销首页（Hero、作品卡片、工艺介绍、数字实验室、展廊、宣言、周边、页脚） |
-| `CollectiblesView.vue` | `/collectibles` | 数字藏品详情页（展台 + 作品档案信息 + 弹窗） |
-
----
-
-## HomeView.vue — 区块结构
-
-| 顺序 | 区块 ID/名称 | 组件/元素 | 说明 |
-|------|--------------|-----------|------|
-| 1 | Hero | `<Carousel />` | 全屏视差背景 + 品牌大字 |
-| 2 | 核心作品 | 内联 3 列卡片 | 窗花017/018/019 三件藏品 |
-| 3 | 核心工艺 | `#technology` 4 列卡片 | lucide 图标 + 工艺说明 |
-| 4 | 数字实验室 | `<LaptopAnimation />` + `<PhoneAnimation />` | CSS 3D 设备动画 |
-| 5 | 经典展厅 | 横向滚动画廊 | Unsplash 外链图片 |
-| 6 | 宣言 | 全屏背景文字 | Manifesto |
-| 7 | 文创周边 | 4 列卡片 | 视差鼠标跟踪动效（IntersectionObserver） |
-| 8 | 页脚 | 内联 HTML | 导航链接 + 版权 |
-
-**视差与动效逻辑（`<script setup>`）：**
-- `IntersectionObserver` 监听 `.reveal` 和 `.js-accessory-card` 元素，入口时添加 `.active` 类触发 CSS 动画。
-- 鼠标悬停周边区块时更新 CSS 变量 `--mx`/`--my` 实现 3D 倾斜视差。
+- 页面由 `src/router/index.js` 注册并挂载。
+- 顶层容器由 `src/App.vue` 的 `<RouterView>` 渲染，并带有路由切换淡入淡出动画。
+- `onMounted` 高频入口：
+  - `HomeView.vue`：注册 `IntersectionObserver` + reveal 动画。
+  - `CollectiblesView.vue`：拉取作品详情，回退到本地备选数据。
+  - `EventsView.vue`：拉取活动列表并初始化轮播索引。
+  - `PatternLibraryView.vue`：初始化检索并加载分页数据。
 
 ---
 
-## CollectiblesView.vue — 结构
+## 对外接口
 
-| 列 | 组件 | 说明 |
-|----|------|------|
-| 左列 | `<CollectibleDisplay />` | 藏品 3D 悬浮展台，点击触发 `open-story` 事件 |
-| 右列 | 内联信息面板 | 标题、标签、说明文字、特性图标列表、"作品详情"按钮 |
-| 全局 | `<StoryModal />` | 通过 `<Teleport to="body">` 挂载到 body |
-
-`showStory` ref 控制弹窗开关，通过 `@open-story` 与 `@click` 双向触发。
+- 与 API 层交互：
+  - `getPatterns/getPatternDetail`（藏品页）
+  - `getEvents`（活动页）
+  - `searchOpenPatterns/getOpenPatternDetailByCode`（纹样库）
+- 与路由交互：
+  - `useRouter().push(...)` 用于按钮跳转。
+  - `PatternLibraryView` 受路由守卫保护（需 token）。
 
 ---
 
-## 关键依赖
+## 关键依赖与配置
 
-- `src/components/Carousel.vue`、`LaptopAnimation.vue`、`PhoneAnimation.vue`
-- `src/components/CollectibleDisplay.vue`、`StoryModal.vue`
-- `lucide-vue-next`：`ThermometerSnowflake`、`ShieldCheck`、`MapPin`、`Database`
+- 图标：`lucide-vue-next`
+- 动画：`animejs` + `useAnimate` + `useScrollReveal` + `anime.config.js`
+- 样式：Tailwind utility + 少量 scoped style（活动页轮播样式较重）
+
+---
+
+## 数据模型
+
+- 活动卡片（归一化后）
+  - `id/title/desc/image/url/publishTime`
+- 纹样列表项（归一化后）
+  - `id/patternCode/imageUrl/description/mainCategory/style/region/period`
+- 藏品详情（归一化后）
+  - `id/title/patternCode/image/desc/story[]`
 
 ---
 
 ## 测试与质量
 
-当前无测试文件。建议：
-- 组件渲染测试（@vue/test-utils）
-- IntersectionObserver Mock 测试动画触发逻辑
+当前未发现测试文件。
+
+建议优先测试：
+1. `PatternLibraryView`：筛选参数、分页边界、详情弹窗；
+2. `CollectiblesView`：线上接口失败后的 fallback 合并；
+3. `EventsView`：轮播索引归一化与键盘可访问交互。
+
+---
+
+## 常见问题 (FAQ)
+
+### 1) 为什么登录后才看到“在线纹样库”？
+`NavBar.vue` 根据 `getStoredAuth().token` 决定是否展示入口，且路由也有 `requiresAuth` 守卫。
+
+### 2) 活动或纹样接口挂掉时会怎样？
+页面会显示错误态文案；藏品页会优先尝试远端，失败时回退本地备选数据。
+
+### 3) 页面动画太慢怎么统一调整？
+优先修改 `src/composables/anime.config.js` 的 `DURATION` 常量。
+
+---
+
+## 相关文件清单
+
+- `src/views/HomeView.vue`
+- `src/views/CollectiblesView.vue`
+- `src/views/EventsView.vue`
+- `src/views/PatternLibraryView.vue`
+- `src/views/AppDownloadView.vue`
+- `src/views/ContactView.vue`
 
 ---
 
 ## 变更记录 (Changelog)
 
-| 时间 | 操作 |
-|------|------|
-| 2026-04-13T07:07:57+0000 | 初始化创建 |
+| 时间 | 操作 | 说明 |
+|------|------|------|
+| 2026-04-24T11:14:37 | 增量更新 | 补充新增页面（活动/应用/联系/纹样库）与 API/动画依赖关系 |
+| 2026-04-13T07:07:57+0000 | 初始化创建 | 首次生成 |

@@ -6,13 +6,12 @@
 
 ## 项目愿景
 
-**剪艺**（Jianyi）是一个以中国传统剪纸非遗艺术为核心主题的数字展示与电商平台。项目将传统窗花纹样与现代深色系高定审美相融合，提供：
+**剪艺（Jianyi）** 是一个以中国传统剪纸非遗为核心的数字艺术展示平台，当前演进为包含「品牌首页 + 藏品展示 + 活动页 + 应用页 + 联系页 + 鉴权纹样库」的 Vue 3 单页应用。
 
-- 沉浸式剪纸作品展示（数字藏品 / 限量发售）
-- 品牌官网级营销落地页（Hero 轮播 + 工艺介绍 + 文创周边）
-- 用户 JWT 登录认证流程
-
-技术取向为单页面应用（SPA），依托 Devbox 云环境一键运行。
+核心目标：
+- 用现代网页交互重构传统剪纸审美表达；
+- 提供可扩展的数字内容展示与活动传播入口；
+- 通过 JWT 鉴权保护部分数据能力（在线纹样库）。
 
 ---
 
@@ -20,13 +19,13 @@
 
 | 层次 | 技术 | 说明 |
 |------|------|------|
-| 框架 | Vue 3 (Composition API) | 全局状态通过 `ref`/响应式管理 |
-| 构建 | Vite 5 | 开发 HMR + 生产 preview 服务 |
-| 路由 | vue-router 5 | History 模式，2 条路由 |
-| 样式 | Tailwind CSS 3 + PostCSS | 自定义 Tailwind 主题色（`evasion-black`、`accent` 等），配合 `index.css` 全局动画 |
-| 图标 | lucide-vue-next | 按需导入 |
-| 认证 | JWT + localStorage | 与外部后端 API 通信 |
-| 部署 | Devbox / Docker | `entrypoint.sh` 区分 dev / prod 两种启动模式 |
+| 前端框架 | Vue 3 (`<script setup>`) | 页面与组件全部采用 Composition API |
+| 构建工具 | Vite 5 | `dev/build/preview` 三套脚本 |
+| 路由 | vue-router 5 | 6 条页面路由，含鉴权守卫 |
+| 样式系统 | Tailwind CSS 3 + PostCSS | 大量自定义主题色 + 全局动效 CSS |
+| 动效 | animejs + 自定义 composables | 页面切换、滚动入场、分组错峰动画 |
+| API 通信 | 原生 `fetch` | `src/api` 中统一封装公开接口调用 |
+| 认证 | JWT + localStorage | `authService` 统一读写 token 与用户名 |
 
 ---
 
@@ -34,34 +33,24 @@
 
 ```mermaid
 graph TD
-    A["(根) 剪艺项目"] --> B["src/"]
-    B --> C["views/"]
-    B --> D["components/"]
-    B --> E["services/"]
-    B --> F["data/"]
-    B --> G["router/"]
-    B --> H["assets/"]
-
-    C --> C1["HomeView.vue\n首页（营销落地页）"]
-    C --> C2["CollectiblesView.vue\n数字藏品详情页"]
-
-    D --> D1["NavBar.vue\n顶部导航 + 登录入口"]
-    D --> D2["Carousel.vue\nHero 全屏轮播"]
-    D --> D3["LoginModal.vue\n登录弹窗"]
-    D --> D4["CollectibleDisplay.vue\n藏品展台（3D 悬浮效果）"]
-    D --> D5["StoryModal.vue\n作品档案弹窗"]
-    D --> D6["LaptopAnimation.vue\nCSS 3D 笔记本动画"]
-    D --> D7["PhoneAnimation.vue\nCSS 手机外壳动画"]
-
-    E --> E1["authService.js\nJWT 登录 / 令牌管理"]
-    F --> F1["siteContent.js\n导航、轮播、藏品静态数据"]
-    G --> G1["index.js\n路由表配置"]
-    H --> H2["index.css\nTailwind 入口 + 全局动画"]
+    A["(根) 剪艺项目"] --> B["src"]
+    B --> C["views"]
+    B --> D["components"]
+    B --> E["api"]
+    B --> F["services"]
+    B --> G["composables"]
+    B --> H["router"]
+    B --> I["data"]
+    B --> J["assets"]
 
     click C "./src/views/CLAUDE.md" "查看 views 模块文档"
     click D "./src/components/CLAUDE.md" "查看 components 模块文档"
-    click E "./src/services/CLAUDE.md" "查看 services 模块文档"
-    click F "./src/data/CLAUDE.md" "查看 data 模块文档"
+    click E "./src/api/CLAUDE.md" "查看 api 模块文档"
+    click F "./src/services/CLAUDE.md" "查看 services 模块文档"
+    click G "./src/composables/CLAUDE.md" "查看 composables 模块文档"
+    click H "./src/router/CLAUDE.md" "查看 router 模块文档"
+    click I "./src/data/CLAUDE.md" "查看 data 模块文档"
+    click J "./src/assets/CLAUDE.md" "查看 assets 模块文档"
 ```
 
 ---
@@ -70,86 +59,76 @@ graph TD
 
 | 路径 | 职责 | 关键文件 |
 |------|------|----------|
-| `src/views/` | 页面级路由组件 | `HomeView.vue`、`CollectiblesView.vue` |
-| `src/components/` | 可复用 UI 组件 | 7 个组件，见下方组件文档 |
-| `src/services/` | 认证服务层 | `authService.js` |
-| `src/data/` | 静态内容数据 | `siteContent.js` |
-| `src/router/` | 前端路由配置 | `index.js` |
-| `src/assets/` | 图片、全局 CSS | `index.css`、窗花 PNG × 3 |
+| `src/views/` | 页面级路由视图（业务编排） | `HomeView.vue`、`CollectiblesView.vue`、`PatternLibraryView.vue`、`EventsView.vue`、`AppDownloadView.vue`、`ContactView.vue` |
+| `src/components/` | 可复用 UI 与交互组件 | `NavBar.vue`、`Carousel.vue`、`LoginModal.vue`、`CollectibleDisplay.vue`、`StoryModal.vue` |
+| `src/api/` | 后端公开接口封装与数据归一化 | `patterns.js`、`events.js` |
+| `src/services/` | 业务服务（认证与会话） | `authService.js` |
+| `src/composables/` | 动画与滚动能力复用层 | `anime.config.js`、`useAnimate.js`、`useScrollReveal.js` |
+| `src/router/` | 路由表与导航守卫 | `index.js` |
+| `src/data/` | 静态内容与文案配置 | `siteContent.js` |
+| `src/assets/` | 全局样式与图片素材 | `index.css`、窗花/品牌图/截图素材 |
 
 ---
 
 ## 路由表
 
-| 路径 | 名称 | 组件 | 说明 |
+| 路径 | 名称 | 组件 | 权限 |
 |------|------|------|------|
-| `/` | `home` | `HomeView.vue` | 品牌营销首页 |
-| `/collectibles` | `collectibles` | `CollectiblesView.vue` | 数字藏品展示页 |
+| `/` | `home` | `HomeView.vue` | 公开 |
+| `/collectibles` | `collectibles` | `CollectiblesView.vue` | 公开 |
+| `/events` | `events` | `EventsView.vue` | 公开 |
+| `/app` | `app-download` | `AppDownloadView.vue` | 公开 |
+| `/contact` | `contact` | `ContactView.vue` | 公开 |
+| `/pattern-library` | `pattern-library` | `PatternLibraryView.vue` | 需登录（`meta.requiresAuth`） |
 
 ---
 
 ## 运行与开发
 
 ```bash
-# 开发模式（默认，含 HMR）
+# 开发模式
 bash entrypoint.sh
+# 或 npm run dev
 
-# 生产模式（构建 + Vite preview）
+# 生产预览模式
 bash entrypoint.sh production
-
-# 或直接使用 npm
-npm run dev        # 开发
-npm run build      # 构建
-npm run preview    # 预览
+# 或 npm run build && npm run preview
 ```
 
-- 开发服务器监听 `0.0.0.0:3000`，支持热更新。
-- 生产 preview 同样监听 `0.0.0.0:3000`。
-- 路径别名：`@` → `src/`（在 `vite.config.js` 和 `jsconfig.json` 中均已配置）。
-
----
-
-## 外部依赖与 API
-
-| 服务 | URL | 说明 |
-|------|-----|------|
-| 登录 API | `https://bpsljpqucopd.sealosbja.site/api/auth/login` | POST，返回 JWT token |
-| 用户注册站 | `https://nwiexwzoxsyb.sealosbja.site` | 无内嵌注册，跳转外链 |
-
-**localStorage 键名：**
-- `paper-cut-jwt-token` — JWT 令牌
-- `paper-cut-username` — 已登录用户名
+- 默认监听：`0.0.0.0:3000`
+- 路径别名：`@` → `src/`
+- 事件 API 可由 `VITE_OPEN_EVENTS_API` 覆盖默认地址。
 
 ---
 
 ## 测试策略
 
-当前项目**尚无测试文件**（无 `tests/`、`__tests__/`、`*.spec.*`）。
+当前仓库未发现测试目录或测试文件（如 `tests/`、`__tests__/`、`*.spec.*`、`*_test.*`）。
 
-建议后续补充：
-- 单元测试：Vitest + @vue/test-utils（组件行为、authService 逻辑）
-- E2E 测试：Playwright（登录流程、路由跳转）
+建议优先补齐：
+1. `src/services/authService.js`（登录成功/失败/异常分支）；
+2. `src/api/events.js` 与 `src/api/patterns.js`（数据归一化与异常处理）；
+3. `src/views/PatternLibraryView.vue`（搜索、分页、详情弹窗状态流）。
 
 ---
 
 ## 编码规范
 
-- **组件**：使用 `<script setup>` Composition API 风格，Props 用 `defineProps`，事件用 `defineEmits`。
-- **样式**：优先 Tailwind utility class；少量组件级样式用 `<style scoped>`；全局动画写在 `src/assets/index.css`。
-- **字体**：全局使用楷体系（`STKaiti`/`KaiTi` 等宋楷族），与东方美学主题一致。
-- **图标**：统一从 `lucide-vue-next` 按需导入，不引入整包。
-- **颜色**：主色调为暗黑（`#121212`）+ 暗金（`#D2C4A7`）+ 暗玉紫；直接写 Tailwind 任意值或 CSS 变量。
-- **路径**：使用 `@/` 别名引用 `src/` 下的所有资源。
+- 组件统一使用 `<script setup>` 与 Composition API。
+- API 请求统一收敛在 `src/api`，组件层避免直接 `fetch`。
+- 认证状态统一通过 `src/services/authService.js` 访问 localStorage。
+- 动画时序常量统一来自 `src/composables/anime.config.js`。
+- 视觉 token 统一维护在 `tailwind.config.js` 与 `src/assets/index.css`。
 
 ---
 
 ## AI 使用指引
 
-- 修改内容数据时，编辑 `src/data/siteContent.js`，无需改动组件。
-- 新增路由页面：在 `src/views/` 创建 `.vue` 文件，并在 `src/router/index.js` 注册。
-- 新增组件：放入 `src/components/`，遵循 `<script setup>` 风格。
-- 认证逻辑集中于 `src/services/authService.js`，组件不直接操作 localStorage。
-- Tailwind 自定义 token（`evasion-black`、`accent` 等）需检查是否在 `tailwind.config.js` 中定义（当前项目未检测到该文件，可能通过 CSS 变量或内联值实现）。
+- 新增页面：在 `src/views` 创建文件，并同步更新 `src/router/index.js`。
+- 新增受保护页面：在路由 `meta` 添加 `requiresAuth: true`。
+- 新增后端接口：优先放入 `src/api` 并做输入/输出归一化。
+- 调整动画节奏：先改 `anime.config.js`，再改具体组件。
+- 处理素材文件：图片/动图默认按二进制处理，仅记录路径不读内容。
 
 ---
 
@@ -157,4 +136,5 @@ npm run preview    # 预览
 
 | 时间 | 操作 | 说明 |
 |------|------|------|
+| 2026-04-24T11:14:37 | 增量更新 | 扫描路由与模块新增（api/composables/views 扩展），重建根索引与模块图，更新覆盖率与缺口信息 |
 | 2026-04-13T07:07:57+0000 | 初始化创建 | AI 全量扫描项目后首次生成，覆盖率 100%（20/20 源码文件） |
