@@ -8,6 +8,7 @@ dist/
 .claude/
 .codebuddy/
 .superpowers/
+.worktrees/
 
 # Local env files
 *.local
