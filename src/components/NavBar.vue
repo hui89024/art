@@ -1,13 +1,12 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
-import { RouterLink, useRouter, useRoute } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { getStoredAuth, clearAuth } from '../services/authService'
 import LoginModal from './LoginModal.vue'
 import { useAnimate } from '@/composables/useAnimate.js'
 import { DURATION, STAGGER_DELAY, EASING } from '@/composables/anime.config.js'
 import { animate } from 'animejs'
 
-const router = useRouter()
 const route = useRoute()
 const showLogin = ref(false)
 const auth = ref({ token: '', username: '' })
@@ -15,7 +14,7 @@ const isScrolled = ref(false)
 const navLinksRef = ref(null)
 const { staggerIn } = useAnimate()
 
-const isDarkTheme = computed(() => isScrolled.value || route.path === '/collectibles')
+const isDarkTheme = computed(() => isScrolled.value || route.path !== '/')
 
 const updateAuth = () => {
   auth.value = getStoredAuth()
@@ -84,33 +83,76 @@ function onModalLeave(el, done) {
 </script>
 
 <template>
-  <nav :class="['fixed top-0 w-full z-50 px-8 py-6 transition-all duration-300 border-b border-transparent', isDarkTheme ? 'bg-[#f7f2e8]/90 border-[#d8cfbd]/70 backdrop-blur-md' : 'bg-transparent']">
+  <nav :class="[
+    'fixed top-0 w-full z-50 px-8 transition-all duration-300 border-b',
+    isScrolled ? 'py-4 shadow-[0_2px_10px_rgba(0,0,0,0.03)]' : 'py-6',
+    isDarkTheme ? 'bg-paper-warm/95 border-paper-dark/70 backdrop-blur-md' : 'bg-transparent border-transparent'
+  ]">
     <div class="max-w-[1600px] mx-auto flex items-center justify-between">
       <!-- Logo -->
       <RouterLink to="/" class="flex items-center gap-3 group">
-        <img src="@/assets/配色版矢量（标准）.svg" alt="剪艺 Logo" class="w-8 h-8 object-contain transition-transform duration-500 group-hover:rotate-[15deg]">
-        <span :class="['text-xl font-medium tracking-[0.3em] transition-colors duration-300', isDarkTheme ? 'text-[#2f3a32]' : 'text-white']">剪艺</span>
+        <img src="@/assets/配色版矢量（标准）.svg" alt="剪艺标志" class="w-8 h-8 object-contain transition-transform duration-500 group-hover:rotate-[15deg]">
+        <span :class="['text-xl font-medium tracking-[0.3em] transition-colors duration-300', isDarkTheme ? 'text-ink-base' : 'text-white']">剪艺</span>
       </RouterLink>
 
       <!-- Center Links -->
       <div
         ref="navLinksRef"
-        :class="['hidden lg:flex items-center space-x-10 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-300', isDarkTheme ? 'text-[#6b7b70]' : 'text-white/90']"
+        :class="['hidden lg:flex items-center space-x-10 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-300', isDarkTheme ? 'text-bamboo-muted' : 'text-white/90']"
       >
-        <RouterLink to="/" :class="['transition-colors', isDarkTheme ? 'hover:text-[#2f3a32]' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-[#7d9679]' : 'text-white'">首页</RouterLink>
-        <RouterLink to="/#technology" :class="['transition-colors', isDarkTheme ? 'hover:text-[#2f3a32]' : 'hover:text-white']">工艺技法</RouterLink>
-        <RouterLink to="/collectibles" :class="['transition-colors', isDarkTheme ? 'hover:text-[#2f3a32]' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-[#7d9679]' : 'text-white'">经典展厅</RouterLink>
+        <div class="relative group">
+          <RouterLink to="/" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+            首页
+            <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
+          </RouterLink>
+        </div>
+
+
+        <div class="relative group">
+          <RouterLink to="/collectibles" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+            经典展厅
+            <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
+          </RouterLink>
+        </div>
+
+        <div class="relative group">
+          <RouterLink to="/events" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+            特色活动
+            <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
+          </RouterLink>
+        </div>
+
+        <div class="relative group">
+          <RouterLink to="/app" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+            剪艺APP
+            <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
+          </RouterLink>
+        </div>
+
+        <div v-if="auth.token" class="relative group">
+          <RouterLink to="/pattern-library" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+            在线纹样库
+            <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
+          </RouterLink>
+        </div>
+
+        <div class="relative group">
+          <RouterLink to="/contact" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+            联系我们
+            <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
+          </RouterLink>
+        </div>
       </div>
 
       <!-- Right Actions -->
       <div class="flex items-center gap-6">
         <template v-if="auth.token">
-          <button @click="handleLogout" :class="['text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-300', isDarkTheme ? 'text-[#6b7b70] hover:text-[#2f3a32]' : 'text-white/90 hover:text-white']">
+          <button @click="handleLogout" :class="['text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-300', isDarkTheme ? 'text-bamboo-muted hover:text-ink-base' : 'text-white/90 hover:text-white']">
             登出
           </button>
         </template>
         <template v-else>
-          <button @click="showLogin = true" class="bg-[#96AD92] text-[#0a0a0a] px-6 py-3 rounded-[2px] text-sm font-bold uppercase tracking-[0.15em] hover:bg-[#7d9679] transition-colors">
+          <button @click="showLogin = true" class="bg-bamboo-light text-ink-contrast px-6 py-3 rounded-[2px] text-sm font-bold uppercase tracking-[0.15em] hover:bg-bamboo-accent transition-colors">
             立即探索
           </button>
         </template>

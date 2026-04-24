@@ -3,7 +3,7 @@
     <div class="relative group phone-shell">
       <div class="phone-body relative flex justify-center h-[300px] w-[160px] border-[4px] border-black rounded-[2rem] bg-gray-50 overflow-hidden">
         <div class="absolute inset-[8px] rounded-[1.5rem] overflow-hidden border border-black/10">
-          <img src="../assets/image.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Phone Display" />
+          <img src="../assets/image.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="手机屏幕展示" />
         </div>
 
         <span class="relative z-10 border border-black bg-black w-20 h-2 rounded-br-xl rounded-bl-xl"></span>

@@ -4,7 +4,7 @@
       <div class="screen">
         <div class="header"></div>
         <div class="screen-content">
-          <img src="../assets/image.png" alt="Laptop Screen" class="screen-image" />
+          <img src="../assets/image.png" alt="笔记本屏幕" class="screen-image" />
         </div>
       </div>
       <div class="keyboard"></div>

@@ -35,7 +35,7 @@ function onEnter(el, done) {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col relative text-[#2f3a32] selection:bg-accent/30 selection:text-black overflow-x-hidden antialiased">
+  <div class="min-h-screen flex flex-col relative text-ink-base selection:bg-accent/30 selection:text-black overflow-x-hidden antialiased">
     <NavBar />
     <RouterView v-slot="{ Component }">
       <Transition :css="false" @leave="onLeave" @enter="onEnter">

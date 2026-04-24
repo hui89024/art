@@ -240,24 +240,24 @@ function onStoryLeave(el, done) {
 </script>
 
 <template>
-  <main class="pt-24 min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans text-[#6f614d]">
+  <main class="pt-24 min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans text-hex-6f614d">
     <div
       v-if="loading"
-      class="w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-16 text-sm text-[#8f7b5f]"
+      class="w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-16 text-sm text-hex-8f7b5f"
     >
       正在加载作品详情...
     </div>
 
     <div
       v-if="loadError"
-      class="w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-4 text-xs text-[#a08b6d]"
+      class="w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-4 text-xs text-hex-a08b6d"
     >
       {{ loadError }}
     </div>
 
     <div
       v-if="!loading && !patterns.length"
-      class="w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-16 text-sm text-[#8f7b5f]"
+      class="w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-16 text-sm text-hex-8f7b5f"
     >
       暂无可展示作品。
     </div>
@@ -266,11 +266,11 @@ function onStoryLeave(el, done) {
       <section
         v-for="(item, index) in patterns"
         :key="item.id"
-        class="flex-1 flex flex-col lg:flex-row w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-12 lg:py-14 border-b border-[#e3d6c2] last:border-b-0"
+        class="flex-1 flex flex-col lg:flex-row w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-12 lg:py-14 border-b border-hex-e3d6c2 last:border-b-0"
       >
       <div
         :ref="(el) => setLeftRef(el, index)"
-        class="flex-1 flex items-center justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-[#e3d6c2] relative"
+        class="flex-1 flex items-center justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-hex-e3d6c2 relative"
       >
         <CollectibleDisplay
           :image="item.image"
@@ -283,53 +283,53 @@ function onStoryLeave(el, done) {
         :ref="(el) => setRightRef(el, index)"
         class="flex-1 flex flex-col justify-center p-8 lg:p-20 space-y-10 relative"
       >
-        <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-[#f6efe2] border border-[#e1d2bb] text-[#9a8461] text-xs tracking-widest w-fit uppercase font-bold">
-          <div class="w-2 h-2 rounded-full bg-[#b89e75] animate-pulse"></div>
+        <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-hex-f6efe2 border border-hex-e1d2bb text-hex-9a8461 text-xs tracking-widest w-fit uppercase font-bold">
+          <div class="w-2 h-2 rounded-full bg-hex-b89e75 animate-pulse"></div>
           作品档案
         </div>
 
-        <h1 class="text-5xl md:text-7xl font-black font-display tracking-tight text-[#7a6a50] uppercase mb-2">
+        <h1 class="text-5xl md:text-7xl font-black font-display tracking-tight text-hex-7a6a50 uppercase mb-2">
           {{ item.title }}
         </h1>
 
         <div class="flex flex-wrap items-center gap-4 text-xs font-bold uppercase tracking-widest">
-          <span class="px-4 py-2 rounded-full bg-[#f7f0e2] border border-[#d8c7a8] text-[#917d5d]">纯手工雕刻</span>
-          <span class="px-4 py-2 rounded-full bg-[#fdf8ef] border border-[#dfcfb4] text-[#9f8d73]">非遗传承</span>
+          <span class="px-4 py-2 rounded-full bg-hex-f7f0e2 border border-hex-d8c7a8 text-hex-917d5d">纯手工雕刻</span>
+          <span class="px-4 py-2 rounded-full bg-hex-fdf8ef border border-hex-dfcfb4 text-hex-9f8d73">非遗传承</span>
         </div>
 
-        <p class="text-[#928067] text-sm leading-relaxed mt-8 font-light max-w-md">
+        <p class="text-hex-928067 text-sm leading-relaxed mt-8 font-light max-w-md">
           {{ item.desc }}
         </p>
 
-        <div class="pt-8 border-t border-[#e7dbc9] space-y-8 max-w-md">
+        <div class="pt-8 border-t border-hex-e7dbc9 space-y-8 max-w-md">
           <div class="flex items-start gap-5 group">
-            <div class="w-14 h-14 rounded-2xl bg-[#f8f2e6] flex items-center justify-center border border-[#d6c4a3] text-[#9a8563] group-hover:border-[#c9b28a] transition-all duration-300">
+            <div class="w-14 h-14 rounded-2xl bg-hex-f8f2e6 flex items-center justify-center border border-hex-d6c4a3 text-hex-9a8563 group-hover:border-hex-c9b28a transition-all duration-300">
               <ShieldCheck class="w-6 h-6" />
             </div>
             <div class="pt-1">
-              <h4 class="text-[#7d6c52] font-bold text-sm uppercase tracking-widest mb-1">馆藏级认证</h4>
-              <p class="text-xs text-[#a29278] font-light">防伪溯源，专属收藏证书</p>
+              <h4 class="text-hex-7d6c52 font-bold text-sm uppercase tracking-widest mb-1">馆藏级认证</h4>
+              <p class="text-xs text-hex-a29278 font-light">防伪溯源，专属收藏证书</p>
             </div>
           </div>
 
           <div class="flex items-start gap-5 group">
-            <div class="w-14 h-14 rounded-2xl bg-[#f8f2e6] flex items-center justify-center border border-[#d6c4a3] text-[#9a8563] group-hover:border-[#c9b28a] transition-all duration-300">
+            <div class="w-14 h-14 rounded-2xl bg-hex-f8f2e6 flex items-center justify-center border border-hex-d6c4a3 text-hex-9a8563 group-hover:border-hex-c9b28a transition-all duration-300">
               <Database class="w-6 h-6" />
             </div>
             <div class="pt-1">
-              <h4 class="text-[#7d6c52] font-bold text-sm uppercase tracking-widest mb-1">装裱工艺</h4>
-              <p class="text-xs text-[#a29278] font-light">无酸装裱，防紫外线亚克力镜面</p>
+              <h4 class="text-hex-7d6c52 font-bold text-sm uppercase tracking-widest mb-1">装裱工艺</h4>
+              <p class="text-xs text-hex-a29278 font-light">无酸装裱，防紫外线亚克力镜面</p>
             </div>
           </div>
         </div>
 
         <button
           @click="openStory(item)"
-          class="mt-8 px-12 py-5 relative overflow-hidden group w-fit rounded-full border border-[#d8c7ab] hover:border-[#c9b289] transition-colors duration-500 bg-[#f7efe0]"
+          class="mt-8 px-12 py-5 relative overflow-hidden group w-fit rounded-full border border-hex-d8c7ab hover:border-hex-c9b289 transition-colors duration-500 bg-hex-f7efe0"
         >
           <div class="relative z-10 flex items-center gap-4">
-            <span class="text-[#7f6d52] font-bold tracking-[0.2em] text-xs uppercase group-hover:text-[#6f5f48] transition-colors">作品详情</span>
-            <div class="w-6 h-[1px] bg-[#c4b28f] group-hover:w-10 group-hover:bg-[#b79f77] transition-all duration-300"></div>
+            <span class="text-hex-7f6d52 font-bold tracking-[0.2em] text-xs uppercase group-hover:text-hex-6f5f48 transition-colors">作品详情</span>
+            <div class="w-6 h-[1px] bg-hex-c4b28f group-hover:w-10 group-hover:bg-hex-b79f77 transition-all duration-300"></div>
           </div>
         </button>
       </div>

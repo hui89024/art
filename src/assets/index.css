@@ -8,7 +8,7 @@
   }
 
   body {
-    background-color: #fcfaf7;
+    background-color: theme('colors.paper-base');
     background-image:
       radial-gradient(circle at center, rgba(252, 250, 247, 0) 0%, rgba(252, 250, 247, 0.92) 88%),
       url('./屏幕截图 2026-04-14 134526.png');
@@ -17,7 +17,7 @@
     background-position: center, top left;
     background-attachment: fixed, scroll;
     opacity: 1;
-    color: #3a2f23;
+    color: theme('colors.ink-light');
     font-family: 'STKaiti', 'KaiTi', 'STXingkai', 'HanziPen SC', 'Ma Shan Zheng', 'FZKai-Z03', 'Songti SC', serif;
     overflow-x: hidden;
     margin: 0;
@@ -71,7 +71,7 @@
 }
 
 .tech-card {
-  background: linear-gradient(145deg, #1A1A1A 0%, #0F0F0F 100%);
+  background: linear-gradient(145deg, theme('colors.ink-dark') 0%, theme('colors.evasion-black') 100%);
   border: 1px solid rgba(255,255,255,0.05);
 }
 
@@ -122,14 +122,10 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #e5d7b9;
+  background: theme('colors.scroll-track');
 }
 ::-webkit-scrollbar-thumb {
-  background: #9f8b69;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background: #9f8b69;
+  background: theme('colors.scroll-thumb');
   border-radius: 10px;
 }
 
