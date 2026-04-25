@@ -400,13 +400,20 @@ onMounted(async () => {
 
   await nextTick()
 
-  // 产品区首屏入场动画
+  // 产品区：首屏入场动效
   if (productHeadingRef.value) {
-    slideUp(productHeadingRef, { delay: 100, duration: DURATION.slow })
+    slideUp(productHeadingRef, {
+      delay: 100,
+      duration: DURATION.slow
+    })
   }
 
   if (productCardsRef.value) {
-    staggerIn(productCardsRef, { delay: 120, duration: DURATION.base })
+    staggerIn(productCardsRef, {
+      delay: 120,
+      duration: DURATION.base
+    })
+  }
   }
 
   if (techCardsRef.value) {
