@@ -367,7 +367,12 @@ import LaptopAnimation from '../components/LaptopAnimation.vue'
 import PhoneAnimation from '../components/PhoneAnimation.vue'
 import { ThermometerSnowflake, ShieldCheck, MapPin } from 'lucide-vue-next'
 import { useScrollReveal } from '@/composables/useScrollReveal.js'
-import { DURATION, STAGGER_DELAY } from '@/composables/anime.config.js'
+import { useAnimate } from '@/composables/useAnimate.js'
+import { DURATION } from '@/composables/anime.config.js'
+import { getPatterns, getPatternDetail } from '@/api/patterns.js'
+import pattern017 from '../assets/窗花017.png'
+import pattern018 from '../assets/窗花018.png'
+import pattern019 from '../assets/窗花019.png'
 
 let observer = null
 
@@ -378,6 +383,7 @@ const productCardsRef = ref(null)
 const techCardsRef = ref(null)
 
 const { reveal } = useScrollReveal()
+const { slideUp, staggerIn } = useAnimate()
 
 onMounted(async () => {
   observer = new IntersectionObserver((entries) => {
@@ -394,25 +400,20 @@ onMounted(async () => {
 
   await nextTick()
 
-  // 产品区：标题和卡片滚动触发，支持重复进入视口时重播
+  // 产品区首屏入场动画
   if (productHeadingRef.value) {
-    reveal(productHeadingRef, { duration: DURATION.slow, threshold: 0.2 })
+    slideUp(productHeadingRef, { delay: 100, duration: DURATION.slow })
   }
 
   if (productCardsRef.value) {
-    reveal(productCardsRef, {
-      effect: 'stagger',
-      duration: DURATION.base,
-      delay: STAGGER_DELAY,
-      threshold: 0.12
-    })
+    staggerIn(productCardsRef, { delay: 120, duration: DURATION.base })
   }
 
   if (techCardsRef.value) {
     reveal(techCardsRef, {
       effect: 'stagger',
       threshold: 0.1,
-      delay: STAGGER_DELAY
+      delay: 100
     })
   }
 })
