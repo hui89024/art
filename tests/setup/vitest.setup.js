@@ -1,8 +1,8 @@
 import { vi } from 'vitest'
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation((query) => ({
+vi.stubGlobal(
+  'matchMedia',
+  vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -12,7 +12,7 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn()
   }))
-})
+)
 
 class MockIntersectionObserver {
   constructor(callback = () => {}, options = {}) {
@@ -26,8 +26,4 @@ class MockIntersectionObserver {
   takeRecords = vi.fn(() => [])
 }
 
-Object.defineProperty(globalThis, 'IntersectionObserver', {
-  writable: true,
-  configurable: true,
-  value: MockIntersectionObserver
-})
+vi.stubGlobal('IntersectionObserver', MockIntersectionObserver)

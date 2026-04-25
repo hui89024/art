@@ -7,6 +7,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['tests/setup/vitest.setup.js'],
     include: ['tests/unit/**/*.spec.{js,ts}'],
+    clearMocks: true,
+    restoreMocks: true,
     passWithNoTests: true
   }
 })
