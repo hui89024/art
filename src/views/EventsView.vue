@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import { ArrowUp, Building, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { ArrowUp, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { getEvents } from '@/api/events.js'
 import { useScrollReveal } from '@/composables/useScrollReveal.js'
 import { DURATION, STAGGER_DELAY } from '@/composables/anime.config.js'
+import SectionHero from '@/components/SectionHero.vue'
 
 const loading = ref(true)
 const error = ref('')
@@ -131,15 +132,11 @@ const loadEvents = async () => {
   }
 }
 
-const headerRef = ref(null)
 const cardsRef = ref(null)
 const { reveal } = useScrollReveal()
 
 onMounted(() => {
   loadEvents()
-  if (headerRef.value) {
-    reveal(headerRef, { duration: DURATION.slow, threshold: 0.2 })
-  }
 })
 
 watch(loading, (val) => {
@@ -156,47 +153,37 @@ watch(loading, (val) => {
 </script>
 
 <template>
-  <main class="pt-32 pb-24 min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans">
-    <div class="w-full max-w-[1180px] mx-auto px-6 lg:px-10">
-      <header ref="headerRef" class="flex items-center justify-between mb-12">
-        <div class="flex items-center gap-3">
-          <Building class="w-6 h-6 text-bamboo-base" />
-          <div class="flex items-baseline gap-2">
-            <h1 class="text-2xl md:text-3xl font-bold tracking-wide text-ink-base">特色活动</h1>
-            <span class="text-sm text-bamboo-muted tracking-wider">/ Featured activities</span>
-          </div>
-        </div>
-        <button
-          type="button"
-          class="flex items-center gap-1 text-sm text-bamboo-base hover:text-ink-base transition-colors tracking-wide group"
-        >
-          查看更多
-          <ChevronRight class="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-        </button>
-      </header>
+  <main class="pt-28 pb-24 min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans">
+    <SectionHero
+      kicker="Featured Events"
+      title="特色活动"
+      subtitle="时间叙事与现场体验"
+      description="保留 getEvents 数据流与活动链接行为。"
+    />
 
+    <section class="max-w-[1280px] mx-auto px-6 lg:px-10 w-full">
       <div
         v-if="loading"
-        class="rounded-xl border border-line-soft bg-paper-soft px-6 py-8 text-sm text-stone-text"
+        class="rounded-xl border border-line-soft bg-paper-soft px-6 py-8 text-sm text-stone-text mt-8"
       >
         正在加载活动内容...
       </div>
 
       <div
         v-else-if="error"
-        class="rounded-xl border border-line-rose bg-rose-soft px-6 py-8 text-sm text-rose-text"
+        class="rounded-xl border border-line-rose bg-rose-soft px-6 py-8 text-sm text-rose-text mt-8"
       >
         {{ error }}
       </div>
 
       <div
         v-else-if="!events.length"
-        class="rounded-xl border border-line-soft bg-paper-soft px-6 py-8 text-sm text-stone-text"
+        class="rounded-xl border border-line-soft bg-paper-soft px-6 py-8 text-sm text-stone-text mt-8"
       >
         暂无活动内容。
       </div>
 
-      <section v-else ref="cardsRef" class="carousel-shell">
+      <section v-else ref="cardsRef" class="carousel-shell mt-8">
         <div class="carousel-stage" aria-label="特色活动轮播">
           <div class="carousel-stack" role="region" aria-live="polite">
             <article
@@ -281,7 +268,7 @@ watch(loading, (val) => {
           </button>
         </div>
       </section>
-    </div>
+    </section>
 
     <button type="button" class="to-top" @click="scrollToTop">
       <ArrowUp class="w-4 h-4" />
