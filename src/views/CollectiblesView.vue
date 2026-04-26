@@ -55,7 +55,7 @@ const fallbackPatterns = [
     theme: '瑞兽',
   },
   {
-    id: 3,
+    id: '0003',
     title: '非遗结晶',
     patternCode: 'PHX-2024-003',
     image: pattern019,
@@ -446,5 +446,20 @@ function onStoryLeave(el, done) {
 
 .collectible-card:hover {
   box-shadow: 0 2px 8px rgba(154, 132, 98, calc(0.10 + var(--progress) * 0.20));
+}
+
+/* 响应式过渡比例覆盖 */
+@media (min-width: 768px) {
+  .collectible-card {
+    --gallery-ratio: 0.45;
+    --transition-ratio: 0.25;
+  }
+}
+
+@media (min-width: 1280px) {
+  .collectible-card {
+    --gallery-ratio: 0.5;
+    --transition-ratio: 0.2;
+  }
 }
 </style>

@@ -237,18 +237,3 @@
     scroll-behavior: auto !important;
   }
 }
-
-/* 经典展厅：响应式过渡比例覆盖 */
-@media (min-width: 768px) {
-  .collectible-card {
-    --gallery-ratio: 0.45;
-    --transition-ratio: 0.25;
-  }
-}
-
-@media (min-width: 1280px) {
-  .collectible-card {
-    --gallery-ratio: 0.5;
-    --transition-ratio: 0.2;
-  }
-}
