@@ -1,10 +1,7 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
-import { ArrowUp, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { onMounted, ref, computed } from 'vue'
+import { ArrowUp, Calendar, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { getEvents } from '@/api/events.js'
-import { useScrollReveal } from '@/composables/useScrollReveal.js'
-import { DURATION, STAGGER_DELAY } from '@/composables/anime.config.js'
-import SectionHero from '@/components/SectionHero.vue'
 
 const loading = ref(true)
 const error = ref('')
@@ -20,99 +17,35 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-const normalizeIndex = (index) => {
-  const total = events.value.length
-  if (!total) return 0
-  return (index % total + total) % total
-}
-
 const goToIndex = (index) => {
-  activeIndex.value = normalizeIndex(index)
+  if (index < 0 || index >= events.value.length) return
+  activeIndex.value = index
 }
 
 const nextEvent = () => {
-  if (!events.value.length) return
-  goToIndex(activeIndex.value + 1)
+  if (activeIndex.value < events.value.length - 1) {
+    activeIndex.value++
+  }
 }
 
 const prevEvent = () => {
-  if (!events.value.length) return
-  goToIndex(activeIndex.value - 1)
-}
-
-const getRelativeOffset = (index) => {
-  const total = events.value.length
-  if (!total) return 0
-
-  let diff = index - activeIndex.value
-  const half = Math.floor(total / 2)
-
-  if (diff > half) diff -= total
-  if (diff < -half) diff += total
-
-  return diff
-}
-
-const getCardStyle = (index) => {
-  const offset = getRelativeOffset(index)
-  const absOffset = Math.abs(offset)
-  const direction = Math.sign(offset)
-
-  if (absOffset > 1) {
-    return {
-      opacity: 0,
-      zIndex: 1,
-      transform: `translate(-50%, -50%) translateX(${direction * 52}%) scale(0.74)`,
-      pointerEvents: 'none',
-    }
+  if (activeIndex.value > 0) {
+    activeIndex.value--
   }
+}
 
-  const translateX = absOffset === 0 ? 0 : direction * 36
-  const translateY = absOffset === 0 ? 0 : 10
-  const scale = absOffset === 0 ? 1 : 0.82
-  const opacity = absOffset === 0 ? 1 : 0.62
+const activeEvent = computed(() => events.value[activeIndex.value] || null)
+
+const formatDate = (dateString) => {
+  if (!dateString) return { day: '--', month: '--', year: '----' }
+  const date = new Date(dateString)
+  if (isNaN(date.getTime())) return { day: '--', month: '--', year: '----' }
 
   return {
-    opacity,
-    zIndex: absOffset === 0 ? 40 : 30,
-    transform: `translate(-50%, -50%) translateX(${translateX}%) translateY(${translateY}px) scale(${scale})`,
-    pointerEvents: 'auto',
+    day: date.getDate().toString().padStart(2, '0'),
+    month: date.toLocaleDateString('zh-CN', { month: 'short' }),
+    year: date.getFullYear()
   }
-}
-
-const safeDate = (eventItem, index) => {
-  const normalized = eventItem?.publishTime ? new Date(eventItem.publishTime) : null
-  if (normalized && !Number.isNaN(normalized.getTime())) return normalized
-
-  const fallback = new Date()
-  fallback.setDate(fallback.getDate() - index * 2)
-  return fallback
-}
-
-const getDay = (eventItem, index) => `${safeDate(eventItem, index).getDate()}`.padStart(2, '0')
-
-const getYearMonth = (eventItem, index) => {
-  const date = safeDate(eventItem, index)
-  const year = date.getFullYear()
-  const month = `${date.getMonth() + 1}`.padStart(2, '0')
-  return `${year}.${month}`
-}
-
-const handleCardClick = (eventItem, index) => {
-  if (index !== activeIndex.value) {
-    goToIndex(index)
-    return
-  }
-
-  if (eventItem?.url) {
-    openEventLink(eventItem.url)
-  }
-}
-
-const handleCardKeydown = (event, eventItem, index) => {
-  if (event.key !== 'Enter' && event.key !== ' ') return
-  event.preventDefault()
-  handleCardClick(eventItem, index)
 }
 
 const loadEvents = async () => {
@@ -132,408 +65,262 @@ const loadEvents = async () => {
   }
 }
 
-const cardsRef = ref(null)
-const { reveal } = useScrollReveal()
-
 onMounted(() => {
   loadEvents()
-})
-
-watch(loading, (val) => {
-  if (!val && cardsRef.value) {
-    reveal(cardsRef, {
-      effect: 'stagger',
-      duration: DURATION.base,
-      delay: STAGGER_DELAY,
-      threshold: 0.1,
-      once: true,
-    })
-  }
 })
 </script>
 
 <template>
-  <main class="pt-28 pb-24 min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans">
-    <SectionHero
-      kicker="Featured Events"
-      title="特色活动"
-      subtitle="时间叙事与现场体验"
-      description="保留 getEvents 数据流与活动链接行为。"
-    />
+  <main class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-orange-50 relative overflow-hidden">
+    <!-- Decorative Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-20 left-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-orange-400/20 rounded-full blur-3xl"></div>
+    </div>
 
-    <section class="max-w-[1280px] mx-auto px-6 lg:px-10 w-full">
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-16 px-6">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-sm border border-blue-200/50 text-blue-600 text-sm font-medium mb-6">
+          <Calendar class="w-4 h-4" />
+          <span>Featured Events</span>
+        </div>
+        <h1 class="text-5xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tight">
+          特色活动
+        </h1>
+        <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+          时间叙事与现场体验
+        </p>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="relative max-w-7xl mx-auto px-6 pb-24">
+      <!-- Loading State -->
       <div
         v-if="loading"
-        class="rounded-xl border border-line-soft bg-paper-soft px-6 py-8 text-sm text-stone-text mt-8"
+        class="glass-card p-8 text-center"
       >
-        正在加载活动内容...
+        <div class="inline-block w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+        <p class="text-slate-600">正在加载活动内容...</p>
       </div>
 
+      <!-- Error State -->
       <div
         v-else-if="error"
-        class="rounded-xl border border-line-rose bg-rose-soft px-6 py-8 text-sm text-rose-text mt-8"
+        class="glass-card p-8 text-center border-red-200/50"
       >
-        {{ error }}
+        <p class="text-red-600">{{ error }}</p>
       </div>
 
+      <!-- Empty State -->
       <div
         v-else-if="!events.length"
-        class="rounded-xl border border-line-soft bg-paper-soft px-6 py-8 text-sm text-stone-text mt-8"
+        class="glass-card p-8 text-center"
       >
-        暂无活动内容。
+        <p class="text-slate-600">暂无活动内容。</p>
       </div>
 
-      <section v-else ref="cardsRef" class="carousel-shell mt-8">
-        <div class="carousel-stage" aria-label="特色活动轮播">
-          <div class="carousel-stack" role="region" aria-live="polite">
-            <article
-              v-for="(eventItem, index) in events"
-              :key="eventItem.id || `event-${index + 1}`"
-              class="event-card"
-              :class="{ 'is-active': index === activeIndex, 'is-clickable': !!eventItem.url }"
-              :style="getCardStyle(index)"
-              :tabindex="index === activeIndex && eventItem.url ? 0 : -1"
-              :aria-label="eventItem.url ? `查看活动：${eventItem.title}` : eventItem.title"
-              @click="handleCardClick(eventItem, index)"
-              @keydown="handleCardKeydown($event, eventItem, index)"
-            >
-              <div class="event-card__media">
-                <img
-                  v-if="eventItem.image"
-                  :src="eventItem.image"
-                  :alt="eventItem.title"
-                  loading="lazy"
-                />
-                <div
-                  v-else
-                  class="w-full h-full bg-paper-muted flex items-center justify-center text-bamboo-muted text-sm"
-                >
-                  暂无图片
+      <!-- Events Display -->
+      <div v-else class="space-y-8">
+        <!-- Featured Event Card -->
+        <article
+          v-if="activeEvent"
+          class="glass-card overflow-hidden group cursor-pointer"
+          @click="activeEvent.url && openEventLink(activeEvent.url)"
+        >
+          <div class="grid md:grid-cols-2 gap-0">
+            <!-- Image -->
+            <div class="relative aspect-video md:aspect-auto overflow-hidden">
+              <img
+                v-if="activeEvent.image"
+                :src="activeEvent.image"
+                :alt="activeEvent.title"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div
+                v-else
+                class="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center"
+              >
+                <Calendar class="w-16 h-16 text-slate-400" />
+              </div>
+
+              <!-- Date Badge -->
+              <div class="absolute top-4 right-4 glass-badge">
+                <div class="text-2xl font-bold text-slate-900">
+                  {{ formatDate(activeEvent.publishTime).day }}
+                </div>
+                <div class="text-xs text-slate-600 uppercase">
+                  {{ formatDate(activeEvent.publishTime).month }}
                 </div>
               </div>
+            </div>
 
-              <div class="event-card__footer">
-                <h2 class="event-card__title">{{ eventItem.title }}</h2>
-                <a
-                  v-if="eventItem.url"
-                  class="event-card__link"
-                  :href="eventItem.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  @click.stop
-                >
-                  查看详情
-                </a>
+            <!-- Content -->
+            <div class="p-8 md:p-12 flex flex-col justify-center">
+              <div class="text-sm text-blue-600 font-medium mb-3">
+                {{ formatDate(activeEvent.publishTime).year }}
               </div>
-
-              <div class="event-card__date">
-                <p class="event-card__day">{{ getDay(eventItem, index) }}</p>
-                <p class="event-card__year-month">{{ getYearMonth(eventItem, index) }}</p>
-              </div>
-            </article>
+              <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4 leading-tight">
+                {{ activeEvent.title }}
+              </h2>
+              <p v-if="activeEvent.desc" class="text-slate-600 mb-6 line-clamp-3">
+                {{ activeEvent.desc }}
+              </p>
+              <a
+                v-if="activeEvent.url"
+                :href="activeEvent.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors group/link"
+                @click.stop
+              >
+                <span>查看详情</span>
+                <ExternalLink class="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
+              </a>
+            </div>
           </div>
-        </div>
+        </article>
 
-        <div class="carousel-controls">
+        <!-- Navigation Controls -->
+        <div class="flex items-center justify-center gap-4">
           <button
             type="button"
-            class="carousel-nav"
+            class="glass-button"
+            :disabled="activeIndex === 0"
+            :class="{ 'opacity-50 cursor-not-allowed': activeIndex === 0 }"
             aria-label="上一条活动"
             @click="prevEvent"
           >
             <ChevronLeft class="w-5 h-5" />
           </button>
 
-          <div class="carousel-indicators" aria-label="轮播指示器">
+          <!-- Indicators -->
+          <div class="flex items-center gap-2" role="tablist" aria-label="活动列表">
             <button
-              v-for="(eventItem, index) in events"
-              :key="`indicator-${eventItem.id || index}`"
+              v-for="(event, index) in events"
+              :key="event.id || `event-${index}`"
               type="button"
-              class="carousel-indicator"
+              role="tab"
+              :aria-selected="index === activeIndex"
+              :aria-label="`切换到活动 ${index + 1}`"
+              class="indicator"
               :class="{ 'is-active': index === activeIndex }"
-              :aria-label="`切换到第 ${index + 1} 条活动`"
               @click="goToIndex(index)"
             >
-              <span class="sr-only">第 {{ index + 1 }} 条</span>
+              <span class="sr-only">活动 {{ index + 1 }}</span>
             </button>
           </div>
 
           <button
             type="button"
-            class="carousel-nav"
+            class="glass-button"
+            :disabled="activeIndex === events.length - 1"
+            :class="{ 'opacity-50 cursor-not-allowed': activeIndex === events.length - 1 }"
             aria-label="下一条活动"
             @click="nextEvent"
           >
             <ChevronRight class="w-5 h-5" />
           </button>
         </div>
-      </section>
+
+        <!-- Event Grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          <article
+            v-for="(event, index) in events"
+            :key="event.id || `grid-${index}`"
+            class="glass-card overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform duration-300"
+            @click="goToIndex(index)"
+          >
+            <div class="relative aspect-video overflow-hidden">
+              <img
+                v-if="event.image"
+                :src="event.image"
+                :alt="event.title"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
+              />
+              <div
+                v-else
+                class="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center"
+              >
+                <Calendar class="w-12 h-12 text-slate-400" />
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="text-xs text-blue-600 font-medium mb-2">
+                {{ formatDate(event.publishTime).day }} {{ formatDate(event.publishTime).month }} {{ formatDate(event.publishTime).year }}
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">
+                {{ event.title }}
+              </h3>
+              <p v-if="event.desc" class="text-sm text-slate-600 line-clamp-2">
+                {{ event.desc }}
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <button type="button" class="to-top" @click="scrollToTop">
-      <ArrowUp class="w-4 h-4" />
-      TOP
+    <!-- Scroll to Top Button -->
+    <button
+      type="button"
+      class="fixed right-6 bottom-6 glass-button w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+      aria-label="返回顶部"
+      @click="scrollToTop"
+    >
+      <ArrowUp class="w-5 h-5" />
     </button>
   </main>
 </template>
 
 <style scoped>
-.carousel-shell {
-  position: relative;
-  border-radius: 20px;
-  border: 1px solid rgba(123, 95, 66, 0.24);
-  background:
-    radial-gradient(circle at 16% 22%, rgba(255, 250, 241, 0.86), transparent 40%),
-    radial-gradient(circle at 82% 76%, rgba(245, 226, 195, 0.48), transparent 43%),
-    linear-gradient(140deg, rgba(248, 236, 217, 0.9), rgba(241, 226, 201, 0.78));
-  box-shadow: 0 26px 40px rgba(90, 66, 45, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  overflow: hidden;
-  padding: 1.2rem 1rem 1.35rem;
+/* Glassmorphism Components */
+.glass-card {
+  @apply bg-white/60 backdrop-blur-xl border border-white/50 rounded-2xl shadow-xl;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-.carousel-stage {
-  position: relative;
-  min-height: clamp(300px, 34vw, 430px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.glass-badge {
+  @apply bg-white/80 backdrop-blur-md border border-white/50 rounded-xl px-4 py-2 text-center shadow-lg;
 }
 
-.carousel-stack {
-  position: relative;
-  width: 100%;
-  height: clamp(280px, 32vw, 390px);
+.glass-button {
+  @apply bg-white/60 backdrop-blur-md border border-white/50 rounded-full p-3 text-slate-700 hover:bg-white/80 hover:text-slate-900 transition-all duration-200 shadow-md hover:shadow-lg;
 }
 
-.event-card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(100%, clamp(260px, 52vw, 660px));
-  aspect-ratio: 16 / 9;
-  border-radius: 18px;
-  border: 1px solid rgba(90, 68, 49, 0.22);
-  background: linear-gradient(145deg, #f8ecd9, #f4e4cd);
-  box-shadow: 0 16px 34px rgba(87, 62, 42, 0.14);
-  overflow: hidden;
-  transform-origin: center;
-  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 360ms ease;
-  cursor: pointer;
+/* Indicators */
+.indicator {
+  @apply w-2 h-2 rounded-full bg-slate-300 transition-all duration-200 hover:bg-slate-400;
 }
 
-.event-card.is-active {
-  border-color: rgba(95, 73, 55, 0.45);
-  box-shadow: 0 24px 42px rgba(83, 60, 40, 0.2);
+.indicator.is-active {
+  @apply w-8 bg-blue-600;
 }
 
-.event-card__media {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
+/* Utilities */
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  clip: rect(0, 0, 0, 0);
 }
 
-.event-card__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.event-card.is-active .event-card__media img {
-  transform: scale(1.03);
-}
-
-.event-card__footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  padding: 1.05rem 1.15rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.42rem;
-  background: linear-gradient(to top, rgba(248, 236, 217, 0.96) 0%, rgba(248, 236, 217, 0.82) 56%, transparent 100%);
-}
-
-.event-card__title {
-  color: #3f2f22;
-  font-size: clamp(0.86rem, 1.05vw, 1.05rem);
-  line-height: 1.45;
-  font-weight: 700;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.event-card__link {
-  font-size: 0.74rem;
-  color: #8a6d4f;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition: color 0.2s ease;
-}
-
-.event-card__link:hover {
-  color: #5a4431;
-}
-
-.event-card__date {
-  position: absolute;
-  z-index: 3;
-  right: 0.72rem;
-  top: 0.72rem;
-  width: 56px;
-  height: 56px;
-  border-radius: 999px;
-  border: 1px solid rgba(123, 95, 66, 0.34);
-  background: rgba(255, 246, 232, 0.93);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 6px 18px rgba(90, 67, 45, 0.12);
-}
-
-.event-card__day {
-  font-size: 1rem;
-  line-height: 1;
-  color: #543f2b;
-  font-weight: 700;
-}
-
-.event-card__year-month {
-  margin-top: 0.14rem;
-  font-size: 0.52rem;
-  letter-spacing: 0.09em;
-  color: #6b533d;
-}
-
-.carousel-controls {
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.95rem;
-}
-
-.carousel-nav {
-  z-index: 55;
-  width: 2.45rem;
-  height: 2.45rem;
-  border-radius: 999px;
-  border: 1px solid rgba(95, 73, 55, 0.34);
-  background: rgba(255, 249, 240, 0.92);
-  color: #5a4431;
-  box-shadow: 0 10px 24px rgba(88, 63, 43, 0.16);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.24s ease, border-color 0.24s ease, background-color 0.24s ease;
-}
-
-.carousel-nav:hover {
-  transform: scale(1.06);
-  border-color: rgba(95, 73, 55, 0.52);
-  background: rgba(255, 249, 240, 0.98);
-}
-
-.carousel-indicators {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.carousel-indicator {
-  width: 0.58rem;
-  height: 0.58rem;
-  background: rgba(122, 95, 69, 0.38);
-  border: 1px solid transparent;
-  transform: rotate(45deg);
-  transition: all 0.24s ease;
-}
-
-.carousel-indicator:hover {
-  background: rgba(95, 73, 55, 0.58);
-}
-
-.carousel-indicator.is-active {
-  background: #5a4431;
-  border-color: rgba(255, 243, 224, 0.72);
-  box-shadow: 0 0 0 3px rgba(90, 68, 49, 0.16);
-}
-
-.to-top {
-  position: fixed;
-  right: 1.7rem;
-  bottom: 1.8rem;
-  z-index: 50;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 999px;
-  border: 1px solid rgba(95, 73, 55, 0.32);
-  background: rgba(255, 251, 244, 0.9);
-  color: #5a4431;
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.08rem;
-  transition: all 0.24s ease;
-  cursor: pointer;
-}
-
-.to-top:hover {
-  transform: translateY(-2px);
-  border-color: rgba(95, 73, 55, 0.55);
-}
-
-@media (max-width: 1024px) {
-  .carousel-nav {
-    width: 2.3rem;
-    height: 2.3rem;
-  }
-
-  .carousel-controls {
-    gap: 0.78rem;
-  }
-}
-
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .carousel-shell {
-    padding: 0.9rem 0.6rem 1.05rem;
+  .glass-card {
+    @apply rounded-xl;
   }
+}
 
-  .carousel-stage {
-    min-height: 268px;
-  }
-
-  .carousel-stack {
-    height: 250px;
-  }
-
-  .event-card {
-    width: min(100%, 91vw);
-    border-radius: 14px;
-  }
-
-  .event-card__footer {
-    padding: 0.86rem 0.9rem;
-  }
-
-  .carousel-nav {
-    width: 2.1rem;
-    height: 2.1rem;
-  }
-
-  .to-top {
-    right: 1rem;
-    bottom: 1rem;
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 </style>
