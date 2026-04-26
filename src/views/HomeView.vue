@@ -107,31 +107,6 @@
       <span class="section-divider__line"></span>
     </div>
 
-    <!-- Technology Section -->
-    <section id="technology" class="py-24 px-6 lg:px-12 bg-transparent max-w-[1600px] mx-auto w-full">
-      <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
-        <div class="max-w-2xl">
-          <h3 class="text-bamboo-base text-[12px] font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-4">
-            <span class="w-8 h-[1px] bg-bamboo-soft"></span> 核心工艺
-          </h3>
-          <h2 class="text-5xl md:text-7xl font-medium tracking-tight text-ink-base">剪艺背后的坚持。</h2>
-        </div>
-        <div class="max-w-xs pt-4 md:pt-12">
-          <p class="text-bamboo-dark text-sm leading-relaxed">
-            每一刀刻画，每一次镂空，都只有一个目的：让纸张焕发新生，让你纯粹地感受剪纸艺术的灵动与震撼。
-          </p>
-        </div>
-      </div>
-
-      <!-- Feature Grid -->
-      <FeatureGrid :items="featureItems" />
-      
-    </section>
-
-    <div class="section-divider" aria-hidden="true">
-      <span class="section-divider__line"></span>
-    </div>
-
     <!-- 剪艺数字生态 Section -->
     <section class="py-24 px-6 lg:px-12 bg-transparent max-w-[1600px] mx-auto w-full overflow-hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">

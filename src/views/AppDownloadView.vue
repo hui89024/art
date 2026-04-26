@@ -136,8 +136,8 @@ const goAndroid = () => {
             >
               <Apple class="w-6 h-6" />
               <div class="text-left">
-                <p class="text-xs opacity-90">Download on the</p>
-                <p class="text-lg font-semibold -mt-1">App Store</p>
+                <p class="text-xs opacity-90">立即下载</p>
+                <p class="text-lg font-semibold -mt-1">苹果版本</p>
               </div>
             </button>
 
@@ -145,10 +145,10 @@ const goAndroid = () => {
               @click="goAndroid"
               class="group flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-ink-base border-2 border-paper-dark/30 px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-paper-dark/10 hover:-translate-y-0.5"
             >
-              <Play class="w-6 h-6 fill-current" />
+              <Smartphone class="w-6 h-6" />
               <div class="text-left">
-                <p class="text-xs opacity-70">GET IT ON</p>
-                <p class="text-lg font-semibold -mt-1">Google Play</p>
+                <p class="text-xs opacity-70">立即下载</p>
+                <p class="text-lg font-semibold -mt-1">安卓版本</p>
               </div>
             </button>
           </div>
@@ -168,16 +168,12 @@ const goAndroid = () => {
               <!-- Notch -->
               <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-ink-base rounded-b-3xl z-10"></div>
 
-              <!-- Screenshot Content Placeholder -->
-              <div class="w-full h-full bg-gradient-to-br from-accent/10 via-purple-50 to-blue-50 flex items-center justify-center">
-                <div class="text-center px-8">
-                  <div class="w-20 h-20 mx-auto mb-4 bg-accent/20 rounded-3xl flex items-center justify-center">
-                    <Sparkles class="w-10 h-10 text-accent" />
-                  </div>
-                  <p class="text-sm font-medium text-ink-base mb-2">剪艺 APP</p>
-                  <p class="text-xs text-bamboo-dark">传统艺术 · 数字体验</p>
-                </div>
-              </div>
+              <!-- Real App Screenshot -->
+              <img
+                src="@/assets/screenshot-1776943364783.png"
+                alt="剪艺 APP 主界面截图"
+                class="w-full h-full object-cover object-top"
+              />
             </div>
           </div>
 
@@ -329,8 +325,8 @@ const goAndroid = () => {
           >
             <Apple class="w-6 h-6" />
             <div class="text-left">
-              <p class="text-xs opacity-90">Download on the</p>
-              <p class="text-lg font-semibold -mt-1">App Store</p>
+              <p class="text-xs opacity-90">立即下载</p>
+              <p class="text-lg font-semibold -mt-1">苹果版本</p>
             </div>
           </button>
 
@@ -338,10 +334,10 @@ const goAndroid = () => {
             @click="goAndroid"
             class="group flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-ink-base border-2 border-paper-dark/30 px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-paper-dark/10 hover:-translate-y-0.5"
           >
-            <Play class="w-6 h-6 fill-current" />
+            <Smartphone class="w-6 h-6" />
             <div class="text-left">
-              <p class="text-xs opacity-70">GET IT ON</p>
-              <p class="text-lg font-semibold -mt-1">Google Play</p>
+              <p class="text-xs opacity-70">立即下载</p>
+              <p class="text-lg font-semibold -mt-1">安卓版本</p>
             </div>
           </button>
         </div>
