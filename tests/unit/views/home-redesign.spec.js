@@ -12,5 +12,6 @@ describe('Home redesign structure', () => {
     expect(wrapper.find('[data-testid="new-hero"]').exists()).toBe(true)
     expect(wrapper.text()).toContain('核心作品')
     expect(wrapper.text()).toContain('核心工艺')
+    expect(wrapper.findComponent({ name: 'SectionHero' }).exists()).toBe(true)
   })
 })

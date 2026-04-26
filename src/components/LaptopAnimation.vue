@@ -93,7 +93,7 @@ onBeforeUnmount(() => {
 }
 
 .laptop-container.is-active .screen {
-  animation: open 1.5s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: open 1.1s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
   transition: none;
 }
 

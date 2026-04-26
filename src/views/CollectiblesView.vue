@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
+import SectionHero from '@/components/SectionHero.vue'
 import CollectibleDisplay from '../components/CollectibleDisplay.vue'
 import StoryModal from '../components/StoryModal.vue'
 import { ShieldCheck, Database } from 'lucide-vue-next'
@@ -240,34 +241,42 @@ function onStoryLeave(el, done) {
 </script>
 
 <template>
-  <main class="pt-24 min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans text-hex-6f614d">
+  <main class="pt-28 pb-20 min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans text-hex-6f614d">
+    <SectionHero
+      kicker="收藏级作品"
+      title="画廊式浏览"
+      subtitle="先看价值，再读细节"
+      description="保持原有数据加载与 fallback 逻辑不变。"
+    />
+
     <div
       v-if="loading"
-      class="w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-16 text-sm text-hex-8f7b5f"
+      class="w-full max-w-[1280px] mx-auto z-10 px-6 lg:px-10 py-16 text-sm text-hex-8f7b5f"
     >
       正在加载作品详情...
     </div>
 
     <div
       v-if="loadError"
-      class="w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-4 text-xs text-hex-a08b6d"
+      class="w-full max-w-[1280px] mx-auto z-10 px-6 lg:px-10 py-4 text-xs text-hex-a08b6d"
     >
       {{ loadError }}
     </div>
 
     <div
       v-if="!loading && !patterns.length"
-      class="w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-16 text-sm text-hex-8f7b5f"
+      class="w-full max-w-[1280px] mx-auto z-10 px-6 lg:px-10 py-16 text-sm text-hex-8f7b5f"
     >
       暂无可展示作品。
     </div>
 
     <template v-if="!loading && patterns.length">
-      <section
-        v-for="(item, index) in patterns"
-        :key="item.id"
-        class="flex-1 flex flex-col lg:flex-row w-full max-w-[1440px] mx-auto z-10 px-6 lg:px-12 py-12 lg:py-14 border-b border-hex-e3d6c2 last:border-b-0"
-      >
+      <section class="max-w-[1280px] mx-auto px-6 lg:px-10 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <article
+          v-for="(item, index) in patterns"
+          :key="item.id"
+          class="flex flex-col border border-hex-e3d6c2 rounded-2xl overflow-hidden last:border-b"
+        >
       <div
         :ref="(el) => setLeftRef(el, index)"
         class="flex-1 flex items-center justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-hex-e3d6c2 relative"
@@ -333,7 +342,8 @@ function onStoryLeave(el, done) {
           </div>
         </button>
       </div>
-    </section>
+    </article>
+      </section>
     </template>
 
     <Teleport to="body">

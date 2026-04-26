@@ -2,6 +2,14 @@
   <main class="min-h-screen bg-transparent flex flex-col font-sans text-ink-base">
     <!-- Hero Section -->
     <Carousel />
+
+    <!-- SectionHero -->
+    <SectionHero
+      kicker="剪艺"
+      title="剪艺 — 纸间万象"
+      subtitle="传统剪纸的非遗数字化之旅"
+      description="从刀工到像素，从窗花到屏幕。"
+    />
     
     <!-- Product Highlight Section -->
     <section class="py-24 sm:py-32 px-6 lg:px-12 bg-transparent max-w-[1600px] mx-auto w-full">
@@ -115,76 +123,8 @@
         </div>
       </div>
 
-      <!-- 4 Columns Tech Specs -->
-      <div ref="techCardsRef" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-paper-light border border-paper-dark/60 rounded-2xl p-8 hover:bg-paper-hover transition-colors flex flex-col justify-between min-h-[360px]">
-          <div>
-            <div class="w-10 h-10 border border-paper-dark/70 rounded-lg flex items-center justify-center mb-8">
-              <ShieldCheck class="w-4 h-4 text-bamboo-dark" />
-            </div>
-            <h4 class="text-4xl font-medium text-ink-base mb-2 tracking-tight">非遗传承</h4>
-            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em]">国家级非物质文化遗产</p>
-          </div>
-          <div class="mt-8">
-            <p class="text-bamboo-light text-[13px] font-bold uppercase tracking-[0.1em] mb-2">世代相传的记忆</p>
-            <h5 class="text-ink-base font-medium mb-2">技艺传承</h5>
-            <p class="text-bamboo-dark text-xs leading-relaxed">
-              每一件作品都承载着千百年的文化积淀，通过师徒相授，将精湛的剪纸技艺代代相传。
-            </p>
-          </div>
-        </div>
-
-        <div class="bg-paper-light border border-paper-dark/60 rounded-2xl p-8 hover:bg-paper-hover transition-colors flex flex-col justify-between min-h-[360px]">
-          <div>
-            <div class="w-10 h-10 border border-paper-dark/70 rounded-lg flex items-center justify-center mb-8">
-              <ThermometerSnowflake class="w-4 h-4 text-bamboo-dark" />
-            </div>
-            <h4 class="text-4xl font-medium text-ink-base mb-2 tracking-tight">微米级雕刻</h4>
-            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em]">极光微雕工艺</p>
-          </div>
-          <div class="mt-8">
-            <p class="text-bamboo-light text-[13px] font-bold uppercase tracking-[0.1em] mb-2">丝丝入扣的细节表现</p>
-            <h5 class="text-ink-base font-medium mb-2">多维立体层叠</h5>
-            <p class="text-bamboo-dark text-xs leading-relaxed">
-              采用多层镂空与叠层技术，赋予平面纸张突破维度的立体感与丰富的光影变幻。
-            </p>
-          </div>
-        </div>
-
-        <div class="bg-paper-light border border-paper-dark/60 rounded-2xl p-8 hover:bg-paper-hover transition-colors flex flex-col justify-between min-h-[360px]">
-          <div>
-            <div class="w-10 h-10 border border-paper-dark/70 rounded-lg flex items-center justify-center mb-8">
-              <MapPin class="w-4 h-4 text-bamboo-dark" />
-            </div>
-            <h4 class="text-4xl font-medium text-ink-base mb-2 tracking-tight">纯手工</h4>
-            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em]">匠心独运的坚持</p>
-          </div>
-          <div class="mt-8">
-            <p class="text-bamboo-light text-[13px] font-bold uppercase tracking-[0.1em] mb-2">指尖的温度</p>
-            <h5 class="text-ink-base font-medium mb-2">精细刻画</h5>
-            <p class="text-bamboo-dark text-xs leading-relaxed">
-              每一道刻痕都留有匠人的温度，手工雕琢的独特魅力是任何机械都无法替代的。
-            </p>
-          </div>
-        </div>
-
-        <div class="bg-paper-light border border-paper-dark/60 rounded-2xl p-8 hover:bg-paper-hover transition-colors flex flex-col justify-between min-h-[360px]">
-          <div>
-            <div class="w-10 h-10 border border-paper-dark/70 rounded-lg flex items-center justify-center mb-8">
-              <MapPin class="w-4 h-4 text-bamboo-dark" />
-            </div>
-            <h4 class="text-4xl font-medium text-ink-base mb-2 tracking-tight">无酸装裱</h4>
-            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em]">博物馆级典藏标准</p>
-          </div>
-          <div class="mt-8">
-            <p class="text-bamboo-light text-[13px] font-bold uppercase tracking-[0.1em] mb-2">历久弥新的保存</p>
-            <h5 class="text-ink-base font-medium mb-2">专业级防护装裱</h5>
-            <p class="text-bamboo-dark text-xs leading-relaxed">
-              采用博物馆级无酸纸与专业防紫外线装裱技术，确保剪纸作品历经岁月洗礼依然色彩如新。
-            </p>
-          </div>
-        </div>
-      </div>
+      <!-- Feature Grid -->
+      <FeatureGrid :items="featureItems" />
       
     </section>
 
@@ -363,6 +303,9 @@
 import { onBeforeUnmount, onMounted, nextTick, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Carousel from '../components/Carousel.vue'
+import SectionHero from '@/components/SectionHero.vue'
+import FeatureGrid from '@/components/FeatureGrid.vue'
+import CTACluster from '@/components/CTACluster.vue'
 import LaptopAnimation from '../components/LaptopAnimation.vue'
 import PhoneAnimation from '../components/PhoneAnimation.vue'
 import { ThermometerSnowflake, ShieldCheck, MapPin } from 'lucide-vue-next'
@@ -381,6 +324,12 @@ const router = useRouter()
 const productHeadingRef = ref(null)
 const productCardsRef = ref(null)
 const techCardsRef = ref(null)
+
+const featureItems = [
+  { id: 'craft', title: '非遗传承', description: '将传统刀工转译为现代视觉语言。' },
+  { id: 'detail', title: '微米级雕刻', description: '层叠结构与留白形成更强空间感。' },
+  { id: 'archive', title: '数字化纹样', description: '纹样沉淀为可持续复用的创作资产。' }
+]
 
 const { reveal } = useScrollReveal()
 const { slideUp, staggerIn } = useAnimate()
@@ -413,7 +362,6 @@ onMounted(async () => {
       delay: 120,
       duration: DURATION.base
     })
-  }
   }
 
   if (techCardsRef.value) {
