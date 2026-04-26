@@ -416,3 +416,35 @@ function onStoryLeave(el, done) {
     </Teleport>
   </main>
 </template>
+
+<style scoped>
+.collectible-card {
+  /* 比例过渡变量 */
+  --gallery-ratio: 0.4;
+  --transition-ratio: 0.3;
+
+  /* 画廊 (progress=0) → 典藏 (progress=1) 插值 */
+  --progress: clamp(0,
+    ((var(--index) + 1) / var(--total-cards) - var(--gallery-ratio)) / var(--transition-ratio),
+    1);
+
+  --gallery-bg: #FBF9F6;
+  --archive-bg: #F0E8D8;
+  background: color-mix(in oklab,
+    var(--gallery-bg),
+    var(--archive-bg) calc(var(--progress) * 100%));
+
+  --gallery-border: #E3D6C2;
+  --archive-border: #C4A87A;
+  border-color: color-mix(in oklab,
+    var(--gallery-border),
+    var(--archive-border) calc(var(--progress) * 100%));
+
+  box-shadow: 0 2px 8px rgba(154, 132, 98, calc(0.06 + var(--progress) * 0.14));
+  transition: box-shadow 0.3s ease;
+}
+
+.collectible-card:hover {
+  box-shadow: 0 2px 8px rgba(154, 132, 98, calc(0.10 + var(--progress) * 0.20));
+}
+</style>
