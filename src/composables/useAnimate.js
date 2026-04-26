@@ -1,5 +1,6 @@
 import { animate, stagger } from 'animejs'
 import { EASING, DURATION, STAGGER_DELAY } from './anime.config.js'
+import { prefersReducedMotion, resolveDuration } from './motion.js'
 
 /**
  * useAnimate — 入场与交互动画
@@ -23,9 +24,9 @@ export function useAnimate() {
   function fadeIn(el, opts = {}) {
     return animate(unwrap(el), {
       opacity: [0, 1],
-      duration: opts.duration ?? DURATION.base,
+      duration: resolveDuration(opts.duration ?? DURATION.base),
       ease: opts.ease ?? EASING,
-      delay: opts.delay ?? 0
+      delay: prefersReducedMotion() ? 0 : (opts.delay ?? 0)
     })
   }
 
@@ -36,9 +37,9 @@ export function useAnimate() {
     return animate(unwrap(el), {
       opacity: [0, 1],
       translateY: [opts.translateY ?? 80, 0],
-      duration: opts.duration ?? DURATION.base + 100,
+      duration: resolveDuration(opts.duration ?? DURATION.slow),
       ease: opts.ease ?? EASING,
-      delay: opts.delay ?? 0
+      delay: prefersReducedMotion() ? 0 : (opts.delay ?? 0)
     })
   }
 
@@ -54,9 +55,9 @@ export function useAnimate() {
     return animate(el.children, {
       opacity: [0, 1],
       translateY: opts.translateY ?? [80, 0],
-      duration: opts.duration ?? DURATION.base,
+      duration: resolveDuration(opts.duration ?? DURATION.base),
       ease: opts.ease ?? EASING,
-      delay: stagger(opts.delay ?? STAGGER_DELAY)
+      delay: prefersReducedMotion() ? 0 : stagger(opts.delay ?? STAGGER_DELAY)
     })
   }
 
@@ -67,9 +68,9 @@ export function useAnimate() {
     return animate(unwrap(el), {
       opacity: [0, 1],
       scale: [0.92, 1],
-      duration: opts.duration ?? DURATION.base,
+      duration: resolveDuration(opts.duration ?? DURATION.base),
       ease: opts.ease ?? EASING,
-      delay: opts.delay ?? 0
+      delay: prefersReducedMotion() ? 0 : (opts.delay ?? 0)
     })
   }
 
@@ -79,9 +80,9 @@ export function useAnimate() {
   function fadeOut(el, opts = {}) {
     const animConfig = {
       opacity: [1, 0],
-      duration: opts.duration ?? DURATION.fast,
+      duration: resolveDuration(opts.duration ?? DURATION.fast),
       ease: opts.ease ?? EASING,
-      delay: opts.delay ?? 0
+      delay: prefersReducedMotion() ? 0 : (opts.delay ?? 0)
     }
     if (opts.scale) {
       animConfig.scale = [1, 0.95]
