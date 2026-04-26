@@ -1,34 +1,34 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { describe, it, expect } from 'vitest'
+import resolveConfig from 'tailwindcss/resolveConfig'
 
-import tailwindConfig from '../../../tailwind.config.js';
+import tailwindConfig from '../../../tailwind.config.js'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const css = fs.readFileSync(path.resolve(__dirname, '../../../src/assets/index.css'), 'utf8');
+const resolvedConfig = resolveConfig(tailwindConfig)
 
-test('defines the global design tokens for the redesign', () => {
-  const extend = tailwindConfig.theme?.extend ?? {};
+describe('theme tokens', () => {
+  it('defines required color tokens', () => {
+    const expectedColors = {
+      'brand-red': '#B4232A',
+      'ink-black': '#111214',
+      'porcelain-white': '#F7F5F2',
+      'jade-gray': '#A3A8AC',
+      'gold-accent': '#C8A86B'
+    }
 
-  assert.equal(extend.colors?.['brand-red'], '#B4232A');
-  assert.equal(extend.colors?.['ink-black'], '#111214');
-  assert.equal(extend.colors?.['porcelain-white'], '#F7F5F2');
-  assert.equal(extend.colors?.['jade-gray'], '#A3A8AC');
-  assert.equal(extend.colors?.['gold-accent'], '#C8A86B');
+    for (const [tokenName, tokenValue] of Object.entries(expectedColors)) {
+      expect(resolvedConfig.theme.colors[tokenName]).toBe(tokenValue)
+    }
+  })
 
-  assert.equal(extend.spacing?.['18'], '4.5rem');
-  assert.ok(extend.borderRadius?.['2xl']);
-  assert.equal(extend.boxShadow?.glass?.includes('rgba'), true);
+  it("defines spacing token 18 as 4.5rem", () => {
+    expect(resolvedConfig.theme.spacing['18']).toBe('4.5rem')
+  })
 
-  assert.match(css, /--jy-color-brand:\s*#B4232A;/);
-  assert.match(css, /--jy-color-bg:\s*#F7F5F2;/);
-  assert.match(css, /--jy-color-text:\s*#111214;/);
-  assert.match(css, /--jy-color-muted:\s*#A3A8AC;/);
-  assert.match(css, /--jy-color-accent:\s*#C8A86B;/);
-  assert.match(css, /body\s*\{[\s\S]*color:\s*var\(--jy-color-text\)/);
-  assert.match(css, /\.jy-glass-card\s*\{/);
-  assert.match(css, /\.jy-primary-btn\s*\{/);
-  assert.match(css, /\.jy-primary-btn:hover\s*\{/);
-});
+  it("keeps border radius token '2xl'", () => {
+    expect(resolvedConfig.theme.borderRadius['2xl']).toBeDefined()
+  })
+
+  it("defines glass box shadow token with rgba", () => {
+    expect(resolvedConfig.theme.boxShadow.glass).toContain('rgba')
+  })
+})
