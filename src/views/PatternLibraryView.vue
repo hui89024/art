@@ -6,6 +6,7 @@ import {
   getOpenPatternDetailByCode,
   getOpenPatternTableUrl,
 } from '@/api/patterns.js'
+import SectionHero from '@/components/SectionHero.vue'
 
 const loading = ref(false)
 const loadingDetail = ref(false)
@@ -160,13 +161,15 @@ onMounted(fetchPatterns)
 </script>
 
 <template>
-  <main class="pt-28 pb-16 min-h-screen bg-transparent">
-    <section class="max-w-[1440px] mx-auto px-6 lg:px-12">
-      <header class="mb-8">
-        <h1 class="text-3xl md:text-4xl font-bold tracking-[0.08em] text-pattern-ink">在线纹样库</h1>
-        <p class="mt-3 text-sm text-pattern-aux">支持关键词、分类、风格、地区、时期检索，仅展示已审核通过数据。</p>
-      </header>
+  <main class="pt-28 pb-20">
+    <SectionHero
+      kicker="Pattern Workbench"
+      title="在线纹样库"
+      subtitle="搜索、筛选、分页、详情一体化"
+      description="保留现有查询参数与详情弹窗流程。"
+    />
 
+    <section class="max-w-[1320px] mx-auto px-6 lg:px-10">
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 rounded-2xl border border-pattern-border bg-pattern-bg/80 backdrop-blur p-4 mb-8">
         <input
           v-model="keyword"

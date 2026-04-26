@@ -1,19 +1,15 @@
 <template>
-  <main class="min-h-screen pt-36 pb-24 px-6 lg:px-12 bg-transparent text-ink-base">
-    <section class="max-w-[1200px] mx-auto">
-      <h3 class="text-bamboo-base text-[12px] font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-4">
-        <span class="w-8 h-[1px] bg-bamboo-soft"></span> 联系我们
-      </h3>
+  <main class="pt-28 pb-20">
+    <SectionHero
+      kicker="Contact Jianyi"
+      title="我们期待与你沟通"
+      subtitle="合作、课程、活动，一站式联络"
+      description="保留现有邮箱、电话、地址与合作方向信息。"
+    />
 
+    <section class="max-w-[1200px] mx-auto px-6 lg:px-12">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
         <div>
-          <h1 class="text-4xl md:text-6xl font-medium tracking-tight text-ink-base mb-6">
-            我们期待与你沟通。
-          </h1>
-          <p class="text-bamboo-dark text-sm leading-relaxed max-w-xl mb-8">
-            无论你想合作开发文创产品、开展品牌联名，还是了解剪艺课程与活动信息，欢迎通过以下方式联系我们。
-          </p>
-
           <div class="space-y-4 text-sm text-bamboo-deep">
             <p><span class="font-bold text-ink-base">邮箱：</span>contact@jianyi.art</p>
             <p><span class="font-bold text-ink-base">电话：</span>400-888-2026</p>
@@ -34,3 +30,7 @@
     </section>
   </main>
 </template>
+
+<script setup>
+import SectionHero from '@/components/SectionHero.vue'
+</script>
