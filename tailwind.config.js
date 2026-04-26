@@ -7,6 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
+        // 东方奢华主题（首页专用）
+        'luxury-black': '#0A0908',
+        'luxury-charcoal': '#1C1917',
+        'luxury-warm-gray': '#44403C',
+        'luxury-gold': '#A16207',
+        'luxury-gold-light': '#D4AF37',
+        'luxury-gold-bright': '#F59E0B',
+        'luxury-red': '#DC2626',
+        'luxury-red-soft': '#EF4444',
+        'luxury-purple': '#4C1D95',
+        'luxury-purple-light': '#7C3AED',
+        'luxury-text': '#FAFAF9',
+        'luxury-text-muted': '#D6D3D1',
+        'luxury-surface': '#1C1917',
+        'luxury-border': '#78716C',
+
         // 博物馆沉浸式主题
         'museum-dark': '#18181B',
         'museum-mid': '#3F3F46',
@@ -183,9 +199,10 @@ export default {
         'gold-accent': '#C8A86B',
       },
       fontFamily: {
-        sans: ['Noto Sans TC', 'STKaiti', 'KaiTi', 'STXingkai', 'HanziPen SC', 'Ma Shan Zheng', 'FZKai-Z03', 'Songti SC', 'sans-serif'],
-        serif: ['Noto Serif TC', 'STKaiti', 'KaiTi', 'serif'],
-        display: ['STXingkai', 'STKaiti', 'KaiTi', 'HanziPen SC', 'serif'],
+        sans: ['Noto Sans SC', 'Noto Sans TC', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+        serif: ['Noto Serif SC', 'Noto Serif TC', 'STKaiti', 'KaiTi', 'serif'],
+        display: ['ZCOOL XiaoWei', 'Ma Shan Zheng', 'STXingkai', 'STKaiti', 'KaiTi', 'serif'],
+        decorative: ['ZCOOL KuaiLe', 'Liu Jian Mao Cao', 'Ma Shan Zheng', 'cursive'],
       },
       spacing: {
         '18': '4.5rem',
@@ -199,6 +216,33 @@ export default {
       boxShadow: {
         glass: '0 18px 40px rgba(17, 18, 20, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.45)',
         card: '0 12px 30px rgba(17, 18, 20, 0.10), 0 2px 8px rgba(17, 18, 20, 0.06)',
+        'luxury-glow': '0 0 30px rgba(212, 175, 55, 0.3), 0 0 60px rgba(212, 175, 55, 0.1)',
+        'luxury-card': '0 20px 60px rgba(10, 9, 8, 0.5), 0 0 1px rgba(212, 175, 55, 0.5)',
+        'luxury-hover': '0 30px 80px rgba(10, 9, 8, 0.6), 0 0 40px rgba(212, 175, 55, 0.4)',
+      },
+      backgroundImage: {
+        'luxury-gradient': 'linear-gradient(135deg, #1C1917 0%, #0A0908 100%)',
+        'luxury-radial': 'radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%)',
+        'gold-shimmer': 'linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.3) 50%, transparent 100%)',
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'shimmer': 'shimmer 3s ease-in-out infinite',
+        'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'glow-pulse': {
+          '0%, 100%': { opacity: '0.5' },
+          '50%': { opacity: '1' },
+        },
       },
     }
   },
