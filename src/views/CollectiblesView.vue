@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import SectionHero from '@/components/SectionHero.vue'
+import FilterBar from '@/components/FilterBar.vue'
 import CollectibleDisplay from '../components/CollectibleDisplay.vue'
 import StoryModal from '../components/StoryModal.vue'
 import { ShieldCheck, Database } from 'lucide-vue-next'
@@ -19,6 +20,8 @@ const leftColRefs = ref([])
 const rightColRefs = ref([])
 const loading = ref(true)
 const loadError = ref('')
+const themeOptions = ['瑞兽', '花卉', '人物', '山水', '几何', '吉祥纹']
+const selectedThemes = ref([])
 const { slideUp } = useAnimate()
 
 const DEFAULT_PATTERN_IDS = ['0001', '0002', '0003']
@@ -74,6 +77,33 @@ const fallbackById = fallbackPatterns.reduce((acc, item) => {
 const patterns = ref([...fallbackPatterns])
 activePattern.value = patterns.value[0]
 
+const filteredPatterns = computed(() => {
+  if (!selectedThemes.value.length) return patterns.value
+  return patterns.value.filter(
+    (p) => selectedThemes.value.includes(p.theme) || p.theme === '未分类'
+  )
+})
+
+const displayItems = computed(() => {
+  const items = filteredPatterns.value
+  if (selectedThemes.value.length > 0) {
+    return items.map((item, i) => ({ kind: 'card', item, cardIndex: i }))
+  }
+  const result = []
+  let cardIndex = 0
+  const groups = {}
+  for (const item of items) {
+    const theme = item.theme || '未分类'
+    if (!groups[theme]) {
+      groups[theme] = []
+      result.push({ kind: 'separator', theme })
+    }
+    groups[theme].push(item)
+    result.push({ kind: 'card', item, cardIndex: cardIndex++ })
+  }
+  return result
+})
+
 const normalizeStory = (story, fallbackStory = []) => {
   if (Array.isArray(story)) {
     const normalized = story.map((item) => `${item ?? ''}`.trim()).filter(Boolean)
@@ -124,7 +154,7 @@ const animateSections = () => {
   rightColRefs.value = []
 
   nextTick(() => {
-    patterns.value.forEach((_, index) => {
+    filteredPatterns.value.forEach((_, index) => {
       const leftEl = leftColRefs.value[index]
       const rightEl = rightColRefs.value[index]
       const baseDelay = index * 120
