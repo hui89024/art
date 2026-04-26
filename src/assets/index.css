@@ -7,17 +7,25 @@
     font-size: 112.5%;
   }
 
+  :root {
+    --jy-color-brand: #B4232A;
+    --jy-color-bg: #F7F5F2;
+    --jy-color-text: #111214;
+    --jy-color-muted: #A3A8AC;
+    --jy-color-accent: #C8A86B;
+  }
+
   body {
-    background-color: theme('colors.paper-base');
+    background-color: var(--jy-color-bg);
     background-image:
-      radial-gradient(circle at center, rgba(252, 250, 247, 0) 0%, rgba(252, 250, 247, 0.92) 88%),
+      radial-gradient(circle at center, rgba(247, 245, 242, 0) 0%, rgba(247, 245, 242, 0.92) 88%),
       url('./屏幕截图 2026-04-14 134526.png');
     background-repeat: no-repeat, repeat;
     background-size: cover, auto;
     background-position: center, top left;
     background-attachment: fixed, scroll;
     opacity: 1;
-    color: theme('colors.ink-light');
+    color: var(--jy-color-text);
     font-family: 'STKaiti', 'KaiTi', 'STXingkai', 'HanziPen SC', 'Ma Shan Zheng', 'FZKai-Z03', 'Songti SC', serif;
     overflow-x: hidden;
     margin: 0;
@@ -28,6 +36,27 @@
   html {
     font-size: 106.25%;
   }
+}
+
+.jy-glass-card {
+  background: rgba(247, 245, 242, 0.68);
+  border: 1px solid rgba(17, 18, 20, 0.08);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px rgba(17, 18, 20, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.jy-primary-btn {
+  background: var(--jy-color-brand);
+  color: var(--jy-color-bg);
+  border: 1px solid rgba(180, 35, 42, 0.24);
+  box-shadow: 0 10px 24px rgba(180, 35, 42, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.jy-primary-btn:hover {
+  background: #9f1f25;
+  box-shadow: 0 14px 28px rgba(180, 35, 42, 0.24);
+  transform: translateY(-1px);
 }
 
 .glass-nav {

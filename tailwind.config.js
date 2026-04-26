@@ -156,14 +156,29 @@ export default {
         'evasion-sand': '#D2C4A7',
         'evasion-sand-dark': '#B5A68A',
         'accent': '#A3A3A3',
+        'brand-red': '#B4232A',
+        'ink-black': '#111214',
+        'porcelain-white': '#F7F5F2',
+        'jade-gray': '#A3A8AC',
+        'gold-accent': '#C8A86B',
       },
       fontFamily: {
         sans: ['STKaiti', 'KaiTi', 'STXingkai', 'HanziPen SC', 'Ma Shan Zheng', 'FZKai-Z03', 'Songti SC', 'serif'],
         display: ['STXingkai', 'STKaiti', 'KaiTi', 'HanziPen SC', 'serif'],
       },
       spacing: {
+        '18': '4.5rem',
+        '22': '5.5rem',
+        '26': '6.5rem',
         '1440': '1440px',
-      }
+      },
+      borderRadius: {
+        '2xl': '1rem',
+      },
+      boxShadow: {
+        glass: '0 18px 40px rgba(17, 18, 20, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.45)',
+        card: '0 12px 30px rgba(17, 18, 20, 0.10), 0 2px 8px rgba(17, 18, 20, 0.06)',
+      },
     }
   },
   plugins: [],
