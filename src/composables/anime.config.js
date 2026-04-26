@@ -1,6 +1,5 @@
 // 全局动画常量 —— 统一动效节奏与可访问性基线
 // anime.js v4 官方内置 ease 字符串，请勿随意修改
-<<<<<<< HEAD
 export const EASING = 'outQuart'
 
 export const DURATION = {
