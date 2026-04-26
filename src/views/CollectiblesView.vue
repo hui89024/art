@@ -1,10 +1,10 @@
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import SectionHero from '@/components/SectionHero.vue'
 import FilterBar from '@/components/FilterBar.vue'
 import CollectibleDisplay from '../components/CollectibleDisplay.vue'
 import StoryModal from '../components/StoryModal.vue'
-import { ShieldCheck, Database } from 'lucide-vue-next'
+import { Theater, Images, LayoutGrid, X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-vue-next'
 import { animate } from 'animejs'
 import { useAnimate } from '@/composables/useAnimate.js'
 import { DURATION, EASING } from '@/composables/anime.config.js'
@@ -14,10 +14,19 @@ import pattern017 from '../assets/窗花017.png'
 import pattern018 from '../assets/窗花018.png'
 import pattern019 from '../assets/窗花019.png'
 
+// 浏览模式
+const viewMode = ref('theater') // 'theater' | 'gallery' | 'masonry'
+const showModeMenu = ref(false)
+
+// 沉浸剧场模式状态
+const currentIndex = ref(0)
+const isZoomed = ref(false)
+const infoExpanded = ref(false)
+const isFullscreen = ref(false)
+
+// 数据状态
 const showStory = ref(false)
 const activePattern = ref(null)
-const leftColRefs = ref([])
-const rightColRefs = ref([])
 const loading = ref(true)
 const loadError = ref('')
 const themeOptions = ['瑞兽', '花卉', '人物', '山水', '几何', '吉祥纹']
@@ -36,7 +45,7 @@ const fallbackPatterns = [
     desc: '凤凰浴火重生于红纸金箔之间，在传统技艺与现代审美之间架起桥梁。',
     story: [
       '凤凰浴火重生于红纸金箔之间，在传统技艺与现代审美之间架起桥梁。',
-      '本作品”系列 01：凤凰”的灵感源自历代剪纸纹饰与神话故事。在古代文明中，凤凰被视为吉祥与重生的神圣图腾。',
+      '本作品"系列 01：凤凰"的灵感源自历代剪纸纹饰与神话故事。在古代文明中，凤凰被视为吉祥与重生的神圣图腾。',
       '这件作品中的每一片羽毛与纹路都经过匠人精心刻画，纸张层叠在光线照射下呈现出立体而灵动的观感。'
     ],
     theme: '瑞兽',
@@ -49,7 +58,7 @@ const fallbackPatterns = [
     desc: '运用极细的镂空刀法与多层错位叠纸技术，重新诠释了这一古老而优雅的传说。',
     story: [
       '匠心雕琢强调刀法与结构的秩序感，让传统纹样在当代空间中拥有更强的陈设价值。',
-      '匠人以毫米级控制完成深浅层次，将”剪”与”刻”的节奏统一为可阅读的视觉语言。',
+      '匠人以毫米级控制完成深浅层次，将"剪"与"刻"的节奏统一为可阅读的视觉语言。',
       '在自然光与侧光下，作品会产生不同阴影层次，呈现丰富且耐看的细节变化。'
     ],
     theme: '瑞兽',
@@ -84,26 +93,11 @@ const filteredPatterns = computed(() => {
   )
 })
 
-const displayItems = computed(() => {
-  const items = filteredPatterns.value
-  if (selectedThemes.value.length > 0) {
-    return items.map((item, i) => ({ kind: 'card', item, cardIndex: i }))
-  }
-  const result = []
-  let cardIndex = 0
-  const groups = {}
-  for (const item of items) {
-    const theme = item.theme || '未分类'
-    if (!groups[theme]) {
-      groups[theme] = []
-      result.push({ kind: 'separator', theme })
-    }
-    groups[theme].push(item)
-    result.push({ kind: 'card', item, cardIndex: cardIndex++ })
-  }
-  return result
+const currentArtwork = computed(() => {
+  return filteredPatterns.value[currentIndex.value] || null
 })
 
+// 工具函数
 const normalizeStory = (story, fallbackStory = []) => {
   if (Array.isArray(story)) {
     const normalized = story.map((item) => `${item ?? ''}`.trim()).filter(Boolean)
@@ -136,12 +130,53 @@ const normalizePattern = (data, fallbackItem) => {
   }
 }
 
-const setLeftRef = (el, index) => {
-  if (el) leftColRefs.value[index] = el
+// 沉浸剧场模式方法
+const prevArtwork = () => {
+  if (currentIndex.value > 0) {
+    currentIndex.value--
+    isZoomed.value = false
+  }
 }
 
-const setRightRef = (el, index) => {
-  if (el) rightColRefs.value[index] = el
+const nextArtwork = () => {
+  if (currentIndex.value < filteredPatterns.value.length - 1) {
+    currentIndex.value++
+    isZoomed.value = false
+  }
+}
+
+const toggleZoom = () => {
+  isZoomed.value = !isZoomed.value
+}
+
+const toggleInfo = () => {
+  infoExpanded.value = !infoExpanded.value
+}
+
+const exitTheater = () => {
+  viewMode.value = 'masonry'
+}
+
+// 模式切换
+const switchMode = (mode) => {
+  viewMode.value = mode
+  showModeMenu.value = false
+  if (mode === 'theater') {
+    currentIndex.value = 0
+    isZoomed.value = false
+    infoExpanded.value = false
+  }
+}
+
+// 进入沉浸剧场模式
+const enterTheaterMode = (item) => {
+  const index = filteredPatterns.value.findIndex(p => p.id === item.id)
+  if (index !== -1) {
+    currentIndex.value = index
+    viewMode.value = 'theater'
+    isZoomed.value = false
+    infoExpanded.value = false
+  }
 }
 
 function openStory(item) {
@@ -149,26 +184,7 @@ function openStory(item) {
   showStory.value = true
 }
 
-const animateSections = () => {
-  leftColRefs.value = []
-  rightColRefs.value = []
-
-  nextTick(() => {
-    filteredPatterns.value.forEach((_, index) => {
-      const leftEl = leftColRefs.value[index]
-      const rightEl = rightColRefs.value[index]
-      const baseDelay = index * 120
-
-      if (leftEl) {
-        slideUp(leftEl, { delay: 100 + baseDelay, duration: DURATION.base })
-      }
-      if (rightEl) {
-        slideUp(rightEl, { delay: 240 + baseDelay, duration: DURATION.base })
-      }
-    })
-  })
-}
-
+// 数据加载
 const loadPatternDetails = async () => {
   loading.value = true
   loadError.value = ''
@@ -221,12 +237,48 @@ const loadPatternDetails = async () => {
   loading.value = false
 }
 
+// 键盘导航
+const handleKeydown = (e) => {
+  if (viewMode.value !== 'theater') return
+
+  switch(e.key) {
+    case 'ArrowLeft':
+      prevArtwork()
+      break
+    case 'ArrowRight':
+      nextArtwork()
+      break
+    case 'Escape':
+      exitTheater()
+      break
+    case ' ':
+      e.preventDefault()
+      toggleInfo()
+      break
+    case 'f':
+    case 'F':
+      // 全屏切换（浏览器原生）
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.()
+      } else {
+        document.exitFullscreen?.()
+      }
+      break
+  }
+}
+
 onMounted(async () => {
   await loadPatternDetails()
-  await nextTick()
-  animateSections()
+  window.addEventListener('keydown', handleKeydown)
 })
 
+// 清理
+import { onUnmounted } from 'vue'
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
+
+// 动画钩子
 function onStoryEnter(el, done) {
   const box = el.querySelector('[data-modal-box]')
   if (!box) {
@@ -275,11 +327,148 @@ function onStoryLeave(el, done) {
 </script>
 
 <template>
-  <main class="pt-28 pb-20 min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans text-hex-6f614d">
+  <!-- 模式切换器 -->
+  <div class="mode-switcher">
+    <button
+      v-for="mode in [
+        { id: 'theater', icon: Theater, label: '沉浸剧场' },
+        { id: 'gallery', icon: Images, label: '横向画廊' },
+        { id: 'masonry', icon: LayoutGrid, label: '瀑布流探索' }
+      ]"
+      :key="mode.id"
+      :class="{ active: viewMode === mode.id }"
+      @click="switchMode(mode.id)"
+    >
+      <component :is="mode.icon" class="w-4 h-4" />
+      <span>{{ mode.label }}</span>
+    </button>
+  </div>
+
+  <!-- 沉浸剧场模式 -->
+  <div v-if="viewMode === 'theater'" class="theater-mode">
+    <div class="theater-backdrop"></div>
+
+    <!-- 关闭按钮 -->
+    <button
+      @click="exitTheater"
+      class="fixed top-6 right-6 z-30 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all"
+      aria-label="退出沉浸模式"
+    >
+      <X class="w-5 h-5" />
+    </button>
+
+    <!-- 作品展示区 -->
+    <div class="artwork-stage" role="img" :aria-label="`作品：${currentArtwork?.title}`">
+      <Transition name="fade-scale" mode="out-in">
+        <img
+          v-if="currentArtwork"
+          :key="currentArtwork.id"
+          :src="currentArtwork.image"
+          :alt="`${currentArtwork.title} - ${currentArtwork.desc}`"
+          :class="{ zoomed: isZoomed }"
+          class="artwork-image"
+          @click="toggleZoom"
+          loading="eager"
+        />
+      </Transition>
+    </div>
+
+    <!-- 导航控制 -->
+    <nav class="theater-controls" aria-label="作品导航">
+      <button
+        @click="prevArtwork"
+        :disabled="currentIndex === 0"
+        :class="{ 'opacity-50 cursor-not-allowed': currentIndex === 0 }"
+        aria-label="上一件作品"
+      >
+        <ChevronLeft class="w-4 h-4 inline mr-1" aria-hidden="true" />
+        上一件
+      </button>
+      <span aria-live="polite" aria-atomic="true">第 {{ currentIndex + 1 }} 件，共 {{ filteredPatterns.length }} 件</span>
+      <button
+        @click="nextArtwork"
+        :disabled="currentIndex === filteredPatterns.length - 1"
+        :class="{ 'opacity-50 cursor-not-allowed': currentIndex === filteredPatterns.length - 1 }"
+        aria-label="下一件作品"
+      >
+        下一件
+        <ChevronRight class="w-4 h-4 inline ml-1" aria-hidden="true" />
+      </button>
+    </nav>
+
+    <!-- 信息卡片 -->
+    <div v-if="currentArtwork" :class="{ expanded: infoExpanded }" class="info-card">
+      <button
+        @click="toggleInfo"
+        class="w-full flex items-center justify-between mb-3 cursor-pointer"
+      >
+        <h3 class="font-serif">{{ currentArtwork.title }}</h3>
+        <span class="text-xs text-text-secondary">{{ infoExpanded ? '收起' : '展开' }}</span>
+      </button>
+
+      <div v-show="infoExpanded" class="space-y-3">
+        <p class="text-sm">藏品编号：{{ currentArtwork.patternCode }}</p>
+        <p class="text-sm">主题：{{ currentArtwork.theme }}</p>
+        <p class="leading-relaxed">{{ currentArtwork.desc }}</p>
+        <div class="flex gap-3 pt-3">
+          <button
+            @click="openStory(currentArtwork)"
+            class="px-4 py-2 bg-museum-dark text-white rounded-lg text-sm hover:bg-museum-mid transition-colors"
+          >
+            查看故事
+          </button>
+          <button
+            @click="toggleZoom"
+            class="px-4 py-2 border border-border-light rounded-lg text-sm hover:bg-gray-50 transition-colors flex items-center gap-2"
+          >
+            <component :is="isZoomed ? ZoomOut : ZoomIn" class="w-4 h-4" />
+            {{ isZoomed ? '缩小' : '放大' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 横向画廊模式 -->
+  <div v-else-if="viewMode === 'gallery'" class="gallery-mode">
+    <SectionHero
+      kicker="主题馆藏"
+      title="横向画廊"
+      subtitle="滑动浏览，沉浸体验"
+    />
+
+    <div class="gallery-scroll" role="list" aria-label="作品画廊">
+      <article
+        v-for="(item, index) in filteredPatterns"
+        :key="item.id"
+        class="gallery-card"
+        role="listitem"
+        @click="enterTheaterMode(item)"
+        @keydown.enter="enterTheaterMode(item)"
+        @keydown.space.prevent="enterTheaterMode(item)"
+        tabindex="0"
+        :aria-label="`作品 ${index + 1}：${item.title}`"
+      >
+        <img
+          :src="item.image"
+          :alt="`${item.title} - ${item.desc}`"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="card-info">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.patternCode }}</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- 瀑布流探索模式 -->
+  <main v-else class="pt-28 pb-20 min-h-screen bg-transparent">
     <SectionHero
       kicker="主题馆藏"
       title="沉浸展厅"
-      subtitle="先看价值，再读细节"
+      subtitle="探索传统剪纸艺术之美"
     />
 
     <!-- 筛选栏 -->
@@ -318,148 +507,57 @@ function onStoryLeave(el, done) {
       <template v-else>暂无可展示作品。</template>
     </div>
 
-    <template v-if="!loading && filteredPatterns.length">
-      <section class="max-w-[1280px] mx-auto px-6 lg:px-10 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <template v-for="entry in displayItems" :key="entry.kind === 'separator' ? 'sep-' + entry.theme : entry.item.id">
-          <!-- 主题分组分隔标题 -->
-          <div
-            v-if="entry.kind === 'separator'"
-            class="col-span-full flex items-center gap-4 py-8"
-          >
-            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-hex-e3d6c2 to-transparent"></div>
-            <span class="text-hex-a08b6d text-xs font-bold tracking-[0.3em] uppercase px-4">
-              —— {{ entry.theme }} ——
-            </span>
-            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-hex-e3d6c2 to-transparent"></div>
-          </div>
-
-          <!-- 作品卡片 -->
-          <article
-            v-else
-            :style="{ '--index': entry.cardIndex, '--total-cards': filteredPatterns.length }"
-            class="collectible-card flex flex-col border border-hex-e3d6c2 rounded-2xl overflow-hidden"
-          >
-            <div
-              :ref="(el) => setLeftRef(el, entry.cardIndex)"
-              class="flex-1 flex items-center justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-hex-e3d6c2 relative"
-            >
-              <CollectibleDisplay
-                :image="entry.item.image"
-                :title="entry.item.title"
-                @open-story="openStory(entry.item)"
-              />
-            </div>
-
-            <div
-              :ref="(el) => setRightRef(el, entry.cardIndex)"
-              class="flex-1 flex flex-col justify-center p-8 lg:p-20 space-y-10 relative"
-            >
-              <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-hex-f6efe2 border border-hex-e1d2bb text-hex-9a8461 text-xs tracking-widest w-fit uppercase font-bold">
-                <div class="w-2 h-2 rounded-full bg-hex-b89e75 animate-pulse"></div>
-                作品档案
-              </div>
-
-              <h1 class="text-5xl md:text-7xl font-black font-display tracking-tight text-hex-7a6a50 uppercase mb-2">
-                {{ entry.item.title }}
-              </h1>
-
-              <div class="flex flex-wrap items-center gap-4 text-xs font-bold uppercase tracking-widest">
-                <span class="px-4 py-2 rounded-full bg-hex-f7f0e2 border border-hex-d8c7a8 text-hex-917d5d">纯手工雕刻</span>
-                <span class="px-4 py-2 rounded-full bg-hex-fdf8ef border border-hex-dfcfb4 text-hex-9f8d73">非遗传承</span>
-              </div>
-
-              <p class="text-hex-928067 text-sm leading-relaxed mt-8 font-light max-w-md">
-                {{ entry.item.desc }}
-              </p>
-
-              <div class="pt-8 border-t border-hex-e7dbc9 space-y-8 max-w-md">
-                <div class="flex items-start gap-5 group">
-                  <div class="w-14 h-14 rounded-2xl bg-hex-f8f2e6 flex items-center justify-center border border-hex-d6c4a3 text-hex-9a8563 group-hover:border-hex-c9b28a transition-all duration-300">
-                    <ShieldCheck class="w-6 h-6" />
-                  </div>
-                  <div class="pt-1">
-                    <h4 class="text-hex-7d6c52 font-bold text-sm uppercase tracking-widest mb-1">馆藏级认证</h4>
-                    <p class="text-xs text-hex-a29278 font-light">防伪溯源，专属收藏证书</p>
-                  </div>
-                </div>
-
-                <div class="flex items-start gap-5 group">
-                  <div class="w-14 h-14 rounded-2xl bg-hex-f8f2e6 flex items-center justify-center border border-hex-d6c4a3 text-hex-9a8563 group-hover:border-hex-c9b28a transition-all duration-300">
-                    <Database class="w-6 h-6" />
-                  </div>
-                  <div class="pt-1">
-                    <h4 class="text-hex-7d6c52 font-bold text-sm uppercase tracking-widest mb-1">装裱工艺</h4>
-                    <p class="text-xs text-hex-a29278 font-light">无酸装裱，防紫外线亚克力镜面</p>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                @click="openStory(entry.item)"
-                class="mt-8 px-12 py-5 relative overflow-hidden group w-fit rounded-full border border-hex-d8c7ab hover:border-hex-c9b289 transition-colors duration-500 bg-hex-f7efe0"
-              >
-                <div class="relative z-10 flex items-center gap-4">
-                  <span class="text-hex-7f6d52 font-bold tracking-[0.2em] text-xs uppercase group-hover:text-hex-6f5f48 transition-colors">作品详情</span>
-                  <div class="w-6 h-[1px] bg-hex-c4b28f group-hover:w-10 group-hover:bg-hex-b79f77 transition-all duration-300"></div>
-                </div>
-              </button>
-            </div>
-          </article>
-        </template>
-      </section>
-    </template>
-
-    <Teleport to="body">
-      <Transition :css="false" @enter="onStoryEnter" @leave="onStoryLeave">
-        <StoryModal v-if="showStory" :artifact="activePattern" @close="showStory = false" />
-      </Transition>
-    </Teleport>
+    <!-- 瀑布流网格 -->
+    <div v-if="!loading && filteredPatterns.length" class="masonry-grid" role="list" aria-label="作品展示">
+      <article
+        v-for="(item, index) in filteredPatterns"
+        :key="item.id"
+        class="masonry-item"
+        role="listitem"
+        @click="enterTheaterMode(item)"
+        @keydown.enter="enterTheaterMode(item)"
+        @keydown.space.prevent="enterTheaterMode(item)"
+        tabindex="0"
+        :aria-label="`作品 ${index + 1}：${item.title}`"
+      >
+        <img
+          :src="item.image"
+          :alt="`${item.title} - ${item.desc}`"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="masonry-overlay">
+          <h3>{{ item.title }}</h3>
+          <p class="text-xs mt-1 opacity-80">{{ item.patternCode }}</p>
+        </div>
+      </article>
+    </div>
   </main>
+
+  <!-- 故事弹窗 -->
+  <Teleport to="body">
+    <Transition :css="false" @enter="onStoryEnter" @leave="onStoryLeave">
+      <StoryModal v-if="showStory" :artifact="activePattern" @close="showStory = false" />
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped>
-.collectible-card {
-  /* 比例过渡变量 */
-  --gallery-ratio: 0.4;
-  --transition-ratio: 0.3;
-
-  /* 画廊 (progress=0) → 典藏 (progress=1) 插值 */
-  --progress: clamp(0,
-    ((var(--index) + 1) / var(--total-cards) - var(--gallery-ratio)) / var(--transition-ratio),
-    1);
-
-  --gallery-bg: #FBF9F6;
-  --archive-bg: #F0E8D8;
-  background: color-mix(in oklab,
-    var(--gallery-bg),
-    var(--archive-bg) calc(var(--progress) * 100%));
-
-  --gallery-border: #E3D6C2;
-  --archive-border: #C4A87A;
-  border-color: color-mix(in oklab,
-    var(--gallery-border),
-    var(--archive-border) calc(var(--progress) * 100%));
-
-  box-shadow: 0 2px 8px rgba(154, 132, 98, calc(0.06 + var(--progress) * 0.14));
-  transition: box-shadow 0.3s ease;
+/* 瀑布流布局使用 CSS Grid */
+.masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 7rem 2rem 4rem;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
-.collectible-card:hover {
-  box-shadow: 0 2px 8px rgba(154, 132, 98, calc(0.10 + var(--progress) * 0.20));
-}
-
-/* 响应式过渡比例覆盖 */
-@media (min-width: 768px) {
-  .collectible-card {
-    --gallery-ratio: 0.45;
-    --transition-ratio: 0.25;
-  }
-}
-
-@media (min-width: 1280px) {
-  .collectible-card {
-    --gallery-ratio: 0.5;
-    --transition-ratio: 0.2;
+@media (max-width: 640px) {
+  .masonry-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 5rem 1rem 3rem;
   }
 }
 </style>

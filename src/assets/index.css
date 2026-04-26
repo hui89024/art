@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,11 +10,44 @@
   }
 
   :root {
+    /* 原有品牌色 */
     --jy-color-brand: #B4232A;
     --jy-color-bg: #F7F5F2;
     --jy-color-text: #111214;
     --jy-color-muted: #A3A8AC;
     --jy-color-accent: #C8A86B;
+
+    /* 博物馆沉浸式主题 */
+    --museum-dark: #18181B;
+    --museum-mid: #3F3F46;
+    --museum-light: #FAFAFA;
+    --museum-spotlight: #27272A;
+
+    /* 传统剪纸色 */
+    --paper-red: #DC2626;
+    --paper-red-soft: #EF4444;
+    --accent-pink: #EC4899;
+
+    /* 文字层级 */
+    --text-primary: #09090B;
+    --text-secondary: #71717A;
+    --text-tertiary: #A1A1AA;
+    --text-on-dark: #FAFAFA;
+    --text-on-dark-muted: #D4D4D8;
+
+    /* 边框和分割 */
+    --border-light: #E4E4E7;
+    --border-dark: #52525B;
+
+    /* 动效时长 */
+    --duration-fast: 150ms;
+    --duration-normal: 300ms;
+    --duration-slow: 600ms;
+    --duration-museum: 800ms;
+
+    /* 缓动函数 */
+    --ease-museum: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   body {
@@ -226,6 +261,355 @@
   .section-divider__line::after {
     width: 92px;
     top: -12px;
+  }
+}
+
+/* ========================================
+   博物馆沉浸式展厅样式
+   ======================================== */
+
+/* 沉浸剧场模式 */
+.theater-mode {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--museum-dark);
+  animation: fadeIn var(--duration-museum) var(--ease-museum);
+}
+
+.theater-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, var(--museum-spotlight) 0%, var(--museum-dark) 70%);
+  opacity: 0.6;
+}
+
+.artwork-stage {
+  position: relative;
+  z-index: 10;
+  max-width: 90vw;
+  max-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artwork-image {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  cursor: zoom-in;
+  transition: transform var(--duration-slow) var(--ease-museum);
+}
+
+.artwork-image.zoomed {
+  cursor: zoom-out;
+  transform: scale(1.5);
+}
+
+.theater-controls {
+  position: absolute;
+  bottom: 8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 2rem;
+  background: rgba(24, 24, 27, 0.8);
+  backdrop-filter: blur(12px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-on-dark);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 300;
+}
+
+.theater-controls button {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  color: var(--text-on-dark);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-museum);
+}
+
+.theater-controls button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.info-card {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: rgba(250, 250, 250, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-light);
+  padding: 1.5rem 2rem;
+  transform: translateY(calc(100% - 4rem));
+  transition: transform var(--duration-slow) var(--ease-museum);
+}
+
+.info-card.expanded {
+  transform: translateY(0);
+}
+
+.info-card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.info-card p {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* 横向画廊模式 */
+.gallery-mode {
+  min-height: 100vh;
+  background: var(--museum-dark);
+  padding: 7rem 0 4rem;
+}
+
+.gallery-scroll {
+  display: flex;
+  gap: 2rem;
+  padding: 0 10vw;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.gallery-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.gallery-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.gallery-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.gallery-card {
+  flex: 0 0 70vw;
+  scroll-snap-align: center;
+  background: var(--museum-light);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transition: transform var(--duration-normal) var(--ease-museum);
+  cursor: pointer;
+}
+
+.gallery-card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 60vh;
+  object-fit: cover;
+}
+
+.card-info {
+  padding: 2rem;
+  background: var(--museum-light);
+}
+
+.card-info h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.card-info p {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* 瀑布流探索模式 */
+.masonry-grid {
+  padding: 7rem 2rem 4rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.masonry-sizer,
+.masonry-item {
+  width: calc(33.333% - 1.5rem);
+}
+
+@media (max-width: 1024px) {
+  .masonry-sizer,
+  .masonry-item {
+    width: calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .masonry-sizer,
+  .masonry-item {
+    width: 100%;
+  }
+}
+
+.masonry-item {
+  margin-bottom: 2rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  transition: transform var(--duration-normal) var(--ease-museum);
+}
+
+.masonry-item:hover {
+  transform: translateY(-4px);
+}
+
+.masonry-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform var(--duration-slow) var(--ease-museum);
+}
+
+.masonry-item:hover img {
+  transform: scale(1.05);
+}
+
+.masonry-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  color: white;
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-museum);
+}
+
+.masonry-item:hover .masonry-overlay {
+  opacity: 1;
+}
+
+.masonry-overlay h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* 模式切换器 */
+.mode-switcher {
+  position: fixed;
+  top: 6rem;
+  right: 2rem;
+  z-index: 40;
+  background: rgba(250, 250, 250, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-light);
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.mode-switcher button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-museum);
+  text-align: left;
+}
+
+.mode-switcher button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+.mode-switcher button.active {
+  background: var(--museum-dark);
+  color: var(--text-on-dark);
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+  transition: all var(--duration-museum) var(--ease-museum);
+}
+
+.fade-scale-enter-from {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.fade-scale-leave-to {
+  opacity: 0;
+  transform: scale(1.05);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .theater-controls {
+    bottom: 6rem;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .info-card {
+    padding: 1rem 1.5rem;
+  }
+
+  .gallery-card {
+    flex: 0 0 85vw;
+  }
+
+  .mode-switcher {
+    top: 5rem;
+    right: 1rem;
   }
 }
 

@@ -7,6 +7,26 @@ export default {
   theme: {
     extend: {
       colors: {
+        // 博物馆沉浸式主题
+        'museum-dark': '#18181B',
+        'museum-mid': '#3F3F46',
+        'museum-light': '#FAFAFA',
+        'museum-spotlight': '#27272A',
+        'museum-border': '#52525B',
+
+        // 传统剪纸色
+        'paper-red': '#DC2626',
+        'paper-red-soft': '#EF4444',
+        'accent-pink': '#EC4899',
+
+        // 文字层级
+        'text-primary': '#09090B',
+        'text-secondary': '#71717A',
+        'text-tertiary': '#A1A1AA',
+        'text-on-dark': '#FAFAFA',
+        'text-on-dark-muted': '#D4D4D8',
+
+        // 原有颜色保留
         'paper-light': '#fffdf8',
         'paper-base': '#fcfaf7',
         'paper-muted': '#f3ede1',
@@ -163,7 +183,8 @@ export default {
         'gold-accent': '#C8A86B',
       },
       fontFamily: {
-        sans: ['STKaiti', 'KaiTi', 'STXingkai', 'HanziPen SC', 'Ma Shan Zheng', 'FZKai-Z03', 'Songti SC', 'serif'],
+        sans: ['Noto Sans TC', 'STKaiti', 'KaiTi', 'STXingkai', 'HanziPen SC', 'Ma Shan Zheng', 'FZKai-Z03', 'Songti SC', 'sans-serif'],
+        serif: ['Noto Serif TC', 'STKaiti', 'KaiTi', 'serif'],
         display: ['STXingkai', 'STKaiti', 'KaiTi', 'HanziPen SC', 'serif'],
       },
       spacing: {

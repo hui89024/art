@@ -29,4 +29,17 @@ describe('SectionHero', () => {
     expect(html).toContain('通过数字化展示剪纸文化与创新表达')
     expect(html).toContain('hero-action')
   })
+
+  it('applies built-in layout classes so hero does not collapse into plain text flow', async () => {
+    const app = createSSRApp({
+      render: () => h(SectionHero, { title: '经典展厅' })
+    })
+
+    const html = await renderToString(app)
+
+    expect(html).toContain('max-w-[1600px]')
+    expect(html).toContain('section-hero__title')
+    expect(html).toContain('text-5xl')
+  })
 })
+
