@@ -277,11 +277,24 @@ function onStoryLeave(el, done) {
 <template>
   <main class="pt-28 pb-20 min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans text-hex-6f614d">
     <SectionHero
-      kicker="收藏级作品"
-      title="画廊式浏览"
+      kicker="主题馆藏"
+      title="沉浸展厅"
       subtitle="先看价值，再读细节"
-      description="保持原有数据加载与 fallback 逻辑不变。"
     />
+
+    <!-- 筛选栏 -->
+    <div class="sticky top-28 z-20 w-full bg-[#F7F5F2]/80 backdrop-blur-md border-b border-hex-e7dbc9">
+      <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-3 flex items-center justify-between">
+        <FilterBar
+          :options="themeOptions"
+          :selected="selectedThemes"
+          @update:selected="selectedThemes = $event"
+        />
+        <span class="text-xs text-hex-a08b6d font-medium">
+          共 {{ filteredPatterns.length }} 件作品
+        </span>
+      </div>
+    </div>
 
     <div
       v-if="loading"
@@ -298,85 +311,101 @@ function onStoryLeave(el, done) {
     </div>
 
     <div
-      v-if="!loading && !patterns.length"
+      v-if="!loading && !filteredPatterns.length"
       class="w-full max-w-[1280px] mx-auto z-10 px-6 lg:px-10 py-16 text-sm text-hex-8f7b5f"
     >
-      暂无可展示作品。
+      <template v-if="selectedThemes.length">暂无匹配作品，请尝试其他主题筛选。</template>
+      <template v-else>暂无可展示作品。</template>
     </div>
 
-    <template v-if="!loading && patterns.length">
+    <template v-if="!loading && filteredPatterns.length">
       <section class="max-w-[1280px] mx-auto px-6 lg:px-10 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <article
-          v-for="(item, index) in patterns"
-          :key="item.id"
-          class="flex flex-col border border-hex-e3d6c2 rounded-2xl overflow-hidden last:border-b"
-        >
-      <div
-        :ref="(el) => setLeftRef(el, index)"
-        class="flex-1 flex items-center justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-hex-e3d6c2 relative"
-      >
-        <CollectibleDisplay
-          :image="item.image"
-          :title="item.title"
-          @open-story="openStory(item)"
-        />
-      </div>
-
-      <div
-        :ref="(el) => setRightRef(el, index)"
-        class="flex-1 flex flex-col justify-center p-8 lg:p-20 space-y-10 relative"
-      >
-        <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-hex-f6efe2 border border-hex-e1d2bb text-hex-9a8461 text-xs tracking-widest w-fit uppercase font-bold">
-          <div class="w-2 h-2 rounded-full bg-hex-b89e75 animate-pulse"></div>
-          作品档案
-        </div>
-
-        <h1 class="text-5xl md:text-7xl font-black font-display tracking-tight text-hex-7a6a50 uppercase mb-2">
-          {{ item.title }}
-        </h1>
-
-        <div class="flex flex-wrap items-center gap-4 text-xs font-bold uppercase tracking-widest">
-          <span class="px-4 py-2 rounded-full bg-hex-f7f0e2 border border-hex-d8c7a8 text-hex-917d5d">纯手工雕刻</span>
-          <span class="px-4 py-2 rounded-full bg-hex-fdf8ef border border-hex-dfcfb4 text-hex-9f8d73">非遗传承</span>
-        </div>
-
-        <p class="text-hex-928067 text-sm leading-relaxed mt-8 font-light max-w-md">
-          {{ item.desc }}
-        </p>
-
-        <div class="pt-8 border-t border-hex-e7dbc9 space-y-8 max-w-md">
-          <div class="flex items-start gap-5 group">
-            <div class="w-14 h-14 rounded-2xl bg-hex-f8f2e6 flex items-center justify-center border border-hex-d6c4a3 text-hex-9a8563 group-hover:border-hex-c9b28a transition-all duration-300">
-              <ShieldCheck class="w-6 h-6" />
-            </div>
-            <div class="pt-1">
-              <h4 class="text-hex-7d6c52 font-bold text-sm uppercase tracking-widest mb-1">馆藏级认证</h4>
-              <p class="text-xs text-hex-a29278 font-light">防伪溯源，专属收藏证书</p>
-            </div>
+        <template v-for="entry in displayItems" :key="entry.kind === 'separator' ? 'sep-' + entry.theme : entry.item.id">
+          <!-- 主题分组分隔标题 -->
+          <div
+            v-if="entry.kind === 'separator'"
+            class="col-span-full flex items-center gap-4 py-8"
+          >
+            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-hex-e3d6c2 to-transparent"></div>
+            <span class="text-hex-a08b6d text-xs font-bold tracking-[0.3em] uppercase px-4">
+              —— {{ entry.theme }} ——
+            </span>
+            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-hex-e3d6c2 to-transparent"></div>
           </div>
 
-          <div class="flex items-start gap-5 group">
-            <div class="w-14 h-14 rounded-2xl bg-hex-f8f2e6 flex items-center justify-center border border-hex-d6c4a3 text-hex-9a8563 group-hover:border-hex-c9b28a transition-all duration-300">
-              <Database class="w-6 h-6" />
+          <!-- 作品卡片 -->
+          <article
+            v-else
+            :style="{ '--index': entry.cardIndex, '--total-cards': filteredPatterns.length }"
+            class="collectible-card flex flex-col border border-hex-e3d6c2 rounded-2xl overflow-hidden"
+          >
+            <div
+              :ref="(el) => setLeftRef(el, entry.cardIndex)"
+              class="flex-1 flex items-center justify-center p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-hex-e3d6c2 relative"
+            >
+              <CollectibleDisplay
+                :image="entry.item.image"
+                :title="entry.item.title"
+                @open-story="openStory(entry.item)"
+              />
             </div>
-            <div class="pt-1">
-              <h4 class="text-hex-7d6c52 font-bold text-sm uppercase tracking-widest mb-1">装裱工艺</h4>
-              <p class="text-xs text-hex-a29278 font-light">无酸装裱，防紫外线亚克力镜面</p>
-            </div>
-          </div>
-        </div>
 
-        <button
-          @click="openStory(item)"
-          class="mt-8 px-12 py-5 relative overflow-hidden group w-fit rounded-full border border-hex-d8c7ab hover:border-hex-c9b289 transition-colors duration-500 bg-hex-f7efe0"
-        >
-          <div class="relative z-10 flex items-center gap-4">
-            <span class="text-hex-7f6d52 font-bold tracking-[0.2em] text-xs uppercase group-hover:text-hex-6f5f48 transition-colors">作品详情</span>
-            <div class="w-6 h-[1px] bg-hex-c4b28f group-hover:w-10 group-hover:bg-hex-b79f77 transition-all duration-300"></div>
-          </div>
-        </button>
-      </div>
-    </article>
+            <div
+              :ref="(el) => setRightRef(el, entry.cardIndex)"
+              class="flex-1 flex flex-col justify-center p-8 lg:p-20 space-y-10 relative"
+            >
+              <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-hex-f6efe2 border border-hex-e1d2bb text-hex-9a8461 text-xs tracking-widest w-fit uppercase font-bold">
+                <div class="w-2 h-2 rounded-full bg-hex-b89e75 animate-pulse"></div>
+                作品档案
+              </div>
+
+              <h1 class="text-5xl md:text-7xl font-black font-display tracking-tight text-hex-7a6a50 uppercase mb-2">
+                {{ entry.item.title }}
+              </h1>
+
+              <div class="flex flex-wrap items-center gap-4 text-xs font-bold uppercase tracking-widest">
+                <span class="px-4 py-2 rounded-full bg-hex-f7f0e2 border border-hex-d8c7a8 text-hex-917d5d">纯手工雕刻</span>
+                <span class="px-4 py-2 rounded-full bg-hex-fdf8ef border border-hex-dfcfb4 text-hex-9f8d73">非遗传承</span>
+              </div>
+
+              <p class="text-hex-928067 text-sm leading-relaxed mt-8 font-light max-w-md">
+                {{ entry.item.desc }}
+              </p>
+
+              <div class="pt-8 border-t border-hex-e7dbc9 space-y-8 max-w-md">
+                <div class="flex items-start gap-5 group">
+                  <div class="w-14 h-14 rounded-2xl bg-hex-f8f2e6 flex items-center justify-center border border-hex-d6c4a3 text-hex-9a8563 group-hover:border-hex-c9b28a transition-all duration-300">
+                    <ShieldCheck class="w-6 h-6" />
+                  </div>
+                  <div class="pt-1">
+                    <h4 class="text-hex-7d6c52 font-bold text-sm uppercase tracking-widest mb-1">馆藏级认证</h4>
+                    <p class="text-xs text-hex-a29278 font-light">防伪溯源，专属收藏证书</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-5 group">
+                  <div class="w-14 h-14 rounded-2xl bg-hex-f8f2e6 flex items-center justify-center border border-hex-d6c4a3 text-hex-9a8563 group-hover:border-hex-c9b28a transition-all duration-300">
+                    <Database class="w-6 h-6" />
+                  </div>
+                  <div class="pt-1">
+                    <h4 class="text-hex-7d6c52 font-bold text-sm uppercase tracking-widest mb-1">装裱工艺</h4>
+                    <p class="text-xs text-hex-a29278 font-light">无酸装裱，防紫外线亚克力镜面</p>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                @click="openStory(entry.item)"
+                class="mt-8 px-12 py-5 relative overflow-hidden group w-fit rounded-full border border-hex-d8c7ab hover:border-hex-c9b289 transition-colors duration-500 bg-hex-f7efe0"
+              >
+                <div class="relative z-10 flex items-center gap-4">
+                  <span class="text-hex-7f6d52 font-bold tracking-[0.2em] text-xs uppercase group-hover:text-hex-6f5f48 transition-colors">作品详情</span>
+                  <div class="w-6 h-[1px] bg-hex-c4b28f group-hover:w-10 group-hover:bg-hex-b79f77 transition-all duration-300"></div>
+                </div>
+              </button>
+            </div>
+          </article>
+        </template>
       </section>
     </template>
 
