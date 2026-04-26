@@ -12,6 +12,7 @@ const showLogin = ref(false)
 const auth = ref({ token: '', username: '' })
 const isScrolled = ref(false)
 const navLinksRef = ref(null)
+const mobileMenuOpen = ref(false)
 const { staggerIn } = useAnimate()
 
 const isDarkTheme = computed(() => isScrolled.value || route.path !== '/')
@@ -31,10 +32,8 @@ const handleScroll = () => {
 onMounted(async () => {
   updateAuth()
   window.addEventListener('scroll', handleScroll)
-  // 导航链接入场动画（等首帧绘制完成，且仅在桌面端容器可见时触发）
   await nextTick()
   if (navLinksRef.value && navLinksRef.value.offsetParent !== null) {
-    // 预置初始透明，避免 FOAC（先可见后跳变）
     Array.from(navLinksRef.value.children).forEach(el => {
       el.style.opacity = '0'
     })
@@ -83,81 +82,139 @@ function onModalLeave(el, done) {
 </script>
 
 <template>
-  <nav :class="[
-    'fixed top-0 w-full z-50 px-8 transition-all duration-300 border-b',
-    isScrolled ? 'py-4 shadow-[0_2px_10px_rgba(0,0,0,0.03)]' : 'py-6',
-    isDarkTheme ? 'bg-paper-warm/95 border-paper-dark/70 backdrop-blur-md' : 'bg-transparent border-transparent'
-  ]">
-    <div class="max-w-[1600px] mx-auto flex items-center justify-between">
-      <!-- Logo -->
-      <RouterLink to="/" class="flex items-center gap-3 group">
+  <nav
+    :class="[
+      'fixed inset-x-0 top-0 z-50 transition-all duration-300',
+      isScrolled
+        ? 'bg-porcelain-white/90 backdrop-blur-xl border-b border-ink-black/8'
+        : 'bg-transparent'
+    ]"
+  >
+    <div class="max-w-[1440px] mx-auto h-18 px-6 lg:px-10 flex items-center justify-between">
+      <!-- 左：品牌 -->
+      <RouterLink to="/" class="flex items-center gap-3 group shrink-0">
         <img src="@/assets/配色版矢量（标准）.svg" alt="剪艺标志" class="w-8 h-8 object-contain transition-transform duration-500 group-hover:rotate-[15deg]">
-        <span :class="['text-xl font-medium tracking-[0.3em] transition-colors duration-300', isDarkTheme ? 'text-ink-base' : 'text-white']">剪艺</span>
+        <span
+          :class="[
+            'text-xl font-medium tracking-[0.3em] transition-colors duration-300',
+            isScrolled ? 'text-ink-black' : 'text-white'
+          ]"
+        >剪艺</span>
       </RouterLink>
 
-      <!-- Center Links -->
+      <!-- 中：主导航（桌面端） -->
       <div
         ref="navLinksRef"
-        :class="['hidden lg:flex items-center space-x-10 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-300', isDarkTheme ? 'text-bamboo-muted' : 'text-white/90']"
+        :class="[
+          'hidden lg:flex items-center space-x-10 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-300',
+          isScrolled ? 'text-jade-gray' : 'text-white/90'
+        ]"
       >
         <div class="relative group">
-          <RouterLink to="/" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+          <RouterLink to="/" :class="['relative py-2 transition-colors', isScrolled ? 'hover:text-ink-black' : 'hover:text-white']" :active-class="isScrolled ? 'text-ink-black' : 'text-white'">
             首页
             <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
           </RouterLink>
         </div>
 
-
         <div class="relative group">
-          <RouterLink to="/collectibles" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+          <RouterLink to="/collectibles" :class="['relative py-2 transition-colors', isScrolled ? 'hover:text-ink-black' : 'hover:text-white']" :active-class="isScrolled ? 'text-ink-black' : 'text-white'">
             经典展厅
             <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
           </RouterLink>
         </div>
 
         <div class="relative group">
-          <RouterLink to="/events" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+          <RouterLink to="/events" :class="['relative py-2 transition-colors', isScrolled ? 'hover:text-ink-black' : 'hover:text-white']" :active-class="isScrolled ? 'text-ink-black' : 'text-white'">
             特色活动
             <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
           </RouterLink>
         </div>
 
         <div class="relative group">
-          <RouterLink to="/app" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+          <RouterLink to="/app" :class="['relative py-2 transition-colors', isScrolled ? 'hover:text-ink-black' : 'hover:text-white']" :active-class="isScrolled ? 'text-ink-black' : 'text-white'">
             剪艺APP
             <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
           </RouterLink>
         </div>
 
         <div v-if="auth.token" class="relative group">
-          <RouterLink to="/pattern-library" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+          <RouterLink to="/pattern-library" :class="['relative py-2 transition-colors', isScrolled ? 'hover:text-ink-black' : 'hover:text-white']" :active-class="isScrolled ? 'text-ink-black' : 'text-white'">
             在线纹样库
             <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
           </RouterLink>
         </div>
 
         <div class="relative group">
-          <RouterLink to="/contact" :class="['relative py-2 transition-colors', isDarkTheme ? 'hover:text-ink-base' : 'hover:text-white']" :active-class="isDarkTheme ? 'text-bamboo-accent' : 'text-white'">
+          <RouterLink to="/contact" :class="['relative py-2 transition-colors', isScrolled ? 'hover:text-ink-black' : 'hover:text-white']" :active-class="isScrolled ? 'text-ink-black' : 'text-white'">
             联系我们
             <span class="absolute left-0 bottom-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
           </RouterLink>
         </div>
       </div>
 
-      <!-- Right Actions -->
+      <!-- 右：登录态动作 -->
       <div class="flex items-center gap-6">
         <template v-if="auth.token">
-          <button @click="handleLogout" :class="['text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-300', isDarkTheme ? 'text-bamboo-muted hover:text-ink-base' : 'text-white/90 hover:text-white']">
+          <span class="hidden sm:inline text-sm text-jade-gray font-medium tracking-[0.05em]">
+            {{ auth.username }}
+          </span>
+          <button
+            @click="handleLogout"
+            :class="[
+              'text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-300',
+              isScrolled ? 'text-jade-gray hover:text-brand-red' : 'text-white/80 hover:text-white'
+            ]"
+          >
             登出
           </button>
         </template>
         <template v-else>
-          <button @click="showLogin = true" class="bg-bamboo-light text-ink-contrast px-6 py-3 rounded-[2px] text-sm font-bold uppercase tracking-[0.15em] hover:bg-bamboo-accent transition-colors">
+          <button
+            @click="showLogin = true"
+            class="bg-ink-black text-white px-6 py-3 rounded-[2px] text-sm font-bold uppercase tracking-[0.15em] hover:bg-ink-black/80 transition-colors"
+          >
             立即探索
           </button>
         </template>
+
+        <!-- 移动端菜单按钮 -->
+        <button
+          class="lg:hidden flex flex-col gap-1.5 p-2"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+          :class="isScrolled ? 'text-ink-black' : 'text-white'"
+          aria-label="菜单"
+        >
+          <span class="block w-5 h-[2px] bg-current transition-all duration-300" :class="mobileMenuOpen ? 'rotate-45 translate-y-[4px]' : ''"></span>
+          <span class="block w-5 h-[2px] bg-current transition-all duration-300" :class="mobileMenuOpen ? 'opacity-0' : ''"></span>
+          <span class="block w-5 h-[2px] bg-current transition-all duration-300" :class="mobileMenuOpen ? '-rotate-45 -translate-y-[4px]' : ''"></span>
+        </button>
       </div>
     </div>
+
+    <!-- 移动端菜单面板 -->
+    <Transition
+      enter-active-class="transition-all duration-300 ease-out"
+      enter-from-class="opacity-0 max-h-0"
+      enter-to-class="opacity-100 max-h-[600px]"
+      leave-active-class="transition-all duration-200 ease-in"
+      leave-from-class="opacity-100 max-h-[600px]"
+      leave-to-class="opacity-0 max-h-0"
+    >
+      <div
+        v-if="mobileMenuOpen"
+        class="lg:hidden overflow-hidden bg-porcelain-white/95 backdrop-blur-xl border-b border-ink-black/8"
+      >
+        <div class="px-6 py-6 flex flex-col gap-4">
+          <RouterLink to="/" class="text-sm uppercase tracking-[0.2em] font-bold text-ink-black py-2" @click="mobileMenuOpen = false">首页</RouterLink>
+          <RouterLink to="/collectibles" class="text-sm uppercase tracking-[0.2em] font-bold text-jade-gray py-2" @click="mobileMenuOpen = false">经典展厅</RouterLink>
+          <RouterLink to="/events" class="text-sm uppercase tracking-[0.2em] font-bold text-jade-gray py-2" @click="mobileMenuOpen = false">特色活动</RouterLink>
+          <RouterLink to="/app" class="text-sm uppercase tracking-[0.2em] font-bold text-jade-gray py-2" @click="mobileMenuOpen = false">剪艺APP</RouterLink>
+          <RouterLink v-if="auth.token" to="/pattern-library" class="text-sm uppercase tracking-[0.2em] font-bold text-jade-gray py-2" @click="mobileMenuOpen = false">在线纹样库</RouterLink>
+          <RouterLink to="/contact" class="text-sm uppercase tracking-[0.2em] font-bold text-jade-gray py-2" @click="mobileMenuOpen = false">联系我们</RouterLink>
+        </div>
+      </div>
+    </Transition>
   </nav>
 
   <Teleport to="body">

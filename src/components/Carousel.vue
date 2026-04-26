@@ -26,47 +26,58 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="relative h-screen flex items-center justify-center overflow-hidden bg-transparent">
-    <div class="absolute inset-0 z-0">
-      <!-- Hero background image -->
-      <img :src="heroBg" 
-           class="w-full h-full object-cover brightness-[0.6] parallax-bg" alt="首屏背景图"
-           :style="{ transform: `translateY(${scrollY * 0.4}px)` }">
-      <!-- Gradient overlay to blend with black background at the bottom -->
-      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-ink-base/20 to-forest-overlay/45"></div>
-    </div>
-    
-    <div class="relative z-10 text-center w-full px-6 flex flex-col items-center mt-20">
-      <p class="text-bamboo-light text-[12px] uppercase tracking-[0.4em] font-bold mb-6 transition-all duration-1000 ease-out"
-         :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
-        剪纸工艺 — 始于 2026
+  <section class="relative h-[100svh] min-h-[720px] overflow-hidden">
+    <img
+      :src="heroBg"
+      class="absolute inset-0 w-full h-full object-cover"
+      alt=""
+      :style="{ transform: `translateY(${scrollY * 0.4}px)` }"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/35 to-black/55" />
+    <div class="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-10 pt-36">
+      <p
+        class="text-xs tracking-[0.3em] uppercase text-white/70 transition-all duration-1000 ease-out"
+        :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
+      >
+        剪艺 · 非遗数字化
       </p>
-      
-      <h1 class="text-[6rem] sm:text-[8rem] md:text-[12rem] leading-none font-sans font-medium text-mist-light tracking-tight transition-all duration-1000 ease-out delay-100"
-          :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'">
-        剪艺
+      <h1
+        class="mt-4 text-white text-6xl md:text-7xl lg:text-8xl tracking-tight transition-all duration-1000 ease-out delay-100"
+        :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'"
+      >
+        第一眼就惊艳
       </h1>
-      
-      <p class="mt-6 md:mt-10 text-sm md:text-base text-white/90 font-medium tracking-[0.1em] transition-opacity duration-1500 delay-500"
-         :class="isVisible ? 'opacity-100' : 'opacity-0'">
-        以刀为笔，以纸为魂。千年非遗，焕发新生。
+      <p
+        class="mt-6 max-w-xl text-white/80 text-sm md:text-base leading-relaxed transition-opacity duration-1000 delay-200"
+        :class="isVisible ? 'opacity-100' : 'opacity-0'"
+      >
+        以现代视觉重构传统剪纸表达。
       </p>
-      
-      <div class="mt-12 flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 transition-opacity duration-1000 delay-700"
-           :class="isVisible ? 'opacity-100' : 'opacity-0'">
-        <button @click="router.push('/collectibles')" class="bg-bamboo-light text-ink-contrast px-10 py-4 rounded-[2px] text-[13px] font-bold uppercase tracking-[0.15em] hover:bg-bamboo-accent transition-all">
+      <div
+        class="mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 transition-all duration-1000 delay-300"
+        :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
+      >
+        <button
+          @click="router.push('/collectibles')"
+          class="bg-white text-ink-black px-10 py-4 rounded-[2px] text-[13px] font-bold uppercase tracking-[0.15em] hover:bg-white/90 transition-all"
+        >
           探索作品
         </button>
-        <button @click="router.push('/#technology')" class="border border-bamboo-light/30 text-bamboo-light bg-transparent backdrop-blur-sm px-10 py-4 rounded-[2px] text-[13px] font-bold uppercase tracking-[0.15em] hover:bg-bamboo-light/10 transition-all">
+        <button
+          @click="router.push('/#technology')"
+          class="border border-white/30 text-white bg-transparent backdrop-blur-sm px-10 py-4 rounded-[2px] text-[13px] font-bold uppercase tracking-[0.15em] hover:bg-white/10 transition-all"
+        >
           我们的故事
         </button>
       </div>
     </div>
 
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-1000 delay-1000"
-         :class="isVisible ? 'opacity-100' : 'opacity-0'">
-      <span class="text-[13px] uppercase tracking-[0.3em] text-sage-base font-bold">向下滑动</span>
-      <ChevronDown class="text-sage-base w-4 h-4 animate-bounce" />
+    <div
+      class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-1000 delay-1000"
+      :class="isVisible ? 'opacity-100' : 'opacity-0'"
+    >
+      <span class="text-[13px] uppercase tracking-[0.3em] text-white/50 font-bold">向下滑动</span>
+      <ChevronDown class="text-white/50 w-4 h-4 animate-bounce" />
     </div>
   </section>
 </template>
