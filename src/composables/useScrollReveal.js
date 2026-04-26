@@ -1,6 +1,7 @@
 import { onUnmounted } from 'vue'
 import { animate, stagger } from 'animejs'
 import { EASING, DURATION, STAGGER_DELAY } from './anime.config.js'
+import { prefersReducedMotion, resolveDuration } from './motion.js'
 
 /**
  * useScrollReveal — 滚动触发入场动画
@@ -56,21 +57,22 @@ export function useScrollReveal() {
   function runAnimation(el, opts) {
     const effect = opts.effect ?? 'slideUp'
     const translateY = opts.translateY ?? 80
+    const reducedMotion = prefersReducedMotion()
 
     if (effect === 'stagger') {
       animate(el.children, {
         opacity: [0, 1],
         translateY: [translateY, 0],
-        duration: opts.duration ?? DURATION.base,
+        duration: resolveDuration(opts.duration ?? DURATION.base),
         ease: opts.ease ?? EASING,
-        delay: stagger(opts.delay ?? STAGGER_DELAY)
+        delay: reducedMotion ? 0 : stagger(opts.delay ?? STAGGER_DELAY)
       })
       return
     }
 
     const props = {
       opacity: [0, 1],
-      duration: opts.duration ?? DURATION.base,
+      duration: resolveDuration(opts.duration ?? DURATION.base),
       ease: opts.ease ?? EASING
     }
 
