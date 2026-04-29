@@ -141,7 +141,7 @@
     <ChineseDivider />
 
     <!-- Footer CTA -->
-    <footer ref="ctaSection" class="relative pt-32 pb-16 px-6 lg:px-12 bg-gray-950 overflow-hidden">
+    <footer ref="ctaSection" class="relative pt-20 md:pt-28 lg:pt-32 pb-12 md:pb-16 px-5 md:px-8 lg:px-12 bg-gray-950 overflow-hidden">
 
       <!-- 云纹暗纹背景 -->
       <div class="absolute inset-0 opacity-[0.03]" aria-hidden="true">
@@ -163,13 +163,13 @@
 
         <!-- CTA区域 -->
         <div class="flex flex-col items-center text-center
-                    border-b border-amber-500/20 pb-20 mb-20">
+                    border-b border-amber-500/20 pb-12 md:pb-16 lg:pb-20 mb-12 md:mb-16 lg:mb-20">
 
           <!-- Kicker 标签 -->
           <div ref="ctaKicker"
-               class="text-amber-400 text-sm font-bold tracking-[0.4em]
-                      px-6 py-2 border border-amber-500/30 bg-amber-500/5
-                      inline-block mb-8">
+               class="text-amber-400 text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.4em]
+                      px-4 md:px-6 py-1.5 md:py-2 border border-amber-500/30 bg-amber-500/5
+                      inline-block mb-6 md:mb-8">
             准备好开启创作了吗
           </div>
 
@@ -182,15 +182,15 @@
           </h2>
 
           <!-- 品牌理念 -->
-          <div ref="ctaManifesto" class="mt-12 max-w-2xl flex items-start gap-4">
-            <span class="text-amber-500/60 text-4xl font-serif leading-none select-none">"</span>
-            <p class="text-gray-400 text-base md:text-lg font-light leading-relaxed">
+          <div ref="ctaManifesto" class="mt-8 md:mt-12 max-w-2xl flex items-start gap-3 md:gap-4">
+            <span class="text-amber-500/60 text-3xl md:text-4xl font-serif leading-none select-none shrink-0">"</span>
+            <p class="text-gray-400 text-sm md:text-base lg:text-lg font-light leading-relaxed">
               我们不只是裁刻纸张，我们在方寸之间，雕琢大千世界。
             </p>
           </div>
 
           <!-- CTA 按钮 -->
-          <div ref="ctaButton" class="mt-10 w-full md:w-auto">
+          <div ref="ctaButton" class="mt-8 md:mt-10 w-full md:w-auto">
             <button type="button" @click="router.push('/collectibles')"
                     class="cta-button group relative w-full md:w-auto px-10 py-5
                            bg-gradient-to-r from-amber-500 to-yellow-500
@@ -212,52 +212,52 @@
 
         <!-- 装饰细线 -->
         <div ref="ctaDivider"
-             class="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent mb-16"
+             class="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent mb-10 md:mb-16"
              aria-hidden="true">
         </div>
 
         <!-- Footer链接 -->
-        <div class="flex flex-col lg:flex-row justify-between items-start gap-16 mb-20">
+        <div class="flex flex-col lg:flex-row justify-between items-start gap-10 md:gap-14 lg:gap-16 mb-12 md:mb-16 lg:mb-20">
           <!-- 品牌信息 -->
           <div class="max-w-sm">
             <div class="flex items-center gap-4 mb-8">
               <img src="@/assets/配色版矢量（标准）.svg" alt="剪艺标志" class="w-10 h-10 object-contain">
-              <h3 class="font-display text-3xl font-bold text-white tracking-[0.3em]">剪艺</h3>
+              <h3 class="font-display text-2xl md:text-3xl font-bold text-white tracking-[0.3em]">剪艺</h3>
             </div>
             <p class="text-gray-400 text-base leading-relaxed mb-10">
               致力于传承与创新中国传统剪纸艺术，让非遗之美走进现代生活。匠心独运，纸上生花。
             </p>
             <!-- 社交媒体 -->
-            <div class="flex gap-4">
-              <div class="w-14 h-14 border border-gray-700 rounded-full
+            <div class="flex gap-3 md:gap-4">
+              <div class="w-11 h-11 md:w-14 md:h-14 border border-gray-700 rounded-full
                           flex items-center justify-center hover:border-amber-500
                           cursor-pointer transition-all duration-300
-                          text-gray-400 hover:text-amber-400 text-xs font-bold hover:scale-110">
+                          text-gray-400 hover:text-amber-400 text-[10px] md:text-xs font-bold hover:scale-110">
                 微信
               </div>
-              <div class="w-14 h-14 border border-gray-700 rounded-full
+              <div class="w-11 h-11 md:w-14 md:h-14 border border-gray-700 rounded-full
                           flex items-center justify-center hover:border-amber-500
                           cursor-pointer transition-all duration-300
-                          text-gray-400 hover:text-amber-400 text-xs font-bold hover:scale-110">
+                          text-gray-400 hover:text-amber-400 text-[10px] md:text-xs font-bold hover:scale-110">
                 微博
               </div>
-              <div class="w-14 h-14 border border-gray-700 rounded-full
+              <div class="w-11 h-11 md:w-14 md:h-14 border border-gray-700 rounded-full
                           flex items-center justify-center hover:border-amber-500
                           cursor-pointer transition-all duration-300
-                          text-gray-400 hover:text-amber-400 text-xs font-bold hover:scale-110">
+                          text-gray-400 hover:text-amber-400 text-[10px] md:text-xs font-bold hover:scale-110">
                 小红书
               </div>
             </div>
           </div>
 
           <!-- 链接列表 -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-12 flex-1">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 lg:gap-12 flex-1">
             <div>
               <h4 class="text-amber-400 text-xs font-bold uppercase tracking-[0.3em] mb-6
                          border-b border-amber-500/30 pb-2">
                 剪纸作品
               </h4>
-              <ul class="space-y-4 text-sm text-gray-500">
+              <ul class="space-y-2.5 md:space-y-4 text-xs md:text-sm text-gray-500">
                 <li><a href="#" class="hover:text-amber-400 transition-colors">传统窗花</a></li>
                 <li><a href="#" class="hover:text-amber-400 transition-colors">现代纸雕</a></li>
                 <li><a href="#" class="hover:text-amber-400 transition-colors">定制肖像</a></li>
@@ -269,7 +269,7 @@
                          border-b border-amber-500/30 pb-2">
                 工艺技法
               </h4>
-              <ul class="space-y-4 text-sm text-gray-500">
+              <ul class="space-y-2.5 md:space-y-4 text-xs md:text-sm text-gray-500">
                 <li><a href="#" class="hover:text-amber-400 transition-colors">单色剪纸</a></li>
                 <li><a href="#" class="hover:text-amber-400 transition-colors">套色剪纸</a></li>
                 <li><a href="#" class="hover:text-amber-400 transition-colors">多层纸雕</a></li>
@@ -281,7 +281,7 @@
                          border-b border-amber-500/30 pb-2">
                 关于企业
               </h4>
-              <ul class="space-y-4 text-sm text-gray-500">
+              <ul class="space-y-2.5 md:space-y-4 text-xs md:text-sm text-gray-500">
                 <li><a href="#" class="hover:text-amber-400 transition-colors">关于剪艺</a></li>
                 <li><a href="#" class="hover:text-amber-400 transition-colors">设计实验室</a></li>
                 <li><a href="#" class="hover:text-amber-400 transition-colors">可持续发展</a></li>
@@ -293,7 +293,7 @@
                          border-b border-amber-500/30 pb-2">
                 用户支持
               </h4>
-              <ul class="space-y-4 text-sm text-gray-500">
+              <ul class="space-y-2.5 md:space-y-4 text-xs md:text-sm text-gray-500">
                 <li><a href="#" class="hover:text-amber-400 transition-colors">联系我们</a></li>
               </ul>
             </div>
@@ -301,11 +301,11 @@
         </div>
 
         <!-- Copyright -->
-        <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row
-                    justify-between items-center text-xs text-gray-600
-                    font-bold uppercase tracking-[0.3em] gap-4">
+        <div class="border-t border-gray-800 pt-6 md:pt-8 flex flex-col md:flex-row
+                    justify-between items-center text-[10px] md:text-xs text-gray-600
+                    font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] gap-3 md:gap-4">
           <p>© 2026 剪艺数字艺术有限公司</p>
-          <div class="flex gap-8">
+          <div class="flex gap-6 md:gap-8">
             <a href="#" class="hover:text-amber-400 transition-colors">隐私政策</a>
             <a href="#" class="hover:text-amber-400 transition-colors">服务条款</a>
           </div>
