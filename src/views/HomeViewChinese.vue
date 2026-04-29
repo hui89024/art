@@ -65,20 +65,16 @@
     <ChineseDivider />
 
     <!-- 数字生态区 -->
-    <section class="relative py-32 px-6 lg:px-12 bg-white overflow-hidden">
-      <!-- 背景装饰 -->
-      <div class="absolute top-0 right-0 w-[600px] h-[600px] opacity-10">
-        <img src="/src/assets/窗花019.png" class="w-full h-full object-contain animate-spin-very-slow" alt="">
-      </div>
-      <div class="absolute bottom-0 left-0 w-[500px] h-[500px] opacity-10">
-        <img src="/src/assets/窗花017.png" class="w-full h-full object-contain animate-spin-very-slow" style="animation-direction: reverse;" alt="">
-      </div>
+    <section class="relative py-20 md:py-28 lg:py-32 px-5 md:px-8 lg:px-12 bg-white overflow-hidden">
+      <!-- 极简光晕装饰 -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-red-200/20 rounded-full blur-3xl" aria-hidden="true"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-amber-200/20 rounded-full blur-3xl" aria-hidden="true"></div>
 
       <div class="relative max-w-[1600px] mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 lg:gap-20 items-center">
 
-          <!-- 左侧：应用简介 -->
-          <div class="space-y-16">
+          <!-- 左侧：应用介绍 + 电脑模型 -->
+          <div class="space-y-8 md:space-y-10">
             <ChineseSectionHeader
               kicker="剪艺应用"
               title="非遗艺术，在指尖交互中重生。"
@@ -86,45 +82,30 @@
             />
 
             <!-- 电脑模型 -->
-            <div class="relative flex justify-center p-10 bg-gradient-to-br from-red-50 to-amber-50 rounded-3xl
-                        border-4 border-red-200 shadow-2xl shadow-red-200/50">
-              <div class="absolute inset-0 bg-gradient-to-br from-red-200/20 to-amber-200/20 blur-2xl rounded-3xl"></div>
+            <div class="relative flex justify-center items-center p-6 md:p-8
+                        bg-white rounded-2xl border border-gray-100
+                        shadow-xl shadow-gray-200/60
+                        hover:shadow-2xl hover:-translate-y-1 transition-all duration-500">
               <LaptopAnimation class="relative z-10" />
             </div>
           </div>
 
-          <!-- 右侧：手机模型 + 纹样库 -->
-          <div class="space-y-16">
+          <!-- 右侧：手机模型 + 纹样库介绍 -->
+          <div class="space-y-8 md:space-y-10">
             <!-- 手机模型 -->
-            <div class="relative flex justify-center p-10 bg-gradient-to-br from-amber-50 to-red-50 rounded-3xl
-                        border-4 border-amber-200 shadow-2xl shadow-amber-200/50">
-              <div class="absolute inset-0 bg-gradient-to-br from-amber-200/20 to-red-200/20 blur-2xl rounded-3xl"></div>
-              <PhoneAnimation class="relative z-10 scale-110" />
+            <div class="relative flex justify-center items-center p-6 md:p-8
+                        bg-white rounded-2xl border border-gray-100
+                        shadow-xl shadow-gray-200/60
+                        hover:shadow-2xl hover:-translate-y-1 transition-all duration-500">
+              <PhoneAnimation class="relative z-10" />
             </div>
 
-            <!-- 纹样库简介 -->
-            <div class="pt-12 border-t-4 border-red-200">
-              <ChineseSectionHeader
-                kicker="剪艺纹样库"
-                title="数字化传承的基因库。"
-                subtitle="我们深度提取了上千种传统剪纸纹样，进行数字化修复与矢量化建模。"
-              />
-
-              <!-- 纹样图标展示 -->
-              <div class="flex gap-6 justify-center">
-                <div v-for="i in 3" :key="i"
-                     class="group w-20 h-20 rounded-xl bg-gradient-to-br from-red-50 to-amber-50
-                            border-3 border-red-300 hover:border-red-600
-                            shadow-lg shadow-red-200/50 hover:shadow-xl hover:shadow-red-300/50
-                            flex items-center justify-center p-4
-                            transition-all duration-300 hover:scale-125 hover:-translate-y-2 cursor-pointer">
-                  <img :src="`/src/assets/窗花${String(16 + i).padStart(3, '0')}.png`"
-                       class="w-full h-full object-contain opacity-70 group-hover:opacity-100
-                              group-hover:rotate-12 transition-all"
-                       alt="纹样图标">
-                </div>
-              </div>
-            </div>
+            <!-- 纹样库介绍 -->
+            <ChineseSectionHeader
+              kicker="剪艺纹样库"
+              title="数字化传承的基因库。"
+              subtitle="我们深度提取了上千种传统剪纸纹样，进行数字化修复与矢量化建模。"
+            />
           </div>
 
         </div>
