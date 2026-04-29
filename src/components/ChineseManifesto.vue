@@ -108,18 +108,15 @@
              :style="{ '--seal-delay': `${7 + index}` }"
              role="listitem">
           <div class="seal-group relative cursor-default">
-            <!-- 印章外框 -->
+            <!-- 印章外框 - 圆形 -->
             <div class="seal-frame w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24
-                        border-2 border-manifesto-seal rotate-45">
-              <div class="absolute inset-1.5 md:inset-2 border border-manifesto-seal-inner"></div>
-            </div>
-            <!-- 印章文字 -->
-            <div class="absolute inset-0 flex items-center justify-center">
+                        rounded-full border-[1.5px] border-manifesto-seal flex items-center justify-center">
+              <!-- 印章文字 -->
               <span class="font-serif text-manifesto-seal-text text-lg md:text-xl lg:text-2xl font-bold">
                 {{ seal.char }}
               </span>
             </div>
-            <!-- 印章说明 - 始终可见，不仅限于 hover -->
+            <!-- 印章说明 -->
             <div class="mt-3 md:mt-4 text-center">
               <span class="text-manifesto-label text-xs tracking-widest">
                 {{ seal.label }}
@@ -179,10 +176,10 @@ const sectionRef = ref(null)
 const isVisible = ref(false)
 
 const seals = [
+  { char: '剪', label: '剪影' },
+  { char: '纸', label: '纸韵' },
   { char: '匠', label: '匠心' },
-  { char: '心', label: '用心' },
-  { char: '独', label: '独创' },
-  { char: '运', label: '运筹' }
+  { char: '心', label: '心意' }
 ]
 
 let observer = null
@@ -344,7 +341,7 @@ onUnmounted(() => {
   transform: translateY(0);
 }
 
-/* ===== 印章交互 - 移动端友好 ===== */
+/* ===== 印章交互 - 圆形篆刻图标 ===== */
 .seal-frame {
   transition: border-color 250ms ease-out, transform 250ms ease-out;
 }
@@ -352,7 +349,7 @@ onUnmounted(() => {
 .seal-group:hover .seal-frame,
 .seal-group:focus-within .seal-frame {
   border-color: #A0522D;
-  transform: rotate(45deg) scale(1.08);
+  transform: scale(1.05);
 }
 
 .seal-group .font-serif {
@@ -361,7 +358,7 @@ onUnmounted(() => {
 
 .seal-group:hover .font-serif,
 .seal-group:focus-within .font-serif {
-  color: #8B4513;
+  color: #A0522D;
 }
 
 /* ===== 滚动指示器 ===== */
