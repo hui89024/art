@@ -58,14 +58,14 @@
         <h2 class="manifesto-slide-up delay-2"
             :class="{ 'is-visible': isVisible }">
           <span class="block manifesto-heading-text text-manifesto-primary">
-            纸，是时间的皮肤。
+            纸，是时光的信笺。
           </span>
         </h2>
 
         <h3 class="manifesto-slide-up delay-3"
             :class="{ 'is-visible': isVisible }">
           <span class="block manifesto-heading-text text-manifesto-primary">
-            刀，是记忆的笔。
+            刀，是心意的画笔。
           </span>
         </h3>
 
@@ -75,7 +75,7 @@
             每一次裁剪，
           </span>
           <span class="block manifesto-heading-text manifesto-gradient-text">
-            都是与虚空的对话。
+            都是与美好的相遇。
           </span>
         </h3>
       </div>
@@ -93,8 +93,9 @@
       <p class="text-manifesto-secondary text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto
                 mb-12 md:mb-20 manifesto-slide-up delay-6"
          :class="{ 'is-visible': isVisible }">
-        我们不只是裁刻纸张。我们在方寸之间，雕琢大千世界。
-        每一道镂空，都是光与影的约定；每一处留白，都是有与无的和解。
+        在剪艺的世界里，一把剪刀，一张红纸，便能剪出四季的风景、千年的祝福。
+        我们相信，传统不是尘封的记忆，而是流淌在指尖的温度。
+        每一刀落下，都是匠心与时光的对话；每一幅窗花，都是送给生活的礼物。
       </p>
 
       <!-- 印章组 -->
