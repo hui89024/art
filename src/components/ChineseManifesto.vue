@@ -9,7 +9,7 @@
     <div class="absolute inset-0 bg-manifesto-bg"></div>
 
     <!-- 宣纸纹理层 -->
-    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
+    <div class="absolute inset-0 opacity-[0.05] pointer-events-none"
          style="background-image: url('/src/assets/窗花018.png'); background-size: 300px; background-repeat: repeat;">
     </div>
 
@@ -29,12 +29,12 @@
                 manifesto-fade-in"
          :class="{ 'is-visible': isVisible }"
          aria-hidden="true">
-      <svg class="w-12 md:w-16 h-6 md:h-8 text-manifesto-accent/40" viewBox="0 0 64 32" fill="none">
+      <svg class="w-12 md:w-16 h-6 md:h-8 text-manifesto-accent/15" viewBox="0 0 64 32" fill="none">
         <path d="M2 16C2 16 8 8 16 8C24 8 28 16 32 16C36 16 40 8 48 8C56 8 62 16 62 16"
               stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
       <div class="w-1.5 h-1.5 bg-manifesto-accent/60 rotate-45"></div>
-      <svg class="w-12 md:w-16 h-6 md:h-8 text-manifesto-accent/40 scale-x-[-1]" viewBox="0 0 64 32" fill="none">
+      <svg class="w-12 md:w-16 h-6 md:h-8 text-manifesto-accent/15 scale-x-[-1]" viewBox="0 0 64 32" fill="none">
         <path d="M2 16C2 16 8 8 16 8C24 8 28 16 32 16C36 16 40 8 48 8C56 8 62 16 62 16"
               stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
@@ -149,12 +149,12 @@
                 manifesto-fade-in delay-12"
          :class="{ 'is-visible': isVisible }"
          aria-hidden="true">
-      <svg class="w-12 md:w-16 h-6 md:h-8 text-manifesto-accent/30 rotate-180" viewBox="0 0 64 32" fill="none">
+      <svg class="w-12 md:w-16 h-6 md:h-8 text-manifesto-accent/15 rotate-180" viewBox="0 0 64 32" fill="none">
         <path d="M2 16C2 16 8 8 16 8C24 8 28 16 32 16C36 16 40 8 48 8C56 8 62 16 62 16"
               stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
       <div class="w-1.5 h-1.5 bg-manifesto-accent/40 rotate-45"></div>
-      <svg class="w-12 md:w-16 h-6 md:h-8 text-manifesto-accent/30 rotate-180 scale-x-[-1]" viewBox="0 0 64 32" fill="none">
+      <svg class="w-12 md:w-16 h-6 md:h-8 text-manifesto-accent/15 rotate-180 scale-x-[-1]" viewBox="0 0 64 32" fill="none">
         <path d="M2 16C2 16 8 8 16 8C24 8 28 16 32 16C36 16 40 8 48 8C56 8 62 16 62 16"
               stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
@@ -350,7 +350,7 @@ onUnmounted(() => {
 
 .seal-group:hover .seal-frame,
 .seal-group:focus-within .seal-frame {
-  border-color: #B8860B;
+  border-color: #A0522D;
   transform: rotate(45deg) scale(1.08);
 }
 
