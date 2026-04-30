@@ -239,10 +239,10 @@
                 剪纸作品
               </h4>
               <ul class="space-y-2.5 md:space-y-4 text-xs md:text-sm text-gray-500">
-                <li><a href="#" class="hover:text-amber-400 transition-colors">传统窗花</a></li>
-                <li><a href="#" class="hover:text-amber-400 transition-colors">现代纸雕</a></li>
-                <li><a href="#" class="hover:text-amber-400 transition-colors">定制肖像</a></li>
-                <li><a href="#" class="hover:text-amber-400 transition-colors">限量版典藏</a></li>
+                <li><router-link to="/collectibles" class="hover:text-amber-400 transition-colors">传统窗花</router-link></li>
+                <li><router-link to="/collectibles" class="hover:text-amber-400 transition-colors">现代纸雕</router-link></li>
+                <li><router-link to="/collectibles" class="hover:text-amber-400 transition-colors">定制肖像</router-link></li>
+                <li><router-link to="/collectibles" class="hover:text-amber-400 transition-colors">限量版典藏</router-link></li>
               </ul>
             </div>
             <div>
@@ -251,10 +251,10 @@
                 工艺技法
               </h4>
               <ul class="space-y-2.5 md:space-y-4 text-xs md:text-sm text-gray-500">
-                <li><a href="#" class="hover:text-amber-400 transition-colors">单色剪纸</a></li>
-                <li><a href="#" class="hover:text-amber-400 transition-colors">套色剪纸</a></li>
-                <li><a href="#" class="hover:text-amber-400 transition-colors">多层纸雕</a></li>
-                <li><a href="#" class="hover:text-amber-400 transition-colors">材料工艺</a></li>
+                <li><router-link to="/collectibles" class="hover:text-amber-400 transition-colors">单色剪纸</router-link></li>
+                <li><router-link to="/collectibles" class="hover:text-amber-400 transition-colors">套色剪纸</router-link></li>
+                <li><router-link to="/collectibles" class="hover:text-amber-400 transition-colors">多层纸雕</router-link></li>
+                <li><router-link to="/collectibles" class="hover:text-amber-400 transition-colors">材料工艺</router-link></li>
               </ul>
             </div>
             <div>
@@ -263,10 +263,10 @@
                 关于企业
               </h4>
               <ul class="space-y-2.5 md:space-y-4 text-xs md:text-sm text-gray-500">
-                <li><a href="#" class="hover:text-amber-400 transition-colors">关于剪艺</a></li>
-                <li><a href="#" class="hover:text-amber-400 transition-colors">设计实验室</a></li>
-                <li><a href="#" class="hover:text-amber-400 transition-colors">可持续发展</a></li>
-                <li><a href="#" class="hover:text-amber-400 transition-colors">招贤纳士</a></li>
+                <li><router-link to="/contact" class="hover:text-amber-400 transition-colors">关于剪艺</router-link></li>
+                <li><router-link to="/events" class="hover:text-amber-400 transition-colors">设计实验室</router-link></li>
+                <li><router-link to="/contact" class="hover:text-amber-400 transition-colors">可持续发展</router-link></li>
+                <li><router-link to="/contact" class="hover:text-amber-400 transition-colors">招贤纳士</router-link></li>
               </ul>
             </div>
             <div>
@@ -275,7 +275,7 @@
                 用户支持
               </h4>
               <ul class="space-y-2.5 md:space-y-4 text-xs md:text-sm text-gray-500">
-                <li><a href="#" class="hover:text-amber-400 transition-colors">联系我们</a></li>
+                <li><router-link to="/contact" class="hover:text-amber-400 transition-colors">联系我们</router-link></li>
               </ul>
             </div>
           </div>
