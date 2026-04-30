@@ -15,8 +15,6 @@
     
     <!-- Product Highlight Section -->
     <section class="product-section relative py-24 sm:py-32 px-6 lg:px-12 max-w-[1600px] mx-auto w-full overflow-hidden">
-      <!-- 宣纸展厅背景 -->
-      <div class="product-bg-watermark" aria-hidden="true"></div>
       <div class="mb-16">
         <h3 class="text-bamboo-base text-[12px] font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-4">
           <span class="w-8 h-[1px] bg-bamboo-soft"></span> 核心作品
@@ -185,13 +183,6 @@
 
     <!-- Manifesto Section -->
     <section class="manifesto-section relative py-48 px-6 flex flex-col items-center justify-center text-center overflow-hidden">
-      <!-- 纸雕光影背景层 -->
-      <div class="manifesto-shadow" aria-hidden="true">
-        <img src="@/assets/wing-flower-pattern.svg" alt="">
-      </div>
-      <div class="manifesto-pattern" aria-hidden="true">
-        <img src="@/assets/wing-flower-pattern.svg" alt="">
-      </div>
       <div class="manifesto-content relative z-10 max-w-4xl">
         <p class="text-bamboo-base text-[12px] font-bold uppercase tracking-[0.3em] mb-12">
           剪艺宣言
@@ -356,49 +347,30 @@ onBeforeUnmount(() => {
 /* ========== 核心作品 — 宣纸展厅 ========== */
 .product-section {
   background:
-    /* L3 光影氛围：柔光从中心偏上辐射 */
+    /* 光影氛围：柔光从中心偏上辐射 */
     radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255, 248, 235, 0.6), transparent 70%),
-    /* L2 纸张纤维：宣纸噪点纹理 */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23faf6f1'/%3E%3Crect width='1' height='1' x='1' y='1' fill='%23e8e0d8' opacity='0.03'/%3E%3C/svg%3E") repeat,
-    /* L1 底色：暖白宣纸色 */
+    /* 底色：暖白宣纸色 */
     linear-gradient(135deg, #faf6f1, #f0e8df);
 }
 
-.product-bg-watermark {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Ccircle cx='400' cy='400' r='360' stroke='%23000' stroke-width='2' fill='none'/%3E%3Ccircle cx='400' cy='400' r='280' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3Ccircle cx='400' cy='400' r='200' stroke='%23000' stroke-width='1' fill='none'/%3E%3Ccircle cx='400' cy='400' r='80' stroke='%23000' stroke-width='2' fill='none'/%3E%3C/svg%3E") center/60% no-repeat;
-  opacity: 0.03;
-  animation: product-watermark-breathe 8s ease-in-out infinite;
-}
-
 /* 确保内容在背景层之上 */
-.product-section > *:not(.product-bg-watermark) {
+.product-section > * {
   position: relative;
   z-index: 1;
-}
-
-@keyframes product-watermark-breathe {
-  0%, 100% { opacity: 0.03; }
-  50% { opacity: 0.08; }
 }
 
 /* ========== 剪艺应用 — 锦缎织造 ========== */
 .ecosystem-section {
   background:
-    /* L3 金色丝线装饰 */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M0,100 Q50,80 100,100 Q150,120 200,100' stroke='%23c9a96e' stroke-width='0.5' fill='none' opacity='0.04'/%3E%3Cpath d='M0,50 Q50,30 100,50 Q150,70 200,50' stroke='%23c9a96e' stroke-width='0.5' fill='none' opacity='0.04'/%3E%3Cpath d='M0,150 Q50,130 100,150 Q150,170 200,150' stroke='%23c9a96e' stroke-width='0.5' fill='none' opacity='0.04'/%3E%3C/svg%3E") repeat,
-    /* L2 编织纹理：交叉织锦纹 */
+    /* 编织纹理：交叉织锦纹 */
     repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(180,150,100,0.06) 2px, rgba(180,150,100,0.06) 4px),
     repeating-linear-gradient(135deg, transparent, transparent 2px, rgba(180,150,100,0.06) 2px, rgba(180,150,100,0.06) 4px),
-    /* L5 柔和网格 */
+    /* 柔和网格 */
     linear-gradient(rgba(180,150,100,0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(180,150,100,0.04) 1px, transparent 1px),
-    /* L1 底色：浅香槟金到暖米渐变 */
+    /* 底色：浅香槟金到暖米渐变 */
     linear-gradient(135deg, #faf5ed, #f5ede0);
-  background-size: auto, auto, auto, 60px 60px, 60px 60px, auto;
+  background-size: auto, auto, 60px 60px, 60px 60px, auto;
 }
 
 /* L4 浮动光点 */
@@ -440,9 +412,6 @@ onBeforeUnmount(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .product-bg-watermark,
-  .manifesto-shadow img,
-  .manifesto-pattern img,
   .ecosystem-particle {
     animation: none !important;
   }
@@ -459,57 +428,9 @@ onBeforeUnmount(() => {
     linear-gradient(180deg, #fdfbf8, #f8f4ee);
 }
 
-/* L4 窗花投影层 */
-.manifesto-shadow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.manifesto-shadow img {
-  width: 60%;
-  max-width: 500px;
-  opacity: 0.04;
-  filter: blur(2px);
-  animation: manifesto-shadow-drift 12s ease-in-out infinite;
-}
-
-/* L5 窗花浮层 */
-.manifesto-pattern {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.manifesto-pattern img {
-  width: 60%;
-  max-width: 500px;
-  opacity: 0.03;
-  transform: translate(4px, 4px);
-  animation: manifesto-pattern-drift 12s ease-in-out infinite;
-}
-
 /* 确保宣言内容在背景层之上 */
 .manifesto-section > .manifesto-content {
   position: relative;
   z-index: 1;
-}
-
-@keyframes manifesto-shadow-drift {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(3px, -3px); }
-}
-
-@keyframes manifesto-pattern-drift {
-  0%, 100% { transform: translate(4px, 4px); }
-  50% { transform: translate(7px, 1px); }
 }
 </style>
