@@ -1,7 +1,6 @@
 <template>
-  <main class="min-h-screen bg-transparent flex flex-col font-sans text-ink-base">
-    <!-- 背景层 -->
-    <ParallaxBackground :speed="0.5" :enabled="true" />
+  <main class="min-h-screen bg-[#f8f4ef] flex flex-col font-sans text-ink-base">
+    <!-- 背景层已移除，各区域独立控制背景 -->
 
     <!-- Hero Section -->
     <Carousel />
@@ -195,7 +194,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="pt-24 pb-12 px-6 lg:px-12 bg-transparent max-w-[1600px] mx-auto w-full">
+    <footer class="pt-24 pb-12 px-6 lg:px-12 bg-[#f8f4ef] max-w-[1600px] mx-auto w-full">
       <!-- Top Footer Action -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-paper-dark/60 pb-20 mb-20">
         <div>
@@ -284,7 +283,6 @@ import Carousel from '@/components/Carousel.vue'
 import SectionHero from '@/components/SectionHero.vue'
 import LaptopAnimation from '@/components/LaptopAnimation.vue'
 import PhoneAnimation from '@/components/PhoneAnimation.vue'
-import ParallaxBackground from '@/components/ParallaxBackground.vue'
 import { useAnimate } from '@/composables/useAnimate.js'
 import { DURATION } from '@/composables/anime.config.js'
 import pattern017 from '@/assets/窗花017.png'
