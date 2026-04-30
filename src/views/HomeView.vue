@@ -14,7 +14,9 @@
     />
     
     <!-- Product Highlight Section -->
-    <section class="py-24 sm:py-32 px-6 lg:px-12 bg-transparent max-w-[1600px] mx-auto w-full">
+    <section class="product-section relative py-24 sm:py-32 px-6 lg:px-12 max-w-[1600px] mx-auto w-full overflow-hidden">
+      <!-- 宣纸展厅背景 -->
+      <div class="product-bg-watermark" aria-hidden="true"></div>
       <div class="mb-16">
         <h3 class="text-bamboo-base text-[12px] font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-4">
           <span class="w-8 h-[1px] bg-bamboo-soft"></span> 核心作品
@@ -335,3 +337,44 @@ onBeforeUnmount(() => {
   observer?.disconnect()
 })
 </script>
+
+<style scoped>
+/* ========== 核心作品 — 宣纸展厅 ========== */
+.product-section {
+  background:
+    /* L3 光影氛围：柔光从中心偏上辐射 */
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255, 248, 235, 0.6), transparent 70%),
+    /* L2 纸张纤维：宣纸噪点纹理 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23faf6f1'/%3E%3Crect width='1' height='1' x='1' y='1' fill='%23e8e0d8' opacity='0.03'/%3E%3C/svg%3E") repeat,
+    /* L1 底色：暖白宣纸色 */
+    linear-gradient(135deg, #faf6f1, #f0e8df);
+}
+
+.product-bg-watermark {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Ccircle cx='400' cy='400' r='360' stroke='%23000' stroke-width='2' fill='none'/%3E%3Ccircle cx='400' cy='400' r='280' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3Ccircle cx='400' cy='400' r='200' stroke='%23000' stroke-width='1' fill='none'/%3E%3Ccircle cx='400' cy='400' r='80' stroke='%23000' stroke-width='2' fill='none'/%3E%3C/svg%3E") center/60% no-repeat;
+  opacity: 0.03;
+  animation: product-watermark-breathe 8s ease-in-out infinite;
+}
+
+/* 确保内容在背景层之上 */
+.product-section > *:not(.product-bg-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes product-watermark-breathe {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.08; }
+}
+
+/* ========== 无障碍：减少动画偏好 ========== */
+@media (prefers-reduced-motion: reduce) {
+  .product-bg-watermark {
+    animation: none !important;
+  }
+}
+</style>
