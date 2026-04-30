@@ -22,9 +22,11 @@ export function useParallax(options = {}) {
   onMounted(() => {
     if (typeof window === 'undefined') return
     mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    isReducedMotion.value = mediaQuery.matches
-    motionHandler = (e) => { isReducedMotion.value = e.matches }
-    mediaQuery.addEventListener('change', motionHandler)
+    if (mediaQuery) {
+      isReducedMotion.value = mediaQuery.matches
+      motionHandler = (e) => { isReducedMotion.value = e.matches }
+      mediaQuery.addEventListener('change', motionHandler)
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
   })
 
