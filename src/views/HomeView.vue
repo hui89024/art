@@ -173,20 +173,23 @@
 
 
     <!-- Manifesto Section -->
-    <section class="relative py-48 px-6 flex flex-col items-center justify-center text-center overflow-hidden">
-      <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-30" alt="森林薄雾">
-        <div class="absolute inset-0 bg-forest-overlay/55"></div>
+    <section class="manifesto-section relative py-48 px-6 flex flex-col items-center justify-center text-center overflow-hidden">
+      <!-- 纸雕光影背景层 -->
+      <div class="manifesto-shadow" aria-hidden="true">
+        <img src="@/assets/wing-flower-pattern.svg" alt="">
       </div>
-      <div class="relative z-10 max-w-4xl">
-        <p class="text-bamboo-light text-[12px] font-bold uppercase tracking-[0.3em] mb-12">
+      <div class="manifesto-pattern" aria-hidden="true">
+        <img src="@/assets/wing-flower-pattern.svg" alt="">
+      </div>
+      <div class="manifesto-content relative z-10 max-w-4xl">
+        <p class="text-bamboo-base text-[12px] font-bold uppercase tracking-[0.3em] mb-12">
           剪艺宣言
         </p>
-        <h2 class="text-3xl md:text-5xl lg:text-6xl font-medium text-mist-base leading-snug tracking-tight">
+        <h2 class="text-3xl md:text-5xl lg:text-6xl font-medium text-ink-base leading-snug tracking-tight">
           "我们不只是裁刻纸张。<br>我们在方寸之间，<br>雕琢大千世界。"
         </h2>
-        <p class="text-sage-light text-[13px] font-bold uppercase tracking-[0.2em] mt-12 flex items-center justify-center gap-4">
-          <span class="w-6 h-[1px] bg-sage-dark"></span> 剪艺数字实验室，中国
+        <p class="text-bamboo-dark text-[13px] font-bold uppercase tracking-[0.2em] mt-12 flex items-center justify-center gap-4">
+          <span class="w-6 h-[1px] bg-bamboo-soft"></span> 剪艺数字实验室，中国
         </p>
       </div>
     </section>
@@ -373,8 +376,75 @@ onBeforeUnmount(() => {
 
 /* ========== 无障碍：减少动画偏好 ========== */
 @media (prefers-reduced-motion: reduce) {
-  .product-bg-watermark {
+  .product-bg-watermark,
+  .manifesto-shadow img,
+  .manifesto-pattern img {
     animation: none !important;
   }
+}
+
+/* ========== 剪艺宣言 — 纸雕光影 ========== */
+.manifesto-section {
+  background:
+    /* L3 光影投射：阳光从顶部偏右 */
+    radial-gradient(ellipse 60% 50% at 65% 20%, rgba(255, 248, 235, 0.5), transparent 70%),
+    /* L2 纸张质感：手工纸噪点 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'%3E%3Crect width='2' height='2' fill='%23fdfbf8'/%3E%3Crect width='1' height='1' fill='%23e8e0d8' opacity='0.02'/%3E%3C/svg%3E") repeat,
+    /* L1 底色：纯净白色渐变 */
+    linear-gradient(180deg, #fdfbf8, #f8f4ee);
+}
+
+/* L4 窗花投影层 */
+.manifesto-shadow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manifesto-shadow img {
+  width: 60%;
+  max-width: 500px;
+  opacity: 0.04;
+  filter: blur(2px);
+  animation: manifesto-shadow-drift 12s ease-in-out infinite;
+}
+
+/* L5 窗花浮层 */
+.manifesto-pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manifesto-pattern img {
+  width: 60%;
+  max-width: 500px;
+  opacity: 0.03;
+  transform: translate(4px, 4px);
+  animation: manifesto-pattern-drift 12s ease-in-out infinite;
+}
+
+/* 确保宣言内容在背景层之上 */
+.manifesto-section > .manifesto-content {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes manifesto-shadow-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(3px, -3px); }
+}
+
+@keyframes manifesto-pattern-drift {
+  0%, 100% { transform: translate(4px, 4px); }
+  50% { transform: translate(7px, 1px); }
 }
 </style>
