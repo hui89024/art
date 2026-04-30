@@ -7,7 +7,8 @@ export function prefersReducedMotion() {
     return false
   }
 
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  return mediaQuery ? mediaQuery.matches : false
 }
 
 /**
