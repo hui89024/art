@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <!--
+    剪艺窗花对称团花 SVG 矢量纹样
+    包含：锯齿纹、月牙纹、柳叶纹、团花纹
+    用于首页剪纸宣言区块的低透明度背景装饰
+  -->
+
+  <!-- 外圈圆环（stroke only） -->
+  <circle cx="400" cy="400" r="370" fill="none" stroke="#000" stroke-width="6"/>
+
+  <!-- 12 锯齿纹：均匀分布在 30 度间隔 -->
+  <g id="zigzag-teeth">
+    <polygon points="400,32 373,98 427,98" fill="#000"/>
+    <polygon points="584,76 550,137 604,127" fill="#000"/>
+    <polygon points="713,209 669,254 703,292" fill="#000"/>
+    <polygon points="768,400 702,373 702,427" fill="#000"/>
+    <polygon points="713,591 703,546 669,584" fill="#000" transform="rotate(0 400 400)"/>
+    <polygon points="584,724 604,673 550,663" fill="#000"/>
+    <polygon points="400,768 427,702 373,702" fill="#000"/>
+    <polygon points="216,724 196,673 250,663" fill="#000"/>
+    <polygon points="87,591 97,546 131,584" fill="#000"/>
+    <polygon points="32,400 98,427 98,373" fill="#000"/>
+    <polygon points="87,209 131,254 97,216" fill="#000"/>
+    <polygon points="216,76 250,137 196,127" fill="#000"/>
+  </g>
+
+  <!-- 中圈圆环（stroke only） -->
+  <circle cx="400" cy="400" r="260" fill="none" stroke="#000" stroke-width="4"/>
+
+  <!-- 8 月牙纹：均匀分布在 45 度间隔 -->
+  <g id="crescent-moons">
+    <!-- 0° -->
+    <circle cx="400" cy="155" r="30" fill="#000"/>
+    <circle cx="415" cy="145" r="28" fill="white"/>
+    <!-- 45° -->
+    <circle cx="574" cy="226" r="30" fill="#000"/>
+    <circle cx="585" cy="213" r="28" fill="white"/>
+    <!-- 90° -->
+    <circle cx="645" cy="400" r="30" fill="#000"/>
+    <circle cx="655" cy="385" r="28" fill="white"/>
+    <!-- 135° -->
+    <circle cx="574" cy="574" r="30" fill="#000"/>
+    <circle cx="585" cy="587" r="28" fill="white"/>
+    <!-- 180° -->
+    <circle cx="400" cy="645" r="30" fill="#000"/>
+    <circle cx="385" cy="655" r="28" fill="white"/>
+    <!-- 225° -->
+    <circle cx="226" cy="574" r="30" fill="#000"/>
+    <circle cx="215" cy="587" r="28" fill="white"/>
+    <!-- 270° -->
+    <circle cx="155" cy="400" r="30" fill="#000"/>
+    <circle cx="145" cy="415" r="28" fill="white"/>
+    <!-- 315° -->
+    <circle cx="226" cy="226" r="30" fill="#000"/>
+    <circle cx="213" cy="215" r="28" fill="white"/>
+  </g>
+
+  <!-- 内圈圆环（stroke only） -->
+  <circle cx="400" cy="400" r="170" fill="none" stroke="#000" stroke-width="3"/>
+
+  <!-- 6 对柳叶纹：均匀分布在 60 度间隔，每对对称 -->
+  <g id="willow-leaves">
+    <!-- 0° pair -->
+    <ellipse cx="380" cy="290" rx="8" ry="35" fill="#000" transform="rotate(15 380 290)"/>
+    <ellipse cx="420" cy="290" rx="8" ry="35" fill="#000" transform="rotate(-15 420 290)"/>
+    <!-- 60° pair -->
+    <ellipse cx="495" cy="345" rx="8" ry="35" fill="#000" transform="rotate(75 495 345)"/>
+    <ellipse cx="485" cy="395" rx="8" ry="35" fill="#000" transform="rotate(45 485 395)"/>
+    <!-- 120° pair -->
+    <ellipse cx="485" cy="475" rx="8" ry="35" fill="#000" transform="rotate(-45 485 475)"/>
+    <ellipse cx="495" cy="425" rx="8" ry="35" fill="#000" transform="rotate(-75 495 425)"/>
+    <!-- 180° pair -->
+    <ellipse cx="420" cy="510" rx="8" ry="35" fill="#000" transform="rotate(-15 420 510)"/>
+    <ellipse cx="380" cy="510" rx="8" ry="35" fill="#000" transform="rotate(15 380 510)"/>
+    <!-- 240° pair -->
+    <ellipse cx="315" cy="475" rx="8" ry="35" fill="#000" transform="rotate(45 315 475)"/>
+    <ellipse cx="305" cy="425" rx="8" ry="35" fill="#000" transform="rotate(75 305 425)"/>
+    <!-- 300° pair -->
+    <ellipse cx="305" cy="345" rx="8" ry="35" fill="#000" transform="rotate(-75 305 345)"/>
+    <ellipse cx="315" cy="395" rx="8" ry="35" fill="#000" transform="rotate(-45 315 395)"/>
+  </g>
+
+  <!-- 中心 8 瓣团花 -->
+  <g id="center-flower">
+    <!-- 花瓣：8 瓣均匀分布 -->
+    <ellipse cx="400" cy="360" rx="16" ry="45" fill="#000"/>
+    <ellipse cx="400" cy="360" rx="16" ry="45" fill="#000" transform="rotate(45 400 400)"/>
+    <ellipse cx="400" cy="360" rx="16" ry="45" fill="#000" transform="rotate(90 400 400)"/>
+    <ellipse cx="400" cy="360" rx="16" ry="45" fill="#000" transform="rotate(135 400 400)"/>
+    <ellipse cx="400" cy="360" rx="16" ry="45" fill="#000" transform="rotate(180 400 400)"/>
+    <ellipse cx="400" cy="360" rx="16" ry="45" fill="#000" transform="rotate(225 400 400)"/>
+    <ellipse cx="400" cy="360" rx="16" ry="45" fill="#000" transform="rotate(270 400 400)"/>
+    <ellipse cx="400" cy="360" rx="16" ry="45" fill="#000" transform="rotate(315 400 400)"/>
+    <!-- 花心实心圆点 -->
+    <circle cx="400" cy="400" r="14" fill="#000"/>
+  </g>
+</svg>
