@@ -1,5 +1,8 @@
 <template>
   <main class="min-h-screen bg-transparent flex flex-col font-sans text-ink-base">
+    <!-- 背景层 -->
+    <ParallaxBackground :speed="0.5" :enabled="true" />
+
     <!-- Hero Section -->
     <Carousel />
 
@@ -283,6 +286,7 @@ import FeatureGrid from '@/components/FeatureGrid.vue'
 import CTACluster from '@/components/CTACluster.vue'
 import LaptopAnimation from '../components/LaptopAnimation.vue'
 import PhoneAnimation from '../components/PhoneAnimation.vue'
+import ParallaxBackground from '../components/ParallaxBackground.vue'
 import { ThermometerSnowflake, ShieldCheck, MapPin } from 'lucide-vue-next'
 import { useScrollReveal } from '@/composables/useScrollReveal.js'
 import { useAnimate } from '@/composables/useAnimate.js'
