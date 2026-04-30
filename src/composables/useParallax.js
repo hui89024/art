@@ -1,56 +1,39 @@
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, toRef, computed } from 'vue'
 
 export function useParallax(options = {}) {
-  const {
-    speed = 0.5,
-    enabled = true
-  } = options
+  const enabled = toRef(options, 'enabled', true)
+  const speed = toRef(options, 'speed', 0.5)
 
   const scrollY = ref(0)
   const isReducedMotion = ref(false)
-  let animationId = null
-  let element = null
+  const transform = computed(() => {
+    if (!enabled.value || isReducedMotion.value) return 'translateY(0px)'
+    return `translateY(${scrollY.value * speed.value}px)`
+  })
 
-  const updateScroll = () => {
-    if (!enabled || isReducedMotion.value) return
-    scrollY.value = window.pageYOffset
-    if (element) {
-      element.style.transform = `translateY(${scrollY.value * speed}px)`
-    }
-    animationId = requestAnimationFrame(updateScroll)
-  }
+  let mediaQuery = null
+  let motionHandler = null
 
-  const start = (el) => {
-    element = el
-    if (enabled && !isReducedMotion.value) {
-      animationId = requestAnimationFrame(updateScroll)
-    }
-  }
-
-  const stop = () => {
-    if (animationId) {
-      cancelAnimationFrame(animationId)
-      animationId = null
-    }
+  const onScroll = () => {
+    if (!enabled.value || isReducedMotion.value) return
+    scrollY.value = window.scrollY
   }
 
   onMounted(() => {
-    // 检查用户是否偏好减少动画
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (typeof window === 'undefined') return
+    mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     isReducedMotion.value = mediaQuery.matches
-    mediaQuery.addEventListener('change', (e) => {
-      isReducedMotion.value = e.matches
-    })
+    motionHandler = (e) => { isReducedMotion.value = e.matches }
+    mediaQuery.addEventListener('change', motionHandler)
+    window.addEventListener('scroll', onScroll, { passive: true })
   })
 
   onBeforeUnmount(() => {
-    stop()
+    if (mediaQuery && motionHandler) {
+      mediaQuery.removeEventListener('change', motionHandler)
+    }
+    window.removeEventListener('scroll', onScroll)
   })
 
-  return {
-    scrollY,
-    isReducedMotion,
-    start,
-    stop
-  }
+  return { scrollY, isReducedMotion, transform }
 }
