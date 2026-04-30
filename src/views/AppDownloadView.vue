@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Star, Apple, Play, Smartphone, Camera, Palette, Users, Sparkles, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import appScreenshot from '@/assets/screenshot-1776943364783.png'
 
 // Feature items with icons
 const featureItems = [
@@ -208,14 +209,13 @@ const goAndroid = () => {
             <!-- Screenshot Display -->
             <div class="flex-1 max-w-xs">
               <div class="relative mx-auto w-[240px] h-[480px] bg-gradient-to-br from-ink-base to-gray-800 rounded-[2.5rem] p-2.5 shadow-2xl">
-                <div class="w-full h-full bg-gradient-to-br from-accent/20 via-purple-100 to-blue-100 rounded-[2rem] overflow-hidden flex items-center justify-center">
-                  <div class="text-center px-6">
-                    <div class="w-16 h-16 mx-auto mb-4 bg-white/80 rounded-2xl flex items-center justify-center">
-                      <component :is="featureItems[currentScreenshot].icon" class="w-8 h-8 text-accent" />
-                    </div>
-                    <p class="text-lg font-semibold text-ink-base mb-2">{{ screenshots[currentScreenshot].title }}</p>
-                    <p class="text-sm text-bamboo-dark">{{ screenshots[currentScreenshot].description }}</p>
-                  </div>
+                <div class="w-full h-full bg-white rounded-[2rem] overflow-hidden relative">
+                  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-ink-base rounded-b-2xl z-10"></div>
+                  <img
+                    :src="appScreenshot"
+                    :alt="screenshots[currentScreenshot].title + ' 截图'"
+                    class="w-full h-full object-cover object-top"
+                  />
                 </div>
               </div>
             </div>
