@@ -112,7 +112,18 @@
     </div>
 
     <!-- 剪艺数字生态 Section -->
-    <section class="py-24 px-6 lg:px-12 bg-transparent max-w-[1600px] mx-auto w-full overflow-hidden">
+    <section class="ecosystem-section relative py-24 px-6 lg:px-12 max-w-[1600px] mx-auto w-full overflow-hidden">
+      <!-- 锦缎织造背景：浮动光点 -->
+      <div class="ecosystem-particles" aria-hidden="true">
+        <div class="ecosystem-particle"></div>
+        <div class="ecosystem-particle"></div>
+        <div class="ecosystem-particle"></div>
+        <div class="ecosystem-particle"></div>
+        <div class="ecosystem-particle"></div>
+        <div class="ecosystem-particle"></div>
+        <div class="ecosystem-particle"></div>
+        <div class="ecosystem-particle"></div>
+      </div>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
 
         <!-- 左侧：文字叙述区 -->
@@ -374,11 +385,65 @@ onBeforeUnmount(() => {
   50% { opacity: 0.08; }
 }
 
-/* ========== 无障碍：减少动画偏好 ========== */
+/* ========== 剪艺应用 — 锦缎织造 ========== */
+.ecosystem-section {
+  background:
+    /* L3 金色丝线装饰 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M0,100 Q50,80 100,100 Q150,120 200,100' stroke='%23c9a96e' stroke-width='0.5' fill='none' opacity='0.04'/%3E%3Cpath d='M0,50 Q50,30 100,50 Q150,70 200,50' stroke='%23c9a96e' stroke-width='0.5' fill='none' opacity='0.04'/%3E%3Cpath d='M0,150 Q50,130 100,150 Q150,170 200,150' stroke='%23c9a96e' stroke-width='0.5' fill='none' opacity='0.04'/%3E%3C/svg%3E") repeat,
+    /* L2 编织纹理：交叉织锦纹 */
+    repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(180,150,100,0.06) 2px, rgba(180,150,100,0.06) 4px),
+    repeating-linear-gradient(135deg, transparent, transparent 2px, rgba(180,150,100,0.06) 2px, rgba(180,150,100,0.06) 4px),
+    /* L5 柔和网格 */
+    linear-gradient(rgba(180,150,100,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180,150,100,0.04) 1px, transparent 1px),
+    /* L1 底色：浅香槟金到暖米渐变 */
+    linear-gradient(135deg, #faf5ed, #f5ede0);
+  background-size: auto, auto, auto, 60px 60px, 60px 60px, auto;
+}
+
+/* L4 浮动光点 */
+.ecosystem-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ecosystem-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(201, 169, 110, 0.15);
+  animation: particle-float 8s ease-in-out infinite;
+}
+
+.ecosystem-particle:nth-child(1) { left: 10%; top: 20%; animation-duration: 7s; animation-delay: 0s; }
+.ecosystem-particle:nth-child(2) { left: 30%; top: 60%; animation-duration: 9s; animation-delay: 1s; }
+.ecosystem-particle:nth-child(3) { left: 50%; top: 30%; animation-duration: 6s; animation-delay: 2s; }
+.ecosystem-particle:nth-child(4) { left: 70%; top: 70%; animation-duration: 10s; animation-delay: 0.5s; }
+.ecosystem-particle:nth-child(5) { left: 85%; top: 40%; animation-duration: 8s; animation-delay: 1.5s; }
+.ecosystem-particle:nth-child(6) { left: 15%; top: 80%; animation-duration: 7.5s; animation-delay: 3s; }
+.ecosystem-particle:nth-child(7) { left: 60%; top: 15%; animation-duration: 9.5s; animation-delay: 2.5s; }
+.ecosystem-particle:nth-child(8) { left: 40%; top: 50%; animation-duration: 6.5s; animation-delay: 0.8s; }
+
+/* 确保内容在背景层之上 */
+.ecosystem-section > *:not(.ecosystem-particles) {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes particle-float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.15; }
+  50% { transform: translateY(-20px) translateX(10px); opacity: 0.25; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .product-bg-watermark,
   .manifesto-shadow img,
-  .manifesto-pattern img {
+  .manifesto-pattern img,
+  .ecosystem-particle {
     animation: none !important;
   }
 }
