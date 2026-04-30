@@ -420,11 +420,9 @@ onBeforeUnmount(() => {
 /* ========== 剪艺宣言 — 纸雕光影 ========== */
 .manifesto-section {
   background:
-    /* L3 光影投射：阳光从顶部偏右 */
+    /* 光影投射：阳光从顶部偏右 */
     radial-gradient(ellipse 60% 50% at 65% 20%, rgba(255, 248, 235, 0.5), transparent 70%),
-    /* L2 纸张质感：手工纸噪点 */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'%3E%3Crect width='2' height='2' fill='%23fdfbf8'/%3E%3Crect width='1' height='1' fill='%23e8e0d8' opacity='0.02'/%3E%3C/svg%3E") repeat,
-    /* L1 底色：纯净白色渐变 */
+    /* 底色：纯净白色渐变 */
     linear-gradient(180deg, #fdfbf8, #f8f4ee);
 }
 

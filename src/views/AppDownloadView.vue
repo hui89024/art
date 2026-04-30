@@ -105,7 +105,6 @@ const goAndroid = () => {
 
         <!-- Left: Text Content -->
         <div class="text-center lg:text-left">
-          <p class="text-sm font-medium text-accent tracking-wider uppercase mb-4">Jianyi App</p>
           <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-ink-base mb-6 tracking-tight leading-tight">
             非遗体验<br>从手机开始
           </h1>

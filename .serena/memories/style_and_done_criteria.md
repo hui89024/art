@@ -1,0 +1,1 @@
+代码约定：Vue 组件采用 `<script setup>` + Composition API；API 请求集中在 `src/api`，组件层避免直接 fetch；认证通过 `src/services/authService.js` 统一管理 localStorage；动画节奏优先改 `src/composables/anime.config.js`；视觉 token 统一在 `tailwind.config.js` 与 `src/assets/index.css`。当前仓库暂无测试目录，完成任务后至少执行 `npm run build` 做回归验证。

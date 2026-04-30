@@ -163,7 +163,6 @@ onMounted(fetchPatterns)
 <template>
   <main class="pt-28 pb-20">
     <SectionHero
-      kicker="Pattern Workbench"
       title="在线纹样库"
       subtitle="搜索、筛选、分页、详情一体化"
       description="保留现有查询参数与详情弹窗流程。"

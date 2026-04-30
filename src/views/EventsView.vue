@@ -81,10 +81,6 @@ onMounted(() => {
     <!-- Hero Section -->
     <section class="relative pt-32 pb-16 px-6">
       <div class="max-w-4xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-sm border border-blue-200/50 text-blue-600 text-sm font-medium mb-6">
-          <Calendar class="w-4 h-4" />
-          <span>Featured Events</span>
-        </div>
         <h1 class="text-5xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tight">
           特色活动
         </h1>

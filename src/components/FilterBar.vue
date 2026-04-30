@@ -42,13 +42,16 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
   <div ref="dropdownRef" class="relative">
     <!-- 下拉触发器 -->
     <button
-      class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-hex-e3d6c2 bg-white/60 backdrop-blur-sm text-hex-7a6a50 text-sm font-medium hover:border-hex-c9b289 transition-colors"
+      class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-red-200 bg-white/60 backdrop-blur-sm text-red-800 text-sm font-medium hover:border-red-400 transition-colors"
+      :aria-expanded="open"
+      aria-haspopup="listbox"
       @click="open = !open"
     >
       主题筛选
       <ChevronDown
         class="w-4 h-4 transition-transform duration-200"
         :class="open ? 'rotate-180' : ''"
+        aria-hidden="true"
       />
     </button>
 
@@ -57,19 +60,20 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
       <span
         v-for="opt in selected"
         :key="opt"
-        class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-hex-f0e8d8 border border-hex-d8c7ab text-hex-7a6a50 text-xs font-medium"
+        class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-700 text-xs font-medium"
       >
         {{ opt }}
         <button
-          class="hover:text-hex-b4232a transition-colors"
+          class="hover:text-red-600 transition-colors"
+          :aria-label="`移除筛选：${opt}`"
           @click.stop="removeOption(opt)"
         >
-          <X class="w-3 h-3" />
+          <X class="w-3 h-3" aria-hidden="true" />
         </button>
       </span>
       <button
         v-if="selected.length"
-        class="text-xs text-hex-a08b6d hover:text-hex-7a6a50 transition-colors ml-1"
+        class="text-xs text-red-500 hover:text-red-700 transition-colors ml-1"
         @click="emit('update:selected', [])"
       >
         清除全部
@@ -80,31 +84,36 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
     <div v-if="open" class="fixed inset-0 z-30" @click="open = false"></div>
     <div
       v-if="open"
-      class="absolute top-full left-0 mt-1 z-40 w-56 bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-hex-e3d6c2 p-2"
+      class="absolute top-full left-0 mt-1 z-40 w-56 bg-white rounded-2xl shadow-[0_8px_30px_rgba(220,38,38,0.08)] border border-red-200 p-2"
+      role="listbox"
+      aria-label="主题筛选选项"
+      aria-multiselectable="true"
     >
       <button
-        class="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-xs font-medium text-hex-7a6a50 hover:bg-hex-f5efe5 transition-colors"
+        class="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-xs font-medium text-red-700 hover:bg-red-50 transition-colors"
         @click="toggleAll"
       >
         <span
-          class="w-4 h-4 rounded border border-hex-c4b28f flex items-center justify-center text-[10px]"
-          :class="allSelected ? 'bg-hex-b4232a text-white border-hex-b4232a' : ''"
+          class="w-4 h-4 rounded border border-red-300 flex items-center justify-center text-[10px]"
+          :class="allSelected ? 'bg-red-600 text-white border-red-600' : ''"
         >✓</span>
         {{ allSelected ? '取消全选' : '全选' }}
       </button>
-      <div class="h-px bg-hex-e7dbc9 my-1"></div>
+      <div class="h-px bg-red-100 my-1"></div>
       <div class="max-h-48 overflow-y-auto">
         <button
           v-for="opt in options"
           :key="opt"
-          class="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-xs text-hex-6f614d hover:bg-hex-f5efe5 transition-colors"
+          class="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-xs text-red-800 hover:bg-red-50 transition-colors"
+          role="option"
+          :aria-selected="selected.includes(opt)"
           @click="toggleOption(opt)"
         >
           <span
             class="w-4 h-4 rounded border flex items-center justify-center text-[10px] transition-colors"
             :class="selected.includes(opt)
-              ? 'bg-hex-b4232a text-white border-hex-b4232a'
-              : 'border-hex-c4b28f'"
+              ? 'bg-red-600 text-white border-red-600'
+              : 'border-red-300'"
           >✓</span>
           {{ opt }}
         </button>

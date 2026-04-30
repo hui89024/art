@@ -3,7 +3,6 @@
     <!-- Hero Section -->
     <section class="max-w-[1200px] mx-auto px-6 lg:px-12 mb-16">
       <div class="text-center max-w-2xl mx-auto">
-        <p class="text-sm font-medium text-accent tracking-wider uppercase mb-4">Contact Jianyi</p>
         <h1 class="font-serif text-4xl md:text-5xl font-semibold text-ink-base mb-4 tracking-tight">
           我们期待与你沟通
         </h1>

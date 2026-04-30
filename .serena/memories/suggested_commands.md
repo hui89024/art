@@ -1,0 +1,1 @@
+开发常用命令：`npm run dev`（或 `bash entrypoint.sh`）启动开发；`npm run build` 构建；`npm run preview` 预览；生产预览可 `bash entrypoint.sh production`。常用系统命令为 Linux 环境下 `git`、`ls`、`grep`、`find` 等。

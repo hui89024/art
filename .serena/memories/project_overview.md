@@ -1,0 +1,1 @@
+项目是“剪艺”数字艺术展示平台，聚焦中国传统剪纸非遗内容展示，当前是包含首页、经典展厅、活动、应用、联系与鉴权纹样库的 Vue3 单页应用。目标是以现代交互呈现传统审美，并通过 JWT 保护纹样库。技术栈：Vue 3 script setup + Vite 5 + vue-router + Tailwind CSS/PostCSS + animejs，自定义 composables 与 fetch API 封装。
