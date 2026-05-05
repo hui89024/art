@@ -105,6 +105,7 @@ watch(() => props.currentIndex, () => {
         >
           <div class="frame-glow"></div>
           <img
+            v-protect-image
             :src="currentArtwork.image"
             :alt="`${currentArtwork.title} - ${currentArtwork.desc}`"
             :class="{ zoomed: isZoomed }"
@@ -199,6 +200,7 @@ watch(() => props.currentIndex, () => {
 .cabinet-mode {
   position: fixed;
   inset: 0;
+  padding-top: 4.5rem;
   z-index: 30;
   display: flex;
   flex-direction: column;
@@ -708,6 +710,10 @@ watch(() => props.currentIndex, () => {
 }
 
 @media (max-width: 768px) {
+  .cabinet-mode {
+    padding-top: 3.5rem;
+  }
+
   .cabinet-header {
     padding: 1rem;
   }

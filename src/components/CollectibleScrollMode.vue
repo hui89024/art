@@ -120,6 +120,7 @@ onUnmounted(() => {
             <div class="frame-corner bottom-right" aria-hidden="true"></div>
 
             <img
+              v-protect-image
               :src="item.image"
               :alt="`${item.title} - ${item.desc}`"
               loading="lazy"
@@ -140,7 +141,9 @@ onUnmounted(() => {
               <span class="info-code">{{ item.patternCode }}</span>
             </div>
             <h3 class="info-title">{{ item.title }}</h3>
-            <p class="info-desc">{{ item.desc }}</p>
+            <div class="info-desc">
+              <p v-for="(para, pIdx) in item.story" :key="pIdx">{{ para }}</p>
+            </div>
             <button
               class="info-btn"
               @click.stop="emit('open-story', item)"
@@ -405,6 +408,8 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  text-align: center;
   padding: 2rem 0;
 }
 
@@ -445,12 +450,20 @@ onUnmounted(() => {
 }
 
 .info-desc {
+  margin-bottom: 1.5rem;
+  max-width: 28rem;
+}
+
+.info-desc p {
   font-size: 0.9375rem;
   line-height: 1.8;
   color: #78350F;
   opacity: 0.85;
-  margin-bottom: 1.5rem;
-  max-width: 28rem;
+  margin-bottom: 0.75rem;
+}
+
+.info-desc p:last-child {
+  margin-bottom: 0;
 }
 
 .info-btn {
@@ -648,7 +661,7 @@ onUnmounted(() => {
     font-size: 1.5rem;
   }
 
-  .info-desc {
+  .info-desc p {
     font-size: 0.8125rem;
   }
 }

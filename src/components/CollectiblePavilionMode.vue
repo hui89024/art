@@ -106,6 +106,7 @@ const filteredItems = computed(() => {
           <div class="image-corner bottom-right" aria-hidden="true"></div>
 
           <img
+            v-protect-image
             :src="item.image"
             :alt="`${item.title} - ${item.desc}`"
             loading="lazy"
@@ -133,7 +134,9 @@ const filteredItems = computed(() => {
           <p class="card-code">{{ item.patternCode }}</p>
 
           <!-- 描述 -->
-          <p class="card-desc">{{ item.desc }}</p>
+          <div class="card-desc">
+            <p v-for="(para, pIdx) in item.story" :key="pIdx">{{ para }}</p>
+          </div>
 
           <!-- 底部操作 -->
           <div class="card-footer">
@@ -536,15 +539,23 @@ const filteredItems = computed(() => {
 }
 
 .card-desc {
-  font-size: 0.8125rem;
-  line-height: 1.6;
-  color: #78350F;
-  opacity: 0.75;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: 1rem;
+}
+
+.card-desc p {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #78350F;
+  opacity: 0.75;
+  margin-bottom: 0.5rem;
+}
+
+.card-desc p:last-child {
+  margin-bottom: 0;
 }
 
 /* 底部操作 */

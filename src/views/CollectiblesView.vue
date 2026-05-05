@@ -5,7 +5,6 @@ import { animate } from 'animejs'
 import { useAnimate } from '@/composables/useAnimate.js'
 import { DURATION, EASING, STAGGER_DELAY } from '@/composables/anime.config.js'
 import { getPatterns, getPatternDetail } from '@/api/patterns.js'
-import ChineseSectionHeader from '@/components/ChineseSectionHeader.vue'
 import ChineseDivider from '@/components/ChineseDivider.vue'
 import CollectibleScrollMode from '@/components/CollectibleScrollMode.vue'
 import CollectibleCabinetMode from '@/components/CollectibleCabinetMode.vue'
@@ -270,17 +269,36 @@ onUnmounted(() => {
   <div class="collectibles-page">
     <!-- 页面标题区 -->
     <header class="page-header">
-      <ChineseSectionHeader
-        kicker="珍 品 典 藏"
-        title="藏品展厅"
-        subtitle="千年剪纸，一纸风华"
-        :showSeal="true"
-        sealText="藏"
-      />
+      <section class="collectibles-hero">
+        <!-- 装饰性背景大字 -->
+        <div class="hero-bg-chars" aria-hidden="true">
+          <span class="hero-bg-char hero-bg-char--left">纸</span>
+          <span class="hero-bg-char hero-bg-char--right">镂</span>
+        </div>
+
+        <div class="hero-content">
+          <!-- 主标题 -->
+          <h1 class="hero-title">非遗珍藏</h1>
+
+          <!-- 朱红装饰线 -->
+          <div class="hero-divider">
+            <span class="hero-divider-dot"></span>
+          </div>
+
+          <!-- 副标题 -->
+          <p class="hero-subtitle">千年剪纸，一纸风华</p>
+
+          <!-- 意境文案 -->
+          <p class="hero-desc">
+            纸上乾坤，刀尖流转千年匠心。<br />
+            每一件藏品都是时光与手艺的凝结，邀您驻足品鉴。
+          </p>
+        </div>
+      </section>
     </header>
 
     <!-- 模式切换器 -->
-    <div class="mode-switcher">
+    <div class="mode-switcher" :class="{ 'mode-switcher--fixed': viewMode === 'cabinet' }">
       <div class="mode-switcher-inner" role="tablist" aria-label="浏览模式">
         <button
           v-for="mode in [
@@ -300,6 +318,9 @@ onUnmounted(() => {
         </button>
       </div>
     </div>
+
+    <!-- 模式切换器占位 -->
+    <div class="mode-switcher-spacer"></div>
 
     <!-- 百宝阁模式 -->
     <CollectiblePavilionMode
@@ -360,6 +381,114 @@ onUnmounted(() => {
   margin: 0 auto;
 }
 
+/* ========== 藏品 Hero ========== */
+.collectibles-hero {
+  position: relative;
+  padding: 2rem 0 3rem;
+  overflow: hidden;
+  text-align: center;
+}
+
+.collectibles-hero .hero-bg-chars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.collectibles-hero .hero-bg-char {
+  position: absolute;
+  font-family: 'Noto Serif SC', 'Noto Serif TC', serif;
+  font-weight: 900;
+  font-size: clamp(180px, 25vw, 320px);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(220, 38, 38, 0.06);
+  user-select: none;
+}
+
+.collectibles-hero .hero-bg-char--left {
+  left: -5%;
+  top: -10%;
+  transform: rotate(-12deg);
+  animation: collectibles-char-float 8s ease-in-out infinite alternate;
+}
+
+.collectibles-hero .hero-bg-char--right {
+  right: -5%;
+  bottom: -15%;
+  transform: rotate(8deg);
+  animation: collectibles-char-float 8s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes collectibles-char-float {
+  from { transform: rotate(-12deg) translateY(0); }
+  to { transform: rotate(-12deg) translateY(-12px); }
+}
+
+.collectibles-hero .hero-content {
+  position: relative;
+  z-index: 10;
+}
+
+.collectibles-hero .hero-title {
+  font-family: 'Noto Serif SC', 'Noto Serif TC', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 40%, #DC2626 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.collectibles-hero .hero-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.collectibles-hero .hero-divider::before,
+.collectibles-hero .hero-divider::after {
+  content: '';
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.4));
+}
+
+.collectibles-hero .hero-divider::after {
+  background: linear-gradient(90deg, rgba(220, 38, 38, 0.4), transparent);
+}
+
+.collectibles-hero .hero-divider-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #DC2626;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.3);
+}
+
+.collectibles-hero .hero-subtitle {
+  font-family: 'Noto Serif SC', 'Noto Serif TC', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 500;
+  color: #475569;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+}
+
+.collectibles-hero .hero-desc {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 2;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
 /* 模式切换器 - 新中式胶囊设计 */
 .mode-switcher {
   position: sticky;
@@ -371,6 +500,23 @@ onUnmounted(() => {
   background: rgba(254, 242, 242, 0.85);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(220, 38, 38, 0.1);
+}
+
+.mode-switcher--fixed {
+  position: fixed;
+  top: 5rem;
+  left: 0;
+  right: 0;
+}
+
+
+.mode-switcher-spacer {
+  display: none;
+}
+
+.mode-switcher--fixed + .mode-switcher-spacer {
+  display: block;
+  height: 4.5rem;
 }
 
 .mode-switcher-inner {
@@ -420,6 +566,10 @@ onUnmounted(() => {
     padding: 0.75rem 1rem;
   }
 
+  .mode-switcher--fixed + .mode-switcher-spacer {
+    height: 3.5rem;
+  }
+
   .mode-switcher-inner button {
     padding: 0.5rem 0.875rem;
     font-size: 0.75rem;
@@ -428,12 +578,35 @@ onUnmounted(() => {
   .mode-switcher-inner button span {
     display: none;
   }
+
+  .collectibles-hero .hero-bg-char {
+    font-size: 140px;
+    -webkit-text-stroke-width: 0.5px;
+  }
+
+  .collectibles-hero .hero-bg-char--left {
+    left: -15%;
+    top: -5%;
+  }
+
+  .collectibles-hero .hero-bg-char--right {
+    right: -15%;
+    bottom: -10%;
+  }
+
+  .collectibles-hero .hero-desc br {
+    display: none;
+  }
 }
 
 /* 减少动画 */
 @media (prefers-reduced-motion: reduce) {
   .mode-switcher-inner button {
     transition: none;
+  }
+
+  .collectibles-hero .hero-bg-char {
+    animation: none !important;
   }
 }
 </style>

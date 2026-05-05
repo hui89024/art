@@ -34,7 +34,7 @@
         <!-- Card 1 -->
         <div class="group relative bg-paper-light rounded-2xl overflow-hidden border border-paper-dark/60 hover:border-paper-dark/70 transition-colors flex flex-col">
           <div class="relative aspect-[4/3] overflow-hidden bg-paper-muted flex justify-center items-center p-8">
-            <img :src="pattern017" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
+            <img v-protect-image :src="pattern017" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
           </div>
           <div class="p-8 flex-1 flex flex-col">
             <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em] mb-3">系列 01 · 暮金流影</p>
@@ -56,7 +56,7 @@
         <!-- Card 2 -->
         <div class="group relative bg-paper-light rounded-2xl overflow-hidden border border-paper-dark/60 hover:border-paper-dark/70 transition-colors flex flex-col">
           <div class="relative aspect-[4/3] overflow-hidden bg-paper-muted flex justify-center items-center p-8">
-            <img :src="pattern018" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
+            <img v-protect-image :src="pattern018" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
           </div>
           <div class="p-8 flex-1 flex flex-col">
             <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em] mb-3">系列 02 · 玉紫华章</p>
@@ -78,7 +78,7 @@
         <!-- Card 3 -->
         <div class="group relative bg-paper-light rounded-2xl overflow-hidden border border-paper-dark/60 hover:border-paper-dark/70 transition-colors flex flex-col">
           <div class="relative aspect-[4/3] overflow-hidden bg-paper-muted flex justify-center items-center p-8">
-            <img :src="pattern019" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
+            <img v-protect-image :src="pattern019" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
           </div>
           <div class="p-8 flex-1 flex flex-col">
             <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em] mb-3">系列 03 · 典藏映辉</p>
@@ -167,7 +167,7 @@
             </p>
             <div class="mt-8 flex gap-3">
               <div v-for="i in 3" :key="i" class="w-10 h-10 rounded-lg bg-paper-light border border-paper-dark/40 flex items-center justify-center p-2">
-                <img :src="patternImages[i - 1]" class="w-full h-full object-contain opacity-60" alt="纹样图标">
+                <img v-protect-image :src="patternImages[i - 1]" class="w-full h-full object-contain opacity-60" alt="纹样图标">
               </div>
             </div>
           </div>
@@ -273,13 +273,18 @@
       
       <!-- Copyright -->
       <div class="border-t border-paper-dark/60 pt-8 flex flex-col md:flex-row justify-between items-center text-[12px] text-bamboo-muted font-bold uppercase tracking-[0.2em] gap-4">
-        <p>© 2026 剪艺数字艺术有限公司</p>
+        <p>© 2026 云南棱剪科技有限公司</p>
         <div class="flex gap-6">
-          <a href="#" class="hover:text-bamboo-deep transition-colors">隐私政策</a>
-          <a href="#" class="hover:text-bamboo-deep transition-colors">服务条款</a>
+          <button @click="openProtocol('privacy')" class="hover:text-bamboo-deep transition-colors">隐私政策</button>
+          <button @click="openProtocol('terms')" class="hover:text-bamboo-deep transition-colors">服务条款</button>
         </div>
       </div>
     </footer>
+
+    <ProtocolModal
+      v-model:visible="showProtocol"
+      :initial-tab="protocolTab"
+    />
   </main>
 </template>
 
@@ -290,6 +295,7 @@ import Carousel from '@/components/Carousel.vue'
 import SectionHero from '@/components/SectionHero.vue'
 import LaptopAnimation from '@/components/LaptopAnimation.vue'
 import PhoneAnimation from '@/components/PhoneAnimation.vue'
+import ProtocolModal from '@/components/ProtocolModal.vue'
 import { useAnimate } from '@/composables/useAnimate.js'
 import { DURATION } from '@/composables/anime.config.js'
 import pattern017 from '@/assets/窗花017.png'
@@ -302,6 +308,13 @@ const router = useRouter()
 
 const productHeadingRef = ref(null)
 const productCardsRef = ref(null)
+const showProtocol = ref(false)
+const protocolTab = ref('privacy')
+
+function openProtocol(tab) {
+  protocolTab.value = tab
+  showProtocol.value = true
+}
 
 const patternImages = [pattern017, pattern018, pattern019]
 

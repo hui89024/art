@@ -7,6 +7,7 @@ import PatternLibraryView from '../views/PatternLibraryView.vue'
 import EventsView from '../views/EventsView.vue'
 import AppDownloadView from '../views/AppDownloadView.vue'
 import ContactView from '../views/ContactView.vue'
+import ProtocolView from '../views/ProtocolView.vue'
 import { getStoredAuth } from '../services/authService'
 
 const router = createRouter({
@@ -46,6 +47,11 @@ const router = createRouter({
       path: '/contact',
       name: 'contact',
       component: ContactView
+    },
+    {
+      path: '/protocol/:tab?',
+      name: 'protocol',
+      component: ProtocolView
     },
     {
       path: '/pattern-library',

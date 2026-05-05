@@ -170,6 +170,7 @@ const goAndroid = () => {
 
               <!-- Real App Screenshot -->
               <img
+                v-protect-image
                 :src="screenshotImages[0]"
                 alt="剪艺 APP 主界面截图"
                 class="w-full h-full object-cover object-top"
@@ -212,6 +213,7 @@ const goAndroid = () => {
                 <div class="w-full h-full bg-white rounded-[2rem] overflow-hidden relative">
                   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-ink-base rounded-b-2xl z-10"></div>
                   <img
+                    v-protect-image
                     :src="screenshotImages[currentScreenshot]"
                     :alt="screenshots[currentScreenshot].title + ' 截图'"
                     class="w-full h-full object-cover object-top"

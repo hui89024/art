@@ -32,9 +32,8 @@
 
     <!-- 主标题 -->
     <div class="text-center animate-scale-in">
-      <h2 class="font-display text-6xl md:text-8xl font-bold text-red-800 mb-8
-                 leading-tight tracking-wide"
-          style="text-shadow: 3px 3px 0px rgba(217, 119, 6, 0.2), 6px 6px 0px rgba(217, 119, 6, 0.1);">
+      <h2 class="font-serif text-5xl md:text-7xl font-bold text-red-800 mb-8
+                 leading-tight tracking-wide">
         {{ title }}
       </h2>
       <p v-if="subtitle" class="text-red-900/70 text-lg leading-relaxed max-w-3xl mx-auto">

@@ -84,7 +84,7 @@
             <!-- 背景装饰图案 -->
             <div class="absolute top-4 right-4 w-24 h-24 opacity-10 group-hover:opacity-20
                         transition-opacity duration-500">
-              <img :src="`/src/assets/窗花${String(17 + index).padStart(3, '0')}.png`"
+              <img v-protect-image :src="`/src/assets/窗花${String(17 + index).padStart(3, '0')}.png`"
                    class="w-full h-full object-contain"
                    alt="">
             </div>
@@ -163,7 +163,7 @@
                      class="group w-16 h-16 rounded-lg bg-luxury-surface/50 border border-luxury-border/30
                             hover:border-luxury-gold/50 flex items-center justify-center p-3
                             transition-all duration-300 hover:shadow-luxury-card cursor-pointer">
-                  <img :src="`/src/assets/窗花${String(16 + i).padStart(3, '0')}.png`"
+                  <img v-protect-image :src="`/src/assets/窗花${String(16 + i).padStart(3, '0')}.png`"
                        class="w-full h-full object-contain opacity-60 group-hover:opacity-100
                               transition-opacity"
                        alt="纹样图标">
@@ -183,7 +183,7 @@
     <section class="relative py-48 px-6 flex flex-col items-center justify-center text-center overflow-hidden">
       <!-- 背景：模糊的剪纸作品 -->
       <div class="absolute inset-0 z-0">
-        <img src="/src/assets/窗花019.png"
+        <img v-protect-image src="/src/assets/窗花019.png"
              class="w-full h-full object-cover opacity-10 blur-sm scale-150"
              alt="">
         <div class="absolute inset-0 bg-gradient-to-b from-luxury-black via-luxury-black/80 to-luxury-black"></div>
@@ -199,7 +199,7 @@
                animationDelay: `${i * 0.8}s`,
                animationDuration: `${8 + i}s`
              }">
-          <img :src="`/src/assets/窗花${String(17 + (i % 3)).padStart(3, '0')}.png`"
+          <img v-protect-image :src="`/src/assets/窗花${String(17 + (i % 3)).padStart(3, '0')}.png`"
                class="w-full h-full object-contain"
                alt="">
         </div>
@@ -363,14 +363,19 @@
         <div class="border-t border-luxury-border/30 pt-8 flex flex-col md:flex-row
                     justify-between items-center text-xs text-luxury-text-muted
                     font-bold uppercase tracking-[0.2em] gap-4">
-          <p>© 2026 剪艺数字艺术有限公司</p>
+          <p>© 2026 云南棱剪科技有限公司</p>
           <div class="flex gap-6">
-            <a href="#" class="hover:text-luxury-gold transition-colors">隐私政策</a>
-            <a href="#" class="hover:text-luxury-gold transition-colors">服务条款</a>
+            <button @click="openProtocol('privacy')" class="hover:text-luxury-gold transition-colors">隐私政策</button>
+            <button @click="openProtocol('terms')" class="hover:text-luxury-gold transition-colors">服务条款</button>
           </div>
         </div>
       </div>
     </footer>
+
+    <ProtocolModal
+      v-model:visible="showProtocol"
+      :initial-tab="protocolTab"
+    />
 
   </main>
 </template>
@@ -384,12 +389,20 @@ import LuxurySectionHeader from '../components/LuxurySectionHeader.vue'
 import LuxuryDivider from '../components/LuxuryDivider.vue'
 import LaptopAnimation from '../components/LaptopAnimation.vue'
 import PhoneAnimation from '../components/PhoneAnimation.vue'
+import ProtocolModal from '../components/ProtocolModal.vue'
 import { useScrollReveal } from '@/composables/useScrollReveal.js'
 import { useAnimate } from '@/composables/useAnimate.js'
 
 const router = useRouter()
 const productCardsRef = ref(null)
 const featureGridRef = ref(null)
+const showProtocol = ref(false)
+const protocolTab = ref('privacy')
+
+function openProtocol(tab) {
+  protocolTab.value = tab
+  showProtocol.value = true
+}
 
 const products = [
   {

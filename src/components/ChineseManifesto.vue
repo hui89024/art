@@ -58,24 +58,24 @@
         <h2 class="manifesto-slide-up delay-2"
             :class="{ 'is-visible': isVisible }">
           <span class="block manifesto-heading-text text-manifesto-primary">
-            纸，是时光的信笺。
+            纸，是时光的信笺
           </span>
         </h2>
 
         <h3 class="manifesto-slide-up delay-3"
             :class="{ 'is-visible': isVisible }">
           <span class="block manifesto-heading-text text-manifesto-primary">
-            刀，是心意的画笔。
+            刀，是心意的画笔
           </span>
         </h3>
 
         <h3 class="manifesto-slide-up delay-4"
             :class="{ 'is-visible': isVisible }">
           <span class="block manifesto-heading-text manifesto-gradient-text">
-            每一次裁剪，
+            每一次裁剪
           </span>
           <span class="block manifesto-heading-text manifesto-gradient-text">
-            都是与美好的相遇。
+            都是与美好的相遇
           </span>
         </h3>
       </div>

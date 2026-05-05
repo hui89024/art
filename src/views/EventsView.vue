@@ -1,40 +1,24 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue'
-import { PhArrowUp, PhCalendar, PhArrowSquareOut, PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue'
+import { onMounted, ref } from 'vue'
+import { PhArrowUp, PhCalendar } from '@phosphor-icons/vue'
 import { getEvents } from '@/api/events.js'
+import EventModal from '@/components/EventModal.vue'
+import EventCarousel from '@/components/EventCarousel.vue'
 
 const loading = ref(true)
 const error = ref('')
 const events = ref([])
-const activeIndex = ref(0)
+const showModal = ref(false)
+const selectedEvent = ref(null)
 
-const openEventLink = (url) => {
-  if (!url) return
-  window.open(url, '_blank', 'noopener,noreferrer')
+const openEventModal = (event) => {
+  selectedEvent.value = event
+  showModal.value = true
 }
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
-const goToIndex = (index) => {
-  if (index < 0 || index >= events.value.length) return
-  activeIndex.value = index
-}
-
-const nextEvent = () => {
-  if (activeIndex.value < events.value.length - 1) {
-    activeIndex.value++
-  }
-}
-
-const prevEvent = () => {
-  if (activeIndex.value > 0) {
-    activeIndex.value--
-  }
-}
-
-const activeEvent = computed(() => events.value[activeIndex.value] || null)
 
 const formatDate = (dateString) => {
   if (!dateString) return { day: '--', month: '--', year: '----' }
@@ -55,7 +39,6 @@ const loadEvents = async () => {
   try {
     const list = await getEvents()
     events.value = Array.isArray(list) ? list : []
-    activeIndex.value = 0
   } catch (e) {
     events.value = []
     error.value = '活动内容加载失败，请稍后重试。'
@@ -79,13 +62,33 @@ onMounted(() => {
     </div>
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-16 px-6">
-      <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-5xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tight">
+    <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+      <!-- 装饰性书法背景字 -->
+      <div class="hero-bg-chars" aria-hidden="true">
+        <span class="hero-bg-char hero-bg-char--left">剪</span>
+        <span class="hero-bg-char hero-bg-char--right">艺</span>
+      </div>
+
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <!-- 主标题 -->
+        <h1 class="hero-title mb-5">
           特色活动
         </h1>
-        <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+
+        <!-- 朱红装饰线 -->
+        <div class="hero-divider">
+          <span class="hero-divider-dot"></span>
+        </div>
+
+        <!-- 副标题 -->
+        <p class="hero-subtitle mb-6">
           时间叙事与现场体验
+        </p>
+
+        <!-- 意境文案 -->
+        <p class="hero-desc">
+          每一场活动，都是剪纸艺术与当代生活的对话。<br class="hidden md:inline" />
+          从指尖非遗到数字展陈，邀您共赴一场跨越时空的纸上传奇。
         </p>
       </div>
     </section>
@@ -119,106 +122,17 @@ onMounted(() => {
 
       <!-- Events Display -->
       <div v-else class="space-y-8">
-        <!-- Featured Event Card -->
-        <article
-          v-if="activeEvent"
-          class="glass-card overflow-hidden group cursor-pointer"
-          @click="activeEvent.url && openEventLink(activeEvent.url)"
-        >
-          <div class="grid md:grid-cols-2 gap-0">
-            <!-- Image -->
-            <div class="relative aspect-video md:aspect-auto overflow-hidden">
-              <img
-                v-if="activeEvent.image"
-                :src="activeEvent.image"
-                :alt="activeEvent.title"
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-              />
-              <div
-                v-else
-                class="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center"
-              >
-                <PhCalendar class="w-16 h-16 text-slate-400" />
-              </div>
+        <!-- 轮播大图 -->
+        <div class="carousel-frame">
+          <EventCarousel
+            :events="events"
+            @select="openEventModal"
+          />
+        </div>
 
-              <!-- Date Badge -->
-              <div class="absolute top-4 right-4 glass-badge">
-                <div class="text-2xl font-bold text-slate-900">
-                  {{ formatDate(activeEvent.publishTime).day }}
-                </div>
-                <div class="text-xs text-slate-600 uppercase">
-                  {{ formatDate(activeEvent.publishTime).month }}
-                </div>
-              </div>
-            </div>
-
-            <!-- Content -->
-            <div class="p-8 md:p-12 flex flex-col justify-center">
-              <div class="text-sm text-blue-600 font-medium mb-3">
-                {{ formatDate(activeEvent.publishTime).year }}
-              </div>
-              <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4 leading-tight">
-                {{ activeEvent.title }}
-              </h2>
-              <p v-if="activeEvent.desc" class="text-slate-600 mb-6 line-clamp-3">
-                {{ activeEvent.desc }}
-              </p>
-              <a
-                v-if="activeEvent.url"
-                :href="activeEvent.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors group/link"
-                @click.stop
-              >
-                <span>查看详情</span>
-                <PhArrowSquareOut class="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Navigation Controls -->
-        <div class="flex items-center justify-center gap-4">
-          <button
-            type="button"
-            class="glass-button"
-            :disabled="activeIndex === 0"
-            :class="{ 'opacity-50 cursor-not-allowed': activeIndex === 0 }"
-            aria-label="上一条活动"
-            @click="prevEvent"
-          >
-            <PhCaretLeft class="w-5 h-5" />
-          </button>
-
-          <!-- Indicators -->
-          <div class="flex items-center gap-2" role="tablist" aria-label="活动列表">
-            <button
-              v-for="(event, index) in events"
-              :key="event.id || `event-${index}`"
-              type="button"
-              role="tab"
-              :aria-selected="index === activeIndex"
-              :aria-label="`切换到活动 ${index + 1}`"
-              class="indicator"
-              :class="{ 'is-active': index === activeIndex }"
-              @click="goToIndex(index)"
-            >
-              <span class="sr-only">活动 {{ index + 1 }}</span>
-            </button>
-          </div>
-
-          <button
-            type="button"
-            class="glass-button"
-            :disabled="activeIndex === events.length - 1"
-            :class="{ 'opacity-50 cursor-not-allowed': activeIndex === events.length - 1 }"
-            aria-label="下一条活动"
-            @click="nextEvent"
-          >
-            <PhCaretRight class="w-5 h-5" />
-          </button>
+        <!-- 活动简介 -->
+        <div class="py-8">
+          <h2 class="font-serif text-2xl md:text-3xl font-bold text-slate-800">更多活动</h2>
         </div>
 
         <!-- Event Grid -->
@@ -227,7 +141,7 @@ onMounted(() => {
             v-for="(event, index) in events"
             :key="event.id || `grid-${index}`"
             class="glass-card overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform duration-300"
-            @click="goToIndex(index)"
+            @click="openEventModal(event)"
           >
             <div class="relative aspect-video overflow-hidden">
               <img
@@ -259,6 +173,12 @@ onMounted(() => {
         </div>
       </div>
     </section>
+
+    <!-- 活动详情弹窗 -->
+    <EventModal
+      v-model:visible="showModal"
+      :event="selectedEvent"
+    />
 
     <!-- Scroll to Top Button -->
     <button
@@ -304,10 +224,140 @@ onMounted(() => {
   clip: rect(0, 0, 0, 0);
 }
 
+/* ========== Carousel Frame ========== */
+.carousel-frame {
+  border: 2px solid rgba(220, 38, 38, 0.15);
+  border-radius: 16px;
+  padding: 6px;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.03), rgba(217, 119, 6, 0.03));
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+}
+
+/* ========== Hero Section ========== */
+
+/* 装饰性背景大字 */
+.hero-bg-chars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-bg-char {
+  position: absolute;
+  font-family: 'Noto Serif SC', 'Noto Serif TC', serif;
+  font-weight: 900;
+  font-size: clamp(180px, 25vw, 320px);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(220, 38, 38, 0.06);
+  user-select: none;
+}
+
+.hero-bg-char--left {
+  left: -5%;
+  top: -10%;
+  transform: rotate(-12deg);
+  animation: hero-char-float 8s ease-in-out infinite alternate;
+}
+
+.hero-bg-char--right {
+  right: -5%;
+  bottom: -15%;
+  transform: rotate(8deg);
+  animation: hero-char-float 8s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes hero-char-float {
+  from { transform: rotate(-12deg) translateY(0); }
+  to { transform: rotate(-12deg) translateY(-12px); }
+}
+
+/* 主标题渐变 */
+.hero-title {
+  font-family: 'Noto Serif SC', 'Noto Serif TC', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 40%, #DC2626 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 朱红装饰线 */
+.hero-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.hero-divider::before,
+.hero-divider::after {
+  content: '';
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.4));
+}
+
+.hero-divider::after {
+  background: linear-gradient(90deg, rgba(220, 38, 38, 0.4), transparent);
+}
+
+.hero-divider-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #DC2626;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.3);
+}
+
+/* 副标题 */
+.hero-subtitle {
+  font-family: 'Noto Serif SC', 'Noto Serif TC', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 500;
+  color: #475569;
+  letter-spacing: 0.15em;
+}
+
+/* 意境文案 */
+.hero-desc {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 2;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .glass-card {
     @apply rounded-xl;
+  }
+
+  .hero-bg-char {
+    font-size: 140px;
+    -webkit-text-stroke-width: 0.5px;
+  }
+
+  .hero-bg-char--left {
+    left: -15%;
+    top: -5%;
+  }
+
+  .hero-bg-char--right {
+    right: -15%;
+    bottom: -10%;
+  }
+
+  .hero-desc br {
+    display: none;
   }
 }
 
@@ -317,6 +367,10 @@ onMounted(() => {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .hero-bg-char {
+    animation: none !important;
   }
 }
 </style>

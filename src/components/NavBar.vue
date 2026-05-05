@@ -139,7 +139,7 @@ function onModalLeave(el, done) {
     <div class="max-w-[1440px] mx-auto h-18 px-6 lg:px-10 flex items-center justify-between">
       <!-- Logo -->
       <RouterLink to="/" class="flex items-center gap-3 group shrink-0">
-        <img src="@/assets/配色版矢量（标准）.svg" alt="剪艺标志" class="w-8 h-8 object-contain transition-transform duration-500 group-hover:rotate-[15deg]">
+        <img v-protect-image src="@/assets/配色版矢量（标准）.svg" alt="剪艺标志" class="w-8 h-8 object-contain transition-transform duration-500 group-hover:rotate-[15deg]">
         <span
           :class="[
             'text-xl font-medium tracking-[0.3em] transition-colors duration-300',

@@ -31,7 +31,7 @@ const emit = defineEmits(['open-story'])
 
     <div class="absolute top-[15%] left-1/2 -translate-x-1/2 w-[70%] z-20 cursor-pointer transition-transform duration-700 animate-float group-hover:scale-105" @click="emit('open-story')">
       <div class="relative overflow-hidden">
-        <img :src="props.image" :alt="props.title" class="w-full h-auto drop-shadow-[0_12px_18px_rgba(154,132,98,0.28)] filter brightness-105 contrast-110" />
+        <img v-protect-image :src="props.image" :alt="props.title" class="w-full h-auto drop-shadow-[0_12px_18px_rgba(154,132,98,0.28)] filter brightness-105 contrast-110" />
         <div class="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.45)_40%,transparent_60%)] -translate-x-full group-hover:animate-[shimmer_2s_ease-in-out_infinite]"></div>
       </div>
     </div>

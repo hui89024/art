@@ -9,6 +9,13 @@
     font-size: 112.5%;
   }
 
+  /* 图片防护：禁止拖拽和选择 */
+  img {
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: auto;
+  }
+
   :root {
     /* 原有品牌色 */
     --jy-color-brand: #B4232A;

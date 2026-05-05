@@ -69,15 +69,8 @@
       </div>
 
       <!-- 主标题：超大书法字体 -->
-      <h1 class="font-display text-8xl md:text-[12rem] lg:text-[16rem] font-bold text-red-700 mb-8
-                 tracking-wider leading-none animate-scale-in"
-          style="text-shadow:
-            4px 4px 0px rgba(217, 119, 6, 0.3),
-            8px 8px 0px rgba(217, 119, 6, 0.2),
-            12px 12px 0px rgba(217, 119, 6, 0.1),
-            0 0 60px rgba(220, 38, 38, 0.4);">
-        剪艺
-      </h1>
+      <img :src="logoSvg" alt="剪艺" class="w-64 md:w-[30rem] lg:w-[40rem] mt-32 mb-8 animate-scale-in"
+         style="filter: drop-shadow(4px 4px 0px rgba(217, 119, 6, 0.3)) drop-shadow(8px 8px 0px rgba(217, 119, 6, 0.2)) drop-shadow(0 0 60px rgba(220, 38, 38, 0.4));">
 
       <!-- 副标题：带动画的文字 -->
       <div class="flex items-center justify-center gap-4 mb-6 animate-fade-in-up" style="animation-delay: 0.3s;">
@@ -93,7 +86,7 @@
       </div>
 
       <!-- 描述文字：逐字显示效果 -->
-      <div class="text-red-900/80 text-lg md:text-xl max-w-3xl mx-auto mb-16 leading-relaxed space-y-2 animate-fade-in-up" style="animation-delay: 0.6s;">
+      <div class="text-red-900 text-lg md:text-xl max-w-3xl mx-auto mb-16 leading-relaxed space-y-2 animate-fade-in-up" style="animation-delay: 0.6s;">
         <p class="animate-slide-in-left">从刀工到像素，从窗花到屏幕</p>
         <p class="animate-slide-in-right" style="animation-delay: 0.8s;">每一刀镂空，都是对传统的致敬</p>
         <p class="animate-slide-in-left" style="animation-delay: 1s;">每一次创新，都是对未来的探索</p>
@@ -172,6 +165,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import logoSvg from '@/assets/1.svg'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

@@ -31,23 +31,23 @@ const contactItems = [
   {
     icon: PhEnvelope,
     label: '邮箱',
-    value: 'contact@jianyi.art',
+    value: 'lingjiankeji@126.com',
     copyable: true,
-    copyText: 'contact@jianyi.art',
+    copyText: 'lingjiankeji@126.com',
     copyMsg: '邮箱已复制'
   },
   {
     icon: PhPhone,
     label: '电话',
-    value: '400-888-2026',
+    value: '19988724493',
     copyable: true,
-    copyText: '400-888-2026',
+    copyText: '19988724493',
     copyMsg: '电话已复制'
   },
   {
     icon: PhMapPin,
     label: '地址',
-    value: '杭州市西湖区文创园 A2\n剪艺数字实验室',
+    value: '云南省昆明市五华区丰宁街道办事处\n学府路690号金鼎科技园十七号平台C座2楼211-30',
     copyable: false
   },
   {
@@ -91,7 +91,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <main class="pt-28 pb-20 bg-gradient-to-b from-paper-light to-white">
+  <main class="pt-28 pb-20">
     <!-- Hero Section -->
     <section class="max-w-[1200px] mx-auto px-6 lg:px-12 mb-16">
       <div class="text-center max-w-2xl mx-auto">
