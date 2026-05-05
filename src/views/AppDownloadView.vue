@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getReviews } from '@/api/reviews'
 import { PhStar, PhDeviceMobile, PhCamera, PhPalette, PhUsers, PhSparkle, PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue'
 import appScreenshot1 from '@/assets/2026-05-05 102614.png'
 import appScreenshot2 from '@/assets/2026-05-05 102710.png'
@@ -39,36 +40,53 @@ const featureItems = [
   }
 ]
 
-// User reviews
-const reviews = [
+// User reviews — 从 API 获取，fallback 到默认数据
+const DEFAULT_REVIEWS = [
   {
-    id: 1,
-    name: '张艺涵',
-    initials: '张',
+    id: 'default-1',
+    name: '剪纸爱好者',
+    initials: '剪',
     rating: 5,
     comment: '纹样盛宴功能太赞了！海量窗花纹样随心浏览，搜索也很方便，每次都能发现新惊喜。',
     date: '2026-04-15',
     color: 'from-pink-500 to-rose-500'
   },
   {
-    id: 2,
-    name: '李明轩',
-    initials: '李',
+    id: 'default-2',
+    name: '非遗传承人',
+    initials: '非',
     rating: 5,
     comment: '时光映记的卡片式浏览体验很棒，换一批功能让我停不下来，AR 识别更是黑科技！',
     date: '2026-04-10',
     color: 'from-blue-500 to-cyan-500'
   },
   {
-    id: 3,
-    name: '王诗雨',
-    initials: '王',
+    id: 'default-3',
+    name: '艺术学院学生',
+    initials: '艺',
     rating: 4,
     comment: '界面设计很有文化气息，AR 扫描识别剪纸纹样太酷了，期待更多功能更新。',
     date: '2026-04-05',
     color: 'from-purple-500 to-indigo-500'
   }
 ]
+
+const reviews = ref(DEFAULT_REVIEWS)
+const loadingReviews = ref(false)
+
+onMounted(async () => {
+  loadingReviews.value = true
+  try {
+    const data = await getReviews({ page: 0, size: 3 })
+    if (data.length > 0) {
+      reviews.value = data
+    }
+  } catch (err) {
+    console.error('评价加载失败，使用默认数据:', err)
+  } finally {
+    loadingReviews.value = false
+  }
+})
 
 // Screenshot carousel
 const screenshots = [
@@ -97,7 +115,7 @@ const goAndroid = () => {
 </script>
 
 <template>
-  <main class="pt-28 pb-20 min-h-screen bg-gradient-to-b from-paper-light via-white to-paper-light text-ink-base">
+  <main class="pt-28 pb-20 min-h-screen text-ink-base">
 
     <!-- Hero Section with Device Mockup -->
     <section class="max-w-[1280px] mx-auto px-6 lg:px-12 mb-20">
