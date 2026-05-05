@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { X, Loader2, AlertCircle } from 'lucide-vue-next'
+import { PhX, PhSpinner, PhWarningCircle } from '@phosphor-icons/vue'
 import { loginWithPassword } from '../services/authService'
 
 defineProps({})
@@ -47,7 +47,7 @@ const handleLogin = async () => {
       <div class="h-2 w-full bg-gradient-to-r from-evasion-sand-dark via-evasion-sand to-evasion-sand-dark"></div>
       
       <button @click="emit('close')" class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors">
-        <X class="w-6 h-6" />
+        <PhX class="w-6 h-6" />
       </button>
       
       <div class="p-8">
@@ -76,7 +76,7 @@ const handleLogin = async () => {
           </div>
           
           <div v-if="errorMsg" class="flex items-center gap-2 text-red-400 text-sm bg-red-400/10 p-3 rounded-lg border border-red-400/20">
-            <AlertCircle class="w-4 h-4 flex-shrink-0" />
+            <PhWarningCircle class="w-4 h-4 flex-shrink-0" />
             <p>{{ errorMsg }}</p>
           </div>
           
@@ -85,7 +85,7 @@ const handleLogin = async () => {
             :disabled="loading"
             class="w-full py-3.5 mt-2 bg-gradient-to-r from-evasion-sand-dark to-evasion-sand hover:from-evasion-sand hover:to-evasion-sand-dark text-evasion-black rounded-xl font-bold tracking-wide shadow-lg shadow-black/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
           >
-            <Loader2 v-if="loading" class="w-5 h-5 animate-spin mr-2" />
+            <PhSpinner v-if="loading" class="w-5 h-5 animate-spin mr-2" />
             {{ loading ? '登录中...' : '登 录' }}
           </button>
         </form>

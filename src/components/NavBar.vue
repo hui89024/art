@@ -6,6 +6,7 @@ import LoginModal from './LoginModal.vue'
 import { useAnimate } from '@/composables/useAnimate.js'
 import { DURATION, STAGGER_DELAY, EASING } from '@/composables/anime.config.js'
 import { animate } from 'animejs'
+import { PhUser, PhSignOut, PhList, PhX } from '@phosphor-icons/vue'
 
 const route = useRoute()
 const showLogin = ref(false)
@@ -48,6 +49,50 @@ onUnmounted(() => {
 const handleLogout = () => {
   clearAuth()
   updateAuth()
+}
+
+const openLoginModal = () => {
+  showLogin.value = true
+}
+
+const closeLoginModal = () => {
+  showLogin.value = false
+}
+
+const handleLoginSuccess = () => {
+  updateAuth()
+  showLogin.value = false
+}
+
+// Mobile menu functions
+const isMobileMenuOpen = computed(() => mobileMenuOpen.value)
+
+const toggleMobileMenu = () => {
+  mobileMenuOpen.value = !mobileMenuOpen.value
+}
+
+const closeMobileMenu = () => {
+  mobileMenuOpen.value = false
+}
+
+function onMobileMenuEnter(el, done) {
+  animate(el, {
+    opacity: [0, 1],
+    translateY: [-20, 0],
+    duration: DURATION.base,
+    ease: EASING,
+    onComplete: done
+  })
+}
+
+function onMobileMenuLeave(el, done) {
+  animate(el, {
+    opacity: [1, 0],
+    translateY: [0, -20],
+    duration: DURATION.fast,
+    ease: EASING,
+    onComplete: done
+  })
 }
 
 function onModalEnter(el, done) {
@@ -168,7 +213,7 @@ function onModalLeave(el, done) {
               : 'bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 hover:border-white/50'
           ]"
         >
-          <User :size="16" />
+          <PhUser :size="16" />
           登录
         </button>
 
@@ -182,7 +227,7 @@ function onModalLeave(el, done) {
               : 'bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 hover:border-white/50'
           ]"
         >
-          <LogOut :size="16" />
+          <PhSignOut :size="16" />
           登出
         </button>
 
@@ -195,8 +240,8 @@ function onModalLeave(el, done) {
           ]"
           aria-label="菜单"
         >
-          <Menu v-if="!isMobileMenuOpen" :size="24" />
-          <X v-else :size="24" />
+          <PhList v-if="!isMobileMenuOpen" :size="24" />
+          <PhX v-else :size="24" />
         </button>
       </div>
     </div>
@@ -307,7 +352,7 @@ function onModalLeave(el, done) {
                   : 'bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30'
               ]"
             >
-              <User :size="18" />
+              <PhUser :size="18" />
               登录
             </button>
 
@@ -321,7 +366,7 @@ function onModalLeave(el, done) {
                   : 'bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30'
               ]"
             >
-              <LogOut :size="18" />
+              <PhSignOut :size="18" />
               登出
             </button>
           </div>
@@ -329,6 +374,13 @@ function onModalLeave(el, done) {
       </div>
     </Transition>
   </nav>
+
+  <!-- Login Modal -->
+  <LoginModal
+    v-if="showLogin"
+    @close="closeLoginModal"
+    @login-success="handleLoginSuccess"
+  />
 </template>
 
 <style scoped>

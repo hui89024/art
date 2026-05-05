@@ -1,34 +1,38 @@
 <script setup>
 import { ref } from 'vue'
-import { Star, Apple, Play, Smartphone, Camera, Palette, Users, Sparkles, ChevronLeft, ChevronRight } from 'lucide-vue-next'
-import appScreenshot from '@/assets/screenshot-1776943364783.png'
+import { PhStar, PhDeviceMobile, PhCamera, PhPalette, PhUsers, PhSparkle, PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue'
+import appScreenshot1 from '@/assets/2026-05-05 102614.png'
+import appScreenshot2 from '@/assets/2026-05-05 102710.png'
+import appScreenshot3 from '@/assets/2026-05-05 102844.png'
+
+const screenshotImages = [appScreenshot1, appScreenshot2, appScreenshot3]
 
 // Feature items with icons
 const featureItems = [
   {
     id: 1,
-    icon: Camera,
-    title: 'AR 作品预览',
-    description: '增强现实作品预览，提前感受装饰效果',
+    icon: PhSparkle,
+    title: '纹样盛宴',
+    description: '海量传统窗花纹样图库，支持综合、最新、最热浏览与搜索',
     color: 'from-pink-500 to-rose-500'
   },
   {
     id: 2,
-    icon: Palette,
-    title: '智能临摹',
-    description: '智能临摹辅助，逐步掌握剪纸节奏',
+    icon: PhPalette,
+    title: '时光映记',
+    description: '卡片式发现体验，换一批探索更多精美纹样与故事',
     color: 'from-purple-500 to-indigo-500'
   },
   {
     id: 3,
-    icon: Sparkles,
-    title: '纹样库检索',
-    description: '纹样库检索，支持风格与主题筛选',
+    icon: PhCamera,
+    title: 'AR 纹样识别',
+    description: '实时相机扫描剪纸作品，AR 智能识别纹样信息',
     color: 'from-blue-500 to-cyan-500'
   },
   {
     id: 4,
-    icon: Users,
+    icon: PhUsers,
     title: '社区共创',
     description: '社区共创，分享作品并获取反馈',
     color: 'from-green-500 to-emerald-500'
@@ -42,7 +46,7 @@ const reviews = [
     name: '张艺涵',
     initials: '张',
     rating: 5,
-    comment: '作为剪纸爱好者，这个 APP 让我随时随地都能学习和创作，AR 预览功能太棒了！',
+    comment: '纹样盛宴功能太赞了！海量窗花纹样随心浏览，搜索也很方便，每次都能发现新惊喜。',
     date: '2026-04-15',
     color: 'from-pink-500 to-rose-500'
   },
@@ -51,7 +55,7 @@ const reviews = [
     name: '李明轩',
     initials: '李',
     rating: 5,
-    comment: '智能临摹功能帮助我快速掌握了剪纸技巧，纹样库资源也很丰富。',
+    comment: '时光映记的卡片式浏览体验很棒，换一批功能让我停不下来，AR 识别更是黑科技！',
     date: '2026-04-10',
     color: 'from-blue-500 to-cyan-500'
   },
@@ -60,7 +64,7 @@ const reviews = [
     name: '王诗雨',
     initials: '王',
     rating: 4,
-    comment: '界面设计很有文化气息，社区氛围也很好，期待更多功能更新。',
+    comment: '界面设计很有文化气息，AR 扫描识别剪纸纹样太酷了，期待更多功能更新。',
     date: '2026-04-05',
     color: 'from-purple-500 to-indigo-500'
   }
@@ -68,10 +72,9 @@ const reviews = [
 
 // Screenshot carousel
 const screenshots = [
-  { id: 1, title: 'AR 预览', description: '实时查看作品效果' },
-  { id: 2, title: '智能临摹', description: '逐步学习剪纸技巧' },
-  { id: 3, title: '纹样库', description: '海量传统纹样资源' },
-  { id: 4, title: '社区分享', description: '与创作者交流互动' }
+  { id: 1, title: '纹样盛宴', description: '海量传统窗花纹样图库' },
+  { id: 2, title: '时光映记', description: '卡片式发现更多精彩' },
+  { id: 3, title: 'AR 识别', description: '实时扫描识别剪纸纹样' }
 ]
 
 const currentScreenshot = ref(0)
@@ -86,10 +89,6 @@ const prevScreenshot = () => {
 
 const goToScreenshot = (index) => {
   currentScreenshot.value = index
-}
-
-const goIOS = () => {
-  window.open('#', '_blank')
 }
 
 const goAndroid = () => {
@@ -117,7 +116,7 @@ const goAndroid = () => {
           <div class="flex items-center justify-center lg:justify-start gap-6 mb-8">
             <div class="flex items-center gap-2">
               <div class="flex">
-                <Star v-for="i in 5" :key="i" class="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                <PhStar v-for="i in 5" :key="i" class="w-5 h-5 fill-yellow-400 text-yellow-400" />
               </div>
               <span class="text-2xl font-bold text-ink-base">4.9</span>
             </div>
@@ -128,36 +127,19 @@ const goAndroid = () => {
             </div>
           </div>
 
-          <!-- Download Buttons -->
-          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <button
-              @click="goIOS"
-              class="group flex items-center justify-center gap-3 bg-ink-base hover:bg-ink-base/90 text-white px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-ink-base/20 hover:-translate-y-0.5"
-            >
-              <Apple class="w-6 h-6" />
-              <div class="text-left">
-                <p class="text-xs opacity-90">立即下载</p>
-                <p class="text-lg font-semibold -mt-1">苹果版本</p>
-              </div>
-            </button>
-
+          <!-- Download Button -->
+          <div class="flex justify-center lg:justify-start">
             <button
               @click="goAndroid"
-              class="group flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-ink-base border-2 border-paper-dark/30 px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-paper-dark/10 hover:-translate-y-0.5"
+              class="group flex items-center justify-center gap-3 bg-ink-base hover:bg-ink-base/90 text-white px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-ink-base/20 hover:-translate-y-0.5"
             >
-              <Smartphone class="w-6 h-6" />
+              <PhDeviceMobile class="w-6 h-6" />
               <div class="text-left">
-                <p class="text-xs opacity-70">立即下载</p>
+                <p class="text-xs opacity-90">立即下载</p>
                 <p class="text-lg font-semibold -mt-1">安卓版本</p>
               </div>
             </button>
           </div>
-
-          <!-- QR Code Hint -->
-          <p class="text-sm text-bamboo-dark mt-6 flex items-center justify-center lg:justify-start gap-2">
-            <Smartphone class="w-4 h-4" />
-            扫描二维码，手机端快速下载
-          </p>
         </div>
 
         <!-- Right: Device Mockup -->
@@ -170,7 +152,7 @@ const goAndroid = () => {
 
               <!-- Real App Screenshot -->
               <img
-                src="@/assets/screenshot-1776943364783.png"
+                :src="screenshotImages[0]"
                 alt="剪艺 APP 主界面截图"
                 class="w-full h-full object-cover object-top"
               />
@@ -203,7 +185,7 @@ const goAndroid = () => {
               class="flex-shrink-0 w-12 h-12 rounded-full bg-white border-2 border-paper-dark/30 flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-all duration-200 shadow-lg"
               aria-label="上一张截图"
             >
-              <ChevronLeft class="w-6 h-6" />
+              <PhCaretLeft class="w-6 h-6" />
             </button>
 
             <!-- Screenshot Display -->
@@ -212,7 +194,7 @@ const goAndroid = () => {
                 <div class="w-full h-full bg-white rounded-[2rem] overflow-hidden relative">
                   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-ink-base rounded-b-2xl z-10"></div>
                   <img
-                    :src="appScreenshot"
+                    :src="screenshotImages[currentScreenshot]"
                     :alt="screenshots[currentScreenshot].title + ' 截图'"
                     class="w-full h-full object-cover object-top"
                   />
@@ -226,7 +208,7 @@ const goAndroid = () => {
               class="flex-shrink-0 w-12 h-12 rounded-full bg-white border-2 border-paper-dark/30 flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-all duration-200 shadow-lg"
               aria-label="下一张截图"
             >
-              <ChevronRight class="w-6 h-6" />
+              <PhCaretRight class="w-6 h-6" />
             </button>
 
           </div>
@@ -287,7 +269,7 @@ const goAndroid = () => {
         >
           <!-- Rating Stars -->
           <div class="flex gap-1 mb-4">
-            <Star v-for="i in review.rating" :key="i" class="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            <PhStar v-for="i in review.rating" :key="i" class="w-4 h-4 fill-yellow-400 text-yellow-400" />
           </div>
 
           <!-- Review Text -->
@@ -317,25 +299,14 @@ const goAndroid = () => {
           加入 10,000+ 剪纸爱好者，用科技传承非遗文化
         </p>
 
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            @click="goIOS"
-            class="group flex items-center justify-center gap-3 bg-ink-base hover:bg-ink-base/90 text-white px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-ink-base/20 hover:-translate-y-0.5"
-          >
-            <Apple class="w-6 h-6" />
-            <div class="text-left">
-              <p class="text-xs opacity-90">立即下载</p>
-              <p class="text-lg font-semibold -mt-1">苹果版本</p>
-            </div>
-          </button>
-
+        <div class="flex justify-center">
           <button
             @click="goAndroid"
-            class="group flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-ink-base border-2 border-paper-dark/30 px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-paper-dark/10 hover:-translate-y-0.5"
+            class="group flex items-center justify-center gap-3 bg-ink-base hover:bg-ink-base/90 text-white px-8 py-4 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-ink-base/20 hover:-translate-y-0.5"
           >
-            <Smartphone class="w-6 h-6" />
+            <PhDeviceMobile class="w-6 h-6" />
             <div class="text-left">
-              <p class="text-xs opacity-70">立即下载</p>
+              <p class="text-xs opacity-90">立即下载</p>
               <p class="text-lg font-semibold -mt-1">安卓版本</p>
             </div>
           </button>

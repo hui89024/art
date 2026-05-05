@@ -13,9 +13,9 @@
     "test": "npm run test:unit && npm run test:e2e"
   },
   "dependencies": {
+    "@phosphor-icons/vue": "^2.2.1",
     "animejs": "^4.3.6",
     "creepyface": "^8.2.1",
-    "lucide-vue-next": "^1.0.0",
     "vue": "^3.4.29",
     "vue-router": "^5.0.4"
   },

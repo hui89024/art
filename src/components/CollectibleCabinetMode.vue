@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, BookOpen, Info } from 'lucide-vue-next'
+import { PhCaretLeft, PhCaretRight, PhX, PhMagnifyingGlassPlus, PhMagnifyingGlassMinus, PhBookOpen, PhInfo } from '@phosphor-icons/vue'
 import { animate } from 'animejs'
 import { DURATION, EASING } from '@/composables/anime.config.js'
 
@@ -75,7 +75,7 @@ watch(() => props.currentIndex, () => {
         <span class="counter-total">{{ String(items.length).padStart(2, '0') }}</span>
       </div>
       <button @click="emit('exit')" class="header-close" aria-label="退出展柜模式">
-        <X class="w-5 h-5" />
+        <PhX class="w-5 h-5" />
       </button>
     </header>
 
@@ -88,7 +88,7 @@ watch(() => props.currentIndex, () => {
         :disabled="currentIndex === 0"
         aria-label="上一件作品"
       >
-        <ChevronLeft class="w-8 h-8" />
+        <PhCaretLeft class="w-8 h-8" />
       </button>
 
       <!-- 作品展示区 -->
@@ -134,7 +134,7 @@ watch(() => props.currentIndex, () => {
         :disabled="currentIndex === items.length - 1"
         aria-label="下一件作品"
       >
-        <ChevronRight class="w-8 h-8" />
+        <PhCaretRight class="w-8 h-8" />
       </button>
     </div>
 
@@ -143,7 +143,7 @@ watch(() => props.currentIndex, () => {
       <!-- 面板触发器 -->
       <button class="panel-toggle" @click="toggleInfo" :aria-expanded="infoExpanded">
         <span class="toggle-title">{{ currentArtwork.title }}</span>
-        <Info class="w-4 h-4 toggle-icon" :class="{ rotated: infoExpanded }" />
+        <PhInfo class="w-4 h-4 toggle-icon" :class="{ rotated: infoExpanded }" />
       </button>
 
       <!-- 展开内容 -->
@@ -164,11 +164,11 @@ watch(() => props.currentIndex, () => {
           </div>
           <div class="panel-actions">
             <button @click="emit('open-story', currentArtwork)" class="action-btn primary">
-              <BookOpen class="w-4 h-4" aria-hidden="true" />
+              <PhBookOpen class="w-4 h-4" aria-hidden="true" />
               <span>品读故事</span>
             </button>
             <button @click="toggleZoom" class="action-btn secondary">
-              <component :is="isZoomed ? ZoomOut : ZoomIn" class="w-4 h-4" aria-hidden="true" />
+              <component :is="isZoomed ? PhMagnifyingGlassMinus : PhMagnifyingGlassPlus" class="w-4 h-4" aria-hidden="true" />
               <span>{{ isZoomed ? '缩小' : '放大' }}</span>
             </button>
           </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { Hexagon } from 'lucide-vue-next'
+import { PhHexagon } from '@phosphor-icons/vue'
 
 const props = defineProps({
   image: {
@@ -38,7 +38,7 @@ const emit = defineEmits(['open-story'])
 
     <div class="relative w-[85%] h-32 z-10 translate-y-6 flex flex-col items-center">
       <button class="absolute -top-6 left-1/2 -translate-x-1/2 z-30 w-12 h-12 bg-hex-f7efe1 rounded-full border border-hex-d9c6a4 flex items-center justify-center hover:bg-hex-f3e7d4 hover:border-hex-cdb387 transition-all duration-300 shadow-[0_5px_15px_rgba(168,143,104,0.25)] group/btn" @click="emit('open-story')">
-        <Hexagon class="w-6 h-6 text-hex-b59c75 group-hover/btn:text-hex-9d845d transition-colors" />
+        <PhHexagon class="w-6 h-6 text-hex-b59c75 group-hover/btn:text-hex-9d845d transition-colors" />
         <div class="absolute inset-0 rounded-full bg-white/0 group-hover/btn:bg-white/40 transition-colors"></div>
       </button>
 

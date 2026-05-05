@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { ChevronRight } from 'lucide-vue-next'
+import { PhCaretRight } from '@phosphor-icons/vue'
 import FilterBar from './FilterBar.vue'
 
 const props = defineProps({
@@ -148,7 +148,7 @@ const filteredItems = computed(() => {
               :aria-label="`查看 ${item.title} 的故事`"
             >
               <span>品读故事</span>
-              <ChevronRight class="w-4 h-4" />
+              <PhCaretRight class="w-4 h-4" />
             </button>
           </div>
         </div>

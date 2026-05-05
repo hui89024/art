@@ -17,6 +17,7 @@
   - `CollectiblesView.vue` → `getPatterns/getPatternDetail`
   - `PatternLibraryView.vue` → `searchOpenPatterns/getOpenPatternDetailByCode/getOpenPatternTableUrl`
   - `EventsView.vue` → `getEvents`
+  - `ContactView.vue` → `sendContactMessage`
 
 ---
 
@@ -35,6 +36,12 @@
 - `getEvents(params)`：获取活动列表（支持 query 参数）
 - 内部归一化：`normalizeEvents` + `normalizeDate`
 
+### contact.js
+
+- `sendContactMessage({ name, email, phone, message })`：通过飞书 Webhook 发送联系表单消息
+- 内部构建飞书卡片消息格式，包含姓名、邮箱、电话、留言字段
+- 支持 `VITE_CONTACT_WEBHOOK_URL` 环境变量覆盖 Webhook 地址
+
 ---
 
 ## 关键依赖与配置
@@ -45,6 +52,7 @@
   - `https://bpsljpqucopd.sealosbja.site/api/open/patterns`
   - `https://bpsljpqucopd.sealosbja.site/api/open/events`
 - `events.js` 支持 `VITE_OPEN_EVENTS_API` 环境变量覆盖。
+- `contact.js` 通过飞书 Webhook 推送消息，支持 `VITE_CONTACT_WEBHOOK_URL` 环境变量覆盖。
 
 ---
 
@@ -81,6 +89,7 @@
 
 - `src/api/patterns.js`
 - `src/api/events.js`
+- `src/api/contact.js`
 
 ---
 

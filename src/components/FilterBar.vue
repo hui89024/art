@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { ChevronDown, X } from 'lucide-vue-next'
+import { PhCaretDown, PhX } from '@phosphor-icons/vue'
 
 const props = defineProps({
   options: { type: Array, default: () => [] },
@@ -48,7 +48,7 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
       @click="open = !open"
     >
       主题筛选
-      <ChevronDown
+      <PhCaretDown
         class="w-4 h-4 transition-transform duration-200"
         :class="open ? 'rotate-180' : ''"
         aria-hidden="true"
@@ -68,7 +68,7 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
           :aria-label="`移除筛选：${opt}`"
           @click.stop="removeOption(opt)"
         >
-          <X class="w-3 h-3" aria-hidden="true" />
+          <PhX class="w-3 h-3" aria-hidden="true" />
         </button>
       </span>
       <button

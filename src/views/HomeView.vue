@@ -211,8 +211,8 @@
           </h2>
         </div>
         <div class="mt-10 md:mt-0 flex flex-col items-start md:items-end">
-          <button @click="router.push('/collectibles')" class="bg-bamboo-light text-ink-contrast px-8 py-4 rounded-[2px] text-[13px] font-bold uppercase tracking-[0.15em] hover:bg-bamboo-accent transition-all mb-4">
-            浏览全系产品 ↗
+          <button @click="router.push('/collectibles')" class="bg-accent text-white px-8 py-4 rounded-[2px] text-[13px] font-bold uppercase tracking-[0.15em] hover:bg-accent/90 transition-all mb-4">
+            浏览全系作品 ↗
           </button>
         </div>
       </div>

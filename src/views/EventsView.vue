@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
-import { ArrowUp, Calendar, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { PhArrowUp, PhCalendar, PhArrowSquareOut, PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue'
 import { getEvents } from '@/api/events.js'
 
 const loading = ref(true)
@@ -139,7 +139,7 @@ onMounted(() => {
                 v-else
                 class="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center"
               >
-                <Calendar class="w-16 h-16 text-slate-400" />
+                <PhCalendar class="w-16 h-16 text-slate-400" />
               </div>
 
               <!-- Date Badge -->
@@ -173,7 +173,7 @@ onMounted(() => {
                 @click.stop
               >
                 <span>查看详情</span>
-                <ExternalLink class="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
+                <PhArrowSquareOut class="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
               </a>
             </div>
           </div>
@@ -189,7 +189,7 @@ onMounted(() => {
             aria-label="上一条活动"
             @click="prevEvent"
           >
-            <ChevronLeft class="w-5 h-5" />
+            <PhCaretLeft class="w-5 h-5" />
           </button>
 
           <!-- Indicators -->
@@ -217,7 +217,7 @@ onMounted(() => {
             aria-label="下一条活动"
             @click="nextEvent"
           >
-            <ChevronRight class="w-5 h-5" />
+            <PhCaretRight class="w-5 h-5" />
           </button>
         </div>
 
@@ -241,7 +241,7 @@ onMounted(() => {
                 v-else
                 class="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center"
               >
-                <Calendar class="w-12 h-12 text-slate-400" />
+                <PhCalendar class="w-12 h-12 text-slate-400" />
               </div>
             </div>
             <div class="p-6">
@@ -267,7 +267,7 @@ onMounted(() => {
       aria-label="返回顶部"
       @click="scrollToTop"
     >
-      <ArrowUp class="w-5 h-5" />
+      <PhArrowUp class="w-5 h-5" />
     </button>
   </main>
 </template>

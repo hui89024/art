@@ -121,42 +121,47 @@
     <!-- 装饰性分隔 -->
     <ChineseDivider />
 
-    <!-- Footer CTA -->
-    <footer ref="ctaSection" class="relative pt-20 md:pt-28 lg:pt-32 pb-12 md:pb-16 px-5 md:px-8 lg:px-12 bg-gray-950 overflow-hidden">
+    <!-- CTA区域 -->
+    <section ref="ctaSection" class="cta-section relative pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-20 lg:pb-24 px-5 md:px-8 lg:px-12 overflow-hidden">
 
-      <!-- 云纹暗纹背景 -->
-      <div class="absolute inset-0 opacity-[0.03]" aria-hidden="true">
-        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="cloud-pattern" x="0" y="0" width="96" height="48" patternUnits="userSpaceOnUse">
-              <path d="M2 24C2 24 12 12 24 12C36 12 42 24 48 24C54 24 60 12 72 12C84 12 94 24 94 24"
-                    stroke="#6b7280" stroke-width="2" fill="none" stroke-linecap="round"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#cloud-pattern)"/>
-        </svg>
-      </div>
+      <!-- 背景 -->
+      <div class="absolute inset-0 bg-[#f8f4ef]" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_50%,rgba(212,190,152,0.12),transparent)]" aria-hidden="true"></div>
 
-      <!-- 微弱径向渐变叠加 -->
-      <div class="absolute inset-0 bg-radial-gradient" aria-hidden="true"></div>
+      <!-- 纹样装饰 -->
+      <img
+        src="@/assets/AN-TR-OT-CN-2026-02-11(3).png"
+        alt=""
+        class="cta-pattern absolute -left-24 md:-left-12 top-1/2 -translate-y-1/2 w-[320px] h-[320px] md:w-[420px] md:h-[420px] object-contain opacity-[0.07] pointer-events-none select-none"
+        aria-hidden="true"
+      />
+      <img
+        src="@/assets/AN-TR-OT-CN-2026-02-11(4).png"
+        alt=""
+        class="cta-pattern absolute -right-20 md:-right-8 top-0 w-[280px] h-[280px] md:w-[380px] md:h-[380px] object-contain opacity-[0.06] pointer-events-none select-none"
+        aria-hidden="true"
+      />
+      <img
+        src="@/assets/AN-TR-OT-CN-2026-02-11(9).png"
+        alt=""
+        class="cta-pattern absolute -right-16 md:-right-4 bottom-0 w-[260px] h-[260px] md:w-[340px] md:h-[340px] object-contain opacity-[0.05] pointer-events-none select-none"
+        aria-hidden="true"
+      />
 
       <div class="relative max-w-[1600px] mx-auto">
-
-        <!-- CTA区域 -->
-        <div class="flex flex-col items-center text-center
-                    border-b border-amber-500/20 pb-12 md:pb-16 lg:pb-20 mb-12 md:mb-16 lg:mb-20">
+        <div class="flex flex-col items-center text-center">
 
           <!-- Kicker 标签 -->
           <div ref="ctaKicker"
-               class="text-amber-400 text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.4em]
-                      px-4 md:px-6 py-1.5 md:py-2 border border-amber-500/30 bg-amber-500/5
+               class="text-amber-600 text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.4em]
+                      px-4 md:px-6 py-1.5 md:py-2 border border-amber-500/40 bg-amber-500/10
                       inline-block mb-6 md:mb-8">
             准备好开启创作了吗
           </div>
 
           <!-- 大标题 -->
           <h2 ref="ctaHeading"
-              class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white
+              class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-ink-base
                      leading-tight tracking-tight">
             与剪艺一起<br>
             开启非遗之旅。
@@ -165,7 +170,7 @@
           <!-- 品牌理念 -->
           <div ref="ctaManifesto" class="mt-8 md:mt-12 max-w-2xl flex items-start gap-3 md:gap-4">
             <span class="text-amber-500/60 text-3xl md:text-4xl font-serif leading-none select-none shrink-0">"</span>
-            <p class="text-gray-400 text-sm md:text-base lg:text-lg font-light leading-relaxed">
+            <p class="text-bamboo-deep text-sm md:text-base lg:text-lg font-light leading-relaxed">
               我们不只是裁刻纸张，我们在方寸之间，雕琢大千世界。
             </p>
           </div>
@@ -190,6 +195,29 @@
             </button>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Footer链接 -->
+    <footer class="relative pt-10 md:pt-16 pb-12 md:pb-16 px-5 md:px-8 lg:px-12 bg-gray-950 overflow-hidden">
+
+      <!-- 云纹暗纹背景 -->
+      <div class="absolute inset-0 opacity-[0.03]" aria-hidden="true">
+        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="cloud-pattern" x="0" y="0" width="96" height="48" patternUnits="userSpaceOnUse">
+              <path d="M2 24C2 24 12 12 24 12C36 12 42 24 48 24C54 24 60 12 72 12C84 12 94 24 94 24"
+                    stroke="#6b7280" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#cloud-pattern)"/>
+        </svg>
+      </div>
+
+      <!-- 微弱径向渐变叠加 -->
+      <div class="absolute inset-0 bg-radial-gradient" aria-hidden="true"></div>
+
+      <div class="relative max-w-[1600px] mx-auto">
 
         <!-- 装饰细线 -->
         <div ref="ctaDivider"
@@ -361,6 +389,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* 纹样背景：去掉白色底，只保留纹样本身 */
+.cta-pattern {
+  mix-blend-mode: multiply;
+  filter: saturate(0.3);
+}
+
 /* CTA 按钮扫光动效 */
 .cta-button::after {
   content: '';

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { ChevronDown } from 'lucide-vue-next'
+import { PhCaretDown } from '@phosphor-icons/vue'
 import { useRouter } from 'vue-router'
 import heroBg from '@/assets/wtre.jpg'
 
@@ -77,7 +77,7 @@ onUnmounted(() => {
       :class="isVisible ? 'opacity-100' : 'opacity-0'"
     >
       <span class="text-[13px] uppercase tracking-[0.3em] text-white/50 font-bold">向下滑动</span>
-      <ChevronDown class="text-white/50 w-4 h-4 animate-bounce" />
+      <PhCaretDown class="text-white/50 w-4 h-4 animate-bounce" />
     </div>
   </section>
 </template>

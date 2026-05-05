@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
-import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-vue-next'
+import { PhCaretLeft, PhCaretRight, PhBookOpen } from '@phosphor-icons/vue'
 import { DURATION, EASING } from '@/composables/anime.config.js'
 import { animate } from 'animejs'
 
@@ -97,7 +97,7 @@ onUnmounted(() => {
             <h2 class="intro-title">展 · 卷</h2>
             <p class="intro-subtitle">横向滑动，徐徐展开千年剪纸长卷</p>
             <div class="intro-arrow">
-              <ChevronRight class="w-5 h-5" />
+              <PhCaretRight class="w-5 h-5" />
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@ onUnmounted(() => {
               @click.stop="emit('open-story', item)"
               :aria-label="`查看 ${item.title} 的故事`"
             >
-              <BookOpen class="w-4 h-4" aria-hidden="true" />
+              <PhBookOpen class="w-4 h-4" aria-hidden="true" />
               <span>品读故事</span>
             </button>
           </div>
@@ -196,7 +196,7 @@ onUnmounted(() => {
       :disabled="currentIndex === 0"
       aria-label="上一件作品"
     >
-      <ChevronLeft class="w-5 h-5" />
+      <PhCaretLeft class="w-5 h-5" />
     </button>
     <button
       class="scroll-nav-btn right"
@@ -204,7 +204,7 @@ onUnmounted(() => {
       :disabled="currentIndex === items.length - 1"
       aria-label="下一件作品"
     >
-      <ChevronRight class="w-5 h-5" />
+      <PhCaretRight class="w-5 h-5" />
     </button>
   </div>
 </template>

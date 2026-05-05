@@ -1,5 +1,5 @@
 <script setup>
-import { X, FileText, User, Building } from 'lucide-vue-next'
+import { PhX, PhFileText, PhUser, PhBuildings } from '@phosphor-icons/vue'
 
 const props = defineProps({
   artifact: {
@@ -23,12 +23,12 @@ const emit = defineEmits(['close'])
 
     <div data-modal-box class="relative w-full max-w-5xl h-[85vh] bg-hex-f8f3ea border border-hex-e7dac4 rounded-2xl shadow-[0_20px_40px_rgba(143,121,88,0.2)] overflow-hidden flex flex-col md:flex-row font-sans text-hex-8f7d62">
       <button @click="emit('close')" class="absolute top-4 right-4 z-50 p-2 bg-white/80 hover:bg-white rounded-full text-hex-a58d67 hover:text-hex-836a48 border border-hex-e2d2b7 transition-colors">
-        <X class="w-5 h-5" />
+        <PhX class="w-5 h-5" />
       </button>
 
       <div class="flex-1 h-1/2 md:h-full overflow-y-auto bg-hex-f6efe3 relative custom-scrollbar flex flex-col">
         <div class="sticky top-0 z-10 p-6 pb-4 border-b border-hex-e5d8c2 bg-hex-f6efe3/95 backdrop-blur-md flex items-center gap-2">
-          <FileText class="w-5 h-5 text-hex-b79f77" />
+          <PhFileText class="w-5 h-5 text-hex-b79f77" />
           <h3 class="text-xs font-bold text-hex-8b7655 uppercase tracking-[0.2em]">作品档案</h3>
         </div>
 
@@ -58,7 +58,7 @@ const emit = defineEmits(['close'])
       <div class="w-full md:w-80 lg:w-96 bg-hex-f8f2e7 h-1/2 md:h-full border-t md:border-t-0 md:border-l border-hex-e4d6bf p-8 flex flex-col gap-8 overflow-y-auto custom-scrollbar">
         <div class="space-y-4">
           <div class="flex items-center gap-3 text-hex-8b7655 mb-2">
-            <User class="w-5 h-5 text-hex-b79f77" />
+            <PhUser class="w-5 h-5 text-hex-b79f77" />
             <h4 class="text-xs font-bold uppercase tracking-[0.2em]">创作者</h4>
           </div>
           <div class="bg-hex-fffaf1 border border-hex-e7d9c3 rounded-xl p-5 hover:border-hex-d8c5a5 transition-colors shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
@@ -71,7 +71,7 @@ const emit = defineEmits(['close'])
 
         <div class="space-y-4">
           <div class="flex items-center gap-3 text-hex-8b7655 mb-2">
-            <Building class="w-5 h-5 text-hex-b79f77" />
+            <PhBuildings class="w-5 h-5 text-hex-b79f77" />
             <h4 class="text-xs font-bold uppercase tracking-[0.2em]">出品方</h4>
           </div>
           <div class="bg-hex-fffaf1 border border-hex-e7d9c3 rounded-xl p-5 hover:border-hex-d8c5a5 transition-colors shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">

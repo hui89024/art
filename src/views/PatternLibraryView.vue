@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { ExternalLink, Search, LoaderCircle } from 'lucide-vue-next'
+import { PhArrowSquareOut, PhMagnifyingGlass, PhSpinner } from '@phosphor-icons/vue'
 import {
   searchOpenPatterns,
   getOpenPatternDetailByCode,
@@ -206,7 +206,7 @@ onMounted(fetchPatterns)
             @click="applySearch"
             class="inline-flex items-center gap-2 px-5 h-10 rounded-xl bg-bamboo-light text-pattern-cta-text text-xs font-bold tracking-[0.15em] hover:bg-bamboo-accent transition-colors"
           >
-            <Search class="w-4 h-4" />
+            <PhMagnifyingGlass class="w-4 h-4" />
             查询
           </button>
           <button
@@ -220,7 +220,7 @@ onMounted(fetchPatterns)
       </div>
 
       <div v-if="loading" class="h-40 rounded-2xl border border-pattern-border bg-pattern-loading flex items-center justify-center text-pattern-muted gap-2">
-        <LoaderCircle class="w-4 h-4 animate-spin" />
+        <PhSpinner class="w-4 h-4 animate-spin" />
         加载中...
       </div>
 
@@ -310,7 +310,7 @@ onMounted(fetchPatterns)
             </div>
 
             <div v-if="loadingDetail" class="h-32 rounded-xl border border-pattern-border bg-pattern-loading flex items-center justify-center text-pattern-muted gap-2">
-              <LoaderCircle class="w-4 h-4 animate-spin" />
+              <PhSpinner class="w-4 h-4 animate-spin" />
               加载详情中...
             </div>
 
@@ -339,7 +339,7 @@ onMounted(fetchPatterns)
                 class="inline-flex items-center gap-2 px-4 h-10 rounded-xl border border-pattern-border-mid text-xs font-bold tracking-[0.15em] text-pattern-button-text-strong hover:bg-pattern-link-hover"
               >
                 打开网页信息页
-                <ExternalLink class="w-4 h-4" />
+                <PhArrowSquareOut class="w-4 h-4" />
               </a>
             </template>
           </div>

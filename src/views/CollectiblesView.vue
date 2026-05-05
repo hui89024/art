@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import { Scroll, Archive, LayoutGrid } from 'lucide-vue-next'
+import { PhScroll, PhArchive, PhGridFour } from '@phosphor-icons/vue'
 import { animate } from 'animejs'
 import { useAnimate } from '@/composables/useAnimate.js'
 import { DURATION, EASING, STAGGER_DELAY } from '@/composables/anime.config.js'
@@ -284,9 +284,9 @@ onUnmounted(() => {
       <div class="mode-switcher-inner" role="tablist" aria-label="浏览模式">
         <button
           v-for="mode in [
-            { id: 'pavilion', icon: LayoutGrid, label: '百宝阁' },
-            { id: 'scroll', icon: Scroll, label: '卷轴长卷' },
-            { id: 'cabinet', icon: Archive, label: '珍品展柜' },
+            { id: 'pavilion', icon: PhGridFour, label: '百宝阁' },
+            { id: 'scroll', icon: PhScroll, label: '卷轴长卷' },
+            { id: 'cabinet', icon: PhArchive, label: '珍品展柜' },
           ]"
           :key="mode.id"
           :class="{ active: viewMode === mode.id }"
