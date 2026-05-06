@@ -42,6 +42,7 @@ const normalizeReviews = (payload) => {
       id: item?.id ?? `review-${index}`,
       name: username,
       initials: username.charAt(0),
+      avatarUrl: item?.user?.avatarUrl || '',
       rating: Number.isFinite(item?.rating) ? item.rating : 5,
       comment: item?.comment || '',
       date: formatDate(item?.createdAt),

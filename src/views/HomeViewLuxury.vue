@@ -237,7 +237,7 @@
         <div class="flex items-center justify-center gap-4">
           <div class="w-8 h-px bg-luxury-gold/50"></div>
           <p class="text-luxury-text-muted text-xs font-bold uppercase tracking-[0.2em]">
-            剪艺数字实验室，中国
+            剪艺工作室，中国
           </p>
           <div class="w-8 h-px bg-luxury-gold/50"></div>
         </div>

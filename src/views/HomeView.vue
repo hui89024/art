@@ -191,7 +191,7 @@
           "我们不只是裁刻纸张。<br>我们在方寸之间，<br>雕琢大千世界。"
         </h2>
         <p class="text-bamboo-dark text-[13px] font-bold uppercase tracking-[0.2em] mt-12 flex items-center justify-center gap-4">
-          <span class="w-6 h-[1px] bg-bamboo-soft"></span> 剪艺数字实验室，中国
+          <span class="w-6 h-[1px] bg-bamboo-soft"></span> 剪艺工作室，中国
         </p>
       </div>
     </section>

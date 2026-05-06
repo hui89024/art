@@ -1,45 +1,17 @@
 <script setup>
-import { computed } from 'vue'
 import { PhCaretRight } from '@phosphor-icons/vue'
-import FilterBar from './FilterBar.vue'
 
 const props = defineProps({
   items: { type: Array, default: () => [] },
   loading: { type: Boolean, default: false },
   loadError: { type: String, default: '' },
-  themeOptions: { type: Array, default: () => [] },
-  selectedThemes: { type: Array, default: () => [] },
 })
 
-const emit = defineEmits(['select-item', 'open-story', 'update:selectedThemes'])
-
-const filteredItems = computed(() => {
-  if (!props.selectedThemes.length) return props.items
-  return props.items.filter(
-    (p) => props.selectedThemes.includes(p.theme) || p.theme === '未分类'
-  )
-})
+const emit = defineEmits(['select-item', 'open-story'])
 </script>
 
 <template>
   <main class="pavilion-mode" role="tabpanel" aria-label="百宝阁浏览模式">
-    <!-- 筛选工具栏 -->
-    <div class="pavilion-toolbar">
-      <div class="toolbar-inner">
-        <FilterBar
-          :options="themeOptions"
-          :selected="selectedThemes"
-          @update:selected="emit('update:selectedThemes', $event)"
-        />
-        <div class="toolbar-info">
-          <span class="artwork-count">
-            <span class="count-number">{{ filteredItems.length }}</span>
-            <span class="count-label">件珍品</span>
-          </span>
-        </div>
-      </div>
-    </div>
-
     <!-- 骨架屏加载状态 -->
     <div v-if="loading" class="skeleton-grid" aria-label="加载中">
       <div v-for="i in 6" :key="i" class="skeleton-card">
@@ -59,7 +31,7 @@ const filteredItems = computed(() => {
     </div>
 
     <!-- 空状态 -->
-    <div v-if="!loading && !filteredItems.length" class="empty-state">
+    <div v-if="!loading && !items.length" class="empty-state">
       <div class="empty-illustration" aria-hidden="true">
         <div class="empty-seal">
           <div class="empty-diamond">
@@ -67,20 +39,14 @@ const filteredItems = computed(() => {
           </div>
         </div>
       </div>
-      <h3 class="empty-title">
-        <template v-if="selectedThemes.length">暂无匹配珍品</template>
-        <template v-else>暂无可展示珍品</template>
-      </h3>
-      <p class="empty-desc">
-        <template v-if="selectedThemes.length">请尝试其他主题筛选，或清除筛选条件查看全部珍品。</template>
-        <template v-else>珍品正在精心筹备中，敬请期待。</template>
-      </p>
+      <h3 class="empty-title">暂无可展示珍品</h3>
+      <p class="empty-desc">珍品正在精心筹备中，敬请期待。</p>
     </div>
 
     <!-- 百宝阁网格 -->
-    <div v-if="!loading && filteredItems.length" class="pavilion-grid" role="list" aria-label="珍品展示">
+    <div v-if="!loading && items.length" class="pavilion-grid" role="list" aria-label="珍品展示">
       <article
-        v-for="(item, index) in filteredItems"
+        v-for="(item, index) in items"
         :key="item.id"
         class="pavilion-card"
         role="listitem"
@@ -171,49 +137,6 @@ const filteredItems = computed(() => {
   min-height: 100vh;
   background: linear-gradient(135deg, #FEF2F2 0%, #FFFBEB 50%, #FFF7ED 100%);
   padding-bottom: 4rem;
-}
-
-/* 筛选工具栏 */
-.pavilion-toolbar {
-  position: sticky;
-  top: 5rem;
-  z-index: 20;
-  background: rgba(254, 242, 242, 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(220, 38, 38, 0.15);
-}
-
-.toolbar-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.toolbar-info {
-  display: flex;
-  align-items: center;
-}
-
-.artwork-count {
-  display: flex;
-  align-items: baseline;
-  gap: 0.375rem;
-}
-
-.count-number {
-  font-size: 1.5rem;
-  font-weight: 300;
-  color: #991B1B;
-  font-variant-numeric: tabular-nums;
-}
-
-.count-label {
-  font-size: 0.75rem;
-  color: #B45309;
-  opacity: 0.7;
 }
 
 /* 骨架屏 */
@@ -653,13 +576,6 @@ const filteredItems = computed(() => {
     grid-template-columns: 1fr;
     padding: 1rem;
     gap: 1rem;
-  }
-
-  .toolbar-inner {
-    padding: 0.75rem 1rem;
-    flex-direction: column;
-    gap: 0.75rem;
-    align-items: flex-start;
   }
 }
 

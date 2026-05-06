@@ -132,13 +132,10 @@
         <div class="flex items-center justify-center gap-3 md:gap-4">
           <div class="w-6 md:w-8 h-px bg-manifesto-divider"></div>
           <p class="text-manifesto-footer text-xs font-bold uppercase tracking-[0.3em] md:tracking-[0.4em]">
-            剪艺数字实验室
+            剪艺工作室
           </p>
           <div class="w-6 md:w-8 h-px bg-manifesto-divider"></div>
         </div>
-        <p class="text-manifesto-footer-sub text-xs mt-2 md:mt-3 tracking-widest">
-          Jianyi Digital Lab · Est. 2024
-        </p>
       </div>
     </div>
 

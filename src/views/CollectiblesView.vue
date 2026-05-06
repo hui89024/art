@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { PhScroll, PhArchive, PhGridFour } from '@phosphor-icons/vue'
 import { animate } from 'animejs'
 import { useAnimate } from '@/composables/useAnimate.js'
@@ -24,8 +24,6 @@ const showStory = ref(false)
 const activePattern = ref(null)
 const loading = ref(true)
 const loadError = ref('')
-const themeOptions = ['瑞兽', '花卉', '人物', '山水', '几何', '吉祥纹']
-const selectedThemes = ref([])
 
 // ============ 数据 ============
 const DEFAULT_PATTERN_IDS = ['0001', '0002', '0003']
@@ -81,13 +79,6 @@ const fallbackById = fallbackPatterns.reduce((acc, item) => {
 const patterns = ref([...fallbackPatterns])
 activePattern.value = patterns.value[0]
 
-const filteredPatterns = computed(() => {
-  if (!selectedThemes.value.length) return patterns.value
-  return patterns.value.filter(
-    (p) => selectedThemes.value.includes(p.theme) || p.theme === '未分类'
-  )
-})
-
 // ============ 工具函数 ============
 const normalizeStory = (story, fallbackStory = []) => {
   if (Array.isArray(story)) {
@@ -95,7 +86,7 @@ const normalizeStory = (story, fallbackStory = []) => {
     return normalized.length ? normalized : fallbackStory
   }
   if (typeof story === 'string') {
-    const normalized = story.split('\n').map((item) => item.trim()).filter(Boolean)
+    const normalized = story.split('\\n').map((item) => item.trim()).filter(Boolean)
     return normalized.length ? normalized : fallbackStory
   }
   return fallbackStory
@@ -129,7 +120,7 @@ const prevArtwork = () => {
 }
 
 const nextArtwork = () => {
-  if (currentIndex.value < filteredPatterns.value.length - 1) currentIndex.value++
+  if (currentIndex.value < patterns.value.length - 1) currentIndex.value++
 }
 
 const enterCabinetMode = (index) => {
@@ -215,8 +206,8 @@ const handleKeydown = (e) => {
         break
       case ' ':
         e.preventDefault()
-        if (filteredPatterns.value[currentIndex.value]) {
-          openStory(filteredPatterns.value[currentIndex.value])
+        if (patterns.value[currentIndex.value]) {
+          openStory(patterns.value[currentIndex.value])
         }
         break
     }
@@ -325,20 +316,17 @@ onUnmounted(() => {
     <!-- 百宝阁模式 -->
     <CollectiblePavilionMode
       v-if="viewMode === 'pavilion'"
-      :items="filteredPatterns"
+      :items="patterns"
       :loading="loading"
       :loadError="loadError"
-      :themeOptions="themeOptions"
-      :selectedThemes="selectedThemes"
       @select-item="(idx) => enterCabinetMode(idx)"
       @open-story="openStory"
-      @update:selectedThemes="selectedThemes = $event"
     />
 
     <!-- 卷轴长卷模式 -->
     <CollectibleScrollMode
       v-if="viewMode === 'scroll'"
-      :items="filteredPatterns"
+      :items="patterns"
       :activeIndex="currentIndex"
       @select-item="(idx) => currentIndex = idx"
       @open-story="openStory"
@@ -347,7 +335,7 @@ onUnmounted(() => {
     <!-- 珍品展柜模式 -->
     <CollectibleCabinetMode
       v-if="viewMode === 'cabinet'"
-      :items="filteredPatterns"
+      :items="patterns"
       :currentIndex="currentIndex"
       @prev="prevArtwork"
       @next="nextArtwork"
