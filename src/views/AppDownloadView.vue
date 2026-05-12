@@ -20,16 +20,16 @@ const featureItems = [
   },
   {
     id: 2,
-    icon: PhPalette,
-    title: '时光映记',
-    description: '卡片式发现体验，换一批探索更多精美纹样与故事',
+    icon: PhBrain,
+    title: 'AI智能剪纸',
+    description: '上传图片一键转剪纸风格，输入描述智能生成专属纹样',
     color: 'from-purple-500 to-indigo-500'
   },
   {
     id: 3,
-    icon: PhCamera,
-    title: 'AR 纹样识别',
-    description: '实时相机扫描剪纸作品，AR 智能识别纹样信息',
+    icon: PhScissors,
+    title: '剪趣在线创作',
+    description: '丰富模板随心选，指尖自由绘制你的剪纸作品',
     color: 'from-blue-500 to-cyan-500'
   },
   {
