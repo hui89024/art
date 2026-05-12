@@ -137,7 +137,6 @@ onUnmounted(() => {
           <!-- 作品信息区 -->
           <div class="card-info">
             <div class="info-header">
-              <span class="info-theme-tag">{{ item.theme }}</span>
               <span class="info-code">{{ item.patternCode }}</span>
             </div>
             <h3 class="info-title">{{ item.title }}</h3>
@@ -418,18 +417,6 @@ onUnmounted(() => {
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
-}
-
-.info-theme-tag {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border: 2px solid #DC2626;
-  border-radius: 2px;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  color: #DC2626;
-  letter-spacing: 0.1em;
-  transform: rotate(-1deg);
 }
 
 .info-code {

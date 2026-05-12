@@ -1,5 +1,9 @@
 <script setup>
-import appScreenshot from '@/assets/2026-05-05 102614.png'
+import defaultScreenshot from '@/assets/12-5-2026_91226_h5.yikex.xyz.jpeg'
+
+const props = defineProps({
+  image: { type: String, default: '' }
+})
 </script>
 
 <template>
@@ -25,7 +29,9 @@ import appScreenshot from '@/assets/2026-05-05 102614.png'
         </div>
 
         <!-- App 截图 -->
-        <img v-protect-image :src="appScreenshot" alt="剪艺应用截图" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 pt-[44px]">
+          <img v-protect-image :src="props.image || defaultScreenshot" alt="剪艺应用截图" class="w-full h-full object-cover" />
+        </div>
       </div>
     </div>
   </div>

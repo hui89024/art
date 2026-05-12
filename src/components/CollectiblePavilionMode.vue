@@ -50,9 +50,9 @@ const emit = defineEmits(['select-item', 'open-story'])
         :key="item.id"
         class="pavilion-card"
         role="listitem"
-        @click="emit('select-item', index)"
-        @keydown.enter="emit('select-item', index)"
-        @keydown.space.prevent="emit('select-item', index)"
+        @click="emit('open-story', item)"
+        @keydown.enter="emit('open-story', item)"
+        @keydown.space.prevent="emit('open-story', item)"
         tabindex="0"
         :aria-label="`珍品 ${index + 1}：${item.title}`"
       >
@@ -60,7 +60,15 @@ const emit = defineEmits(['select-item', 'open-story'])
         <div class="card-accent" aria-hidden="true"></div>
 
         <!-- 图片区域 -->
-        <div class="card-image">
+        <div
+          class="card-image"
+          @click.stop="emit('open-story', item)"
+          @keydown.enter.stop="emit('open-story', item)"
+          @keydown.space.prevent.stop="emit('open-story', item)"
+          tabindex="0"
+          :aria-label="`查看 ${item.title} 的作品档案`"
+          role="button"
+        >
           <!-- 装饰旋转圆环 -->
           <div class="image-ring outer" aria-hidden="true"></div>
           <div class="image-ring inner" aria-hidden="true"></div>
@@ -85,11 +93,6 @@ const emit = defineEmits(['select-item', 'open-story'])
 
         <!-- 内容区域 -->
         <div class="card-body">
-          <!-- 系列标签 -->
-          <div class="card-tag">
-            <span class="tag-text">{{ item.theme }}</span>
-          </div>
-
           <!-- 标题行 -->
           <div class="card-header">
             <span class="card-index">{{ String(index + 1).padStart(2, '0') }}</span>
@@ -323,7 +326,7 @@ const emit = defineEmits(['select-item', 'open-story'])
 .card-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s;
 }
 

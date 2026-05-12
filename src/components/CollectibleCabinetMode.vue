@@ -155,10 +155,6 @@ watch(() => props.currentIndex, () => {
               <span class="meta-label">藏品编号</span>
               <span class="meta-value">{{ currentArtwork.patternCode }}</span>
             </div>
-            <div class="meta-item">
-              <span class="meta-label">主题分类</span>
-              <span class="meta-value">{{ currentArtwork.theme }}</span>
-            </div>
           </div>
           <div class="panel-desc">
             <p>{{ currentArtwork.desc }}</p>

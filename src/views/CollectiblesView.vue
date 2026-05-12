@@ -41,7 +41,6 @@ const fallbackPatterns = [
       '本作品"系列 01：凤凰"的灵感源自历代剪纸纹饰与神话故事。在古代文明中，凤凰被视为吉祥与重生的神圣图腾。',
       '这件作品中的每一片羽毛与纹路都经过匠人精心刻画，纸张层叠在光线照射下呈现出立体而灵动的观感。'
     ],
-    theme: '瑞兽',
   },
   {
     id: '0002',
@@ -54,7 +53,6 @@ const fallbackPatterns = [
       '匠人以毫米级控制完成深浅层次，将"剪"与"刻"的节奏统一为可阅读的视觉语言。',
       '在自然光与侧光下，作品会产生不同阴影层次，呈现丰富且耐看的细节变化。'
     ],
-    theme: '瑞兽',
   },
   {
     id: '0003',
@@ -67,7 +65,6 @@ const fallbackPatterns = [
       '作品采用稳定的装裱与防护体系，兼顾收藏展示与长期保存的需求。',
       '当传统纹样走进现代居住空间，文化不再停留于陈列，而成为日常可感知的美学体验。'
     ],
-    theme: '瑞兽',
   }
 ]
 
@@ -102,7 +99,6 @@ const normalizePattern = (data, fallbackItem) => {
     image: `${data?.image ?? fallbackItem.image ?? ''}`,
     desc: desc || story[0] || '暂无描述',
     story,
-    theme: `${data?.theme ?? fallbackItem.theme ?? '未分类'}`,
   }
 }
 
