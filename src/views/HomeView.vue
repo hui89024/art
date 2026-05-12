@@ -29,21 +29,36 @@
         </div>
       </div>
 
+      <!-- 骨架屏加载状态 -->
+      <div v-if="loading" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div v-for="i in 3" :key="i" class="bg-paper-light rounded-2xl overflow-hidden border border-paper-dark/60">
+          <div class="aspect-[4/3] bg-paper-muted animate-pulse"></div>
+          <div class="p-8 space-y-4">
+            <div class="h-4 bg-paper-muted rounded w-24 animate-pulse"></div>
+            <div class="h-8 bg-paper-muted rounded w-32 animate-pulse"></div>
+            <div class="h-16 bg-paper-muted rounded animate-pulse"></div>
+            <div class="flex justify-end pt-6">
+              <div class="h-10 bg-paper-muted rounded w-20 animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- 3 Columns Products -->
-      <div ref="productCardsRef" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div v-else ref="productCardsRef" class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Card 1 -->
         <div class="group relative bg-paper-light rounded-2xl overflow-hidden border border-paper-dark/60 hover:border-paper-dark/70 transition-colors flex flex-col">
           <div class="relative aspect-[4/3] overflow-hidden bg-paper-muted flex justify-center items-center p-8">
-            <img v-protect-image :src="pattern017" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
+            <img v-protect-image :src="homePatterns[0]?.image" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
           </div>
           <div class="p-8 flex-1 flex flex-col">
-            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em] mb-3">系列 01 · 暮金流影</p>
+            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em] mb-3">{{ homePatterns[0]?.theme }}</p>
             <div class="flex justify-between items-start mb-4">
-              <h4 class="text-2xl font-medium text-ink-base">生生不息</h4>
+              <h4 class="text-2xl font-medium text-ink-base">{{ homePatterns[0]?.title }}</h4>
               <span class="text-bamboo-base group-hover:text-ink-base transition-colors cursor-pointer">↗</span>
             </div>
             <p class="text-bamboo-dark text-xs leading-relaxed mb-8">
-              以传统窗花语言为核心，提炼纹样、留白与层叠结构，呈现生生不息的繁荣愿景。
+              {{ homePatterns[0]?.desc }}
             </p>
             <div class="flex justify-end items-center border-t border-paper-dark/60 pt-6 mt-auto">
               <button @click="router.push('/collectibles')" class="border border-paper-dark/70 px-6 py-2.5 rounded-[2px] text-[12px] font-bold uppercase tracking-[0.1em] text-bamboo-deep hover:bg-paper-hover/70 transition-colors">
@@ -56,16 +71,16 @@
         <!-- Card 2 -->
         <div class="group relative bg-paper-light rounded-2xl overflow-hidden border border-paper-dark/60 hover:border-paper-dark/70 transition-colors flex flex-col">
           <div class="relative aspect-[4/3] overflow-hidden bg-paper-muted flex justify-center items-center p-8">
-            <img v-protect-image :src="pattern018" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
+            <img v-protect-image :src="homePatterns[1]?.image" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
           </div>
           <div class="p-8 flex-1 flex flex-col">
-            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em] mb-3">系列 02 · 玉紫华章</p>
+            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em] mb-3">{{ homePatterns[1]?.theme }}</p>
             <div class="flex justify-between items-start mb-4">
-              <h4 class="text-2xl font-medium text-ink-base">鱼跃龙门</h4>
+              <h4 class="text-2xl font-medium text-ink-base">{{ homePatterns[1]?.title }}</h4>
               <span class="text-bamboo-base group-hover:text-ink-base transition-colors cursor-pointer">↗</span>
             </div>
             <p class="text-bamboo-dark text-xs leading-relaxed mb-8">
-              细腻镂空与金色轮廓相映，传说中的锦鲤化龙，象征着终极的胜利与荣耀。
+              {{ homePatterns[1]?.desc }}
             </p>
             <div class="flex justify-end items-center border-t border-paper-dark/60 pt-6 mt-auto">
               <button @click="router.push('/collectibles')" class="border border-paper-dark/70 px-6 py-2.5 rounded-[2px] text-[12px] font-bold uppercase tracking-[0.1em] text-bamboo-deep hover:bg-paper-hover/70 transition-colors">
@@ -78,16 +93,16 @@
         <!-- Card 3 -->
         <div class="group relative bg-paper-light rounded-2xl overflow-hidden border border-paper-dark/60 hover:border-paper-dark/70 transition-colors flex flex-col">
           <div class="relative aspect-[4/3] overflow-hidden bg-paper-muted flex justify-center items-center p-8">
-            <img v-protect-image :src="pattern019" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
+            <img v-protect-image :src="homePatterns[2]?.image" class="w-full h-full object-contain filter brightness-110 group-hover:scale-105 transition-transform duration-700" alt="作品图片">
           </div>
           <div class="p-8 flex-1 flex flex-col">
-            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em] mb-3">系列 03 · 典藏映辉</p>
+            <p class="text-bamboo-base text-[13px] font-bold uppercase tracking-[0.2em] mb-3">{{ homePatterns[2]?.theme }}</p>
             <div class="flex justify-between items-start mb-4">
-              <h4 class="text-2xl font-medium text-ink-base">天命玄鸟</h4>
+              <h4 class="text-2xl font-medium text-ink-base">{{ homePatterns[2]?.title }}</h4>
               <span class="text-bamboo-base group-hover:text-ink-base transition-colors cursor-pointer">↗</span>
             </div>
             <p class="text-bamboo-dark text-xs leading-relaxed mb-8">
-              以暗玉紫铺陈深邃氛围，借由剪艺纹样传递守护与新生的东方神话信仰。
+              {{ homePatterns[2]?.desc }}
             </p>
             <div class="flex justify-end items-center border-t border-paper-dark/60 pt-6 mt-auto">
               <button @click="router.push('/collectibles')" class="border border-paper-dark/70 px-6 py-2.5 rounded-[2px] text-[12px] font-bold uppercase tracking-[0.1em] text-bamboo-deep hover:bg-paper-hover/70 transition-colors">
@@ -319,11 +334,77 @@ function openProtocol(tab) {
   showProtocol.value = true
 }
 
+const normalizeHomePattern = (item, fallback, index) => {
+  return {
+    id: item?.id ?? fallback.id,
+    title: item?.title ?? fallback.title,
+    patternCode: item?.patternCode ?? fallback.patternCode,
+    image: item?.imageUrl ?? item?.image ?? fallback.image,
+    desc: item?.desc ?? item?.description ?? fallback.desc,
+    theme: item?.theme ?? item?.mainCategory ?? fallback.theme,
+  }
+}
+
+const fallbackPatterns = [
+  {
+    id: '0001',
+    title: '生生不息',
+    patternCode: 'PHX-2024-001',
+    image: pattern017,
+    desc: '以传统窗花语言为核心，提炼纹样、留白与层叠结构，呈现生生不息的繁荣愿景。',
+    theme: '系列 01 · 暮金流影',
+  },
+  {
+    id: '0002',
+    title: '鱼跃龙门',
+    patternCode: 'PHX-2024-002',
+    image: pattern018,
+    desc: '细腻镂空与金色轮廓相映，传说中的锦鲤化龙，象征着终极的胜利与荣耀。',
+    theme: '系列 02 · 玉紫华章',
+  },
+  {
+    id: '0003',
+    title: '天命玄鸟',
+    patternCode: 'PHX-2024-003',
+    image: pattern019,
+    desc: '以暗玉紫铺陈深邃氛围，借由剪艺纹样传递守护与新生的东方神话信仰。',
+    theme: '系列 03 · 典藏映辉',
+  },
+]
+
+const loadHomePatterns = async () => {
+  loading.value = true
+
+  try {
+    const response = await getPatterns()
+    const list = Array.isArray(response)
+      ? response
+      : Array.isArray(response?.data)
+        ? response.data
+        : []
+
+    const remoteItems = list.slice(0, 3)
+
+    homePatterns.value = fallbackPatterns.map((fallback, index) => {
+      const remoteItem = remoteItems[index]
+      return normalizeHomePattern(remoteItem, fallback, index)
+    })
+  } catch (error) {
+    console.warn('获取首页作品数据失败，使用本地数据:', error)
+    homePatterns.value = [...fallbackPatterns]
+  } finally {
+    loading.value = false
+  }
+}
+
 const patternImages = [pattern017, pattern018, pattern019]
 
 const { slideUp, staggerIn } = useAnimate()
 
 onMounted(async () => {
+  // 加载首页作品数据
+  await loadHomePatterns()
+
   observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -454,5 +535,17 @@ onBeforeUnmount(() => {
 .manifesto-section > .manifesto-content {
   position: relative;
   z-index: 1;
+}
+
+/* ========== 骨架屏 shimmer 动画 ========== */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.animate-pulse {
+  animation: shimmer 1.5s infinite;
+  background: linear-gradient(90deg, #FEF2F2 25%, #FEE2E2 50%, #FEF2F2 75%);
+  background-size: 200% 100%;
 }
 </style>
