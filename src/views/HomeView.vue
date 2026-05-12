@@ -111,16 +111,12 @@
 
     <!-- 剪艺数字生态 Section -->
     <section class="ecosystem-section relative py-24 px-6 lg:px-12 max-w-[1600px] mx-auto w-full overflow-hidden">
-      <!-- 锦缎织造背景：浮动光点 -->
-      <div class="ecosystem-particles" aria-hidden="true">
-        <div class="ecosystem-particle"></div>
-        <div class="ecosystem-particle"></div>
-        <div class="ecosystem-particle"></div>
-        <div class="ecosystem-particle"></div>
-        <div class="ecosystem-particle"></div>
-        <div class="ecosystem-particle"></div>
-        <div class="ecosystem-particle"></div>
-        <div class="ecosystem-particle"></div>
+      <!-- 窗花四角水印 -->
+      <div class="ecosystem-watermarks" aria-hidden="true">
+        <img :src="watermarkTL" class="ecosystem-watermark ecosystem-watermark--tl" alt="">
+        <img :src="watermarkTR" class="ecosystem-watermark ecosystem-watermark--tr" alt="">
+        <img :src="watermarkBL" class="ecosystem-watermark ecosystem-watermark--bl" alt="">
+        <img :src="watermarkBR" class="ecosystem-watermark ecosystem-watermark--br" alt="">
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
 
@@ -222,7 +218,7 @@
         <div class="max-w-xs">
           <div class="flex items-center gap-3 mb-6">
             <img src="@/assets/配色版矢量（标准）.svg" alt="剪艺标志" class="w-6 h-6 object-contain opacity-80">
-            <h3 class="text-xl font-medium tracking-[0.3em] text-ink-base">剪艺</h3>
+            <h3 class="text-xl font-light font-serif tracking-[0.3em] text-ink-base">剪艺</h3>
           </div>
           <p class="text-bamboo-muted text-xs leading-relaxed">
             致力于传承与创新中国传统剪纸艺术，让非遗之美走进现代生活。匠心独运，纸上生花。
@@ -301,6 +297,11 @@ import { DURATION } from '@/composables/anime.config.js'
 import pattern017 from '@/assets/窗花017.png'
 import pattern018 from '@/assets/窗花018.png'
 import pattern019 from '@/assets/窗花019.png'
+import watermarkTL from '@/assets/窗花067.png'
+import watermarkTR from '@/assets/窗花068.png'
+import watermarkBL from '@/assets/窗花096.png'
+import watermarkBR from '@/assets/窗花128.png'
+import { getPatterns } from '@/api/patterns.js'
 
 let observer = null
 
@@ -310,6 +311,8 @@ const productHeadingRef = ref(null)
 const productCardsRef = ref(null)
 const showProtocol = ref(false)
 const protocolTab = ref('privacy')
+const loading = ref(true)
+const homePatterns = ref([])
 
 function openProtocol(tab) {
   protocolTab.value = tab
@@ -375,19 +378,29 @@ onBeforeUnmount(() => {
 /* ========== 剪艺应用 — 锦缎织造 ========== */
 .ecosystem-section {
   background:
-    /* 编织纹理：交叉织锦纹 */
-    repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(180,150,100,0.06) 2px, rgba(180,150,100,0.06) 4px),
-    repeating-linear-gradient(135deg, transparent, transparent 2px, rgba(180,150,100,0.06) 2px, rgba(180,150,100,0.06) 4px),
+    /* 织锦纹：3 层交叉线（45°/135°/90°），1px 细线，金色调 */
+    repeating-linear-gradient(45deg, transparent, transparent 1px, rgba(190,160,100,0.10) 1px, rgba(190,160,100,0.10) 3px),
+    repeating-linear-gradient(135deg, transparent, transparent 1px, rgba(190,160,100,0.10) 1px, rgba(190,160,100,0.10) 3px),
+    repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(190,160,100,0.08) 1px, rgba(190,160,100,0.08) 3px),
     /* 柔和网格 */
     linear-gradient(rgba(180,150,100,0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(180,150,100,0.04) 1px, transparent 1px),
+    /* 水墨晕染：左上 + 右下两团淡墨 */
+    radial-gradient(ellipse at 15% 20%, rgba(180,160,130,0.07), transparent 60%),
+    radial-gradient(ellipse at 85% 80%, rgba(170,150,120,0.07), transparent 60%),
     /* 底色：浅香槟金到暖米渐变 */
     linear-gradient(135deg, #faf5ed, #f5ede0);
-  background-size: auto, auto, 60px 60px, 60px 60px, auto;
+  background-size: auto, auto, auto, 60px 60px, 60px 60px, auto, auto, auto;
 }
 
-/* L4 浮动光点 */
-.ecosystem-particles {
+/* 确保内容在背景层之上 */
+.ecosystem-section > *:not(.ecosystem-watermarks) {
+  position: relative;
+  z-index: 1;
+}
+
+/* 窗花四角水印 */
+.ecosystem-watermarks {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -395,40 +408,38 @@ onBeforeUnmount(() => {
   overflow: hidden;
 }
 
-.ecosystem-particle {
+.ecosystem-watermark {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: rgba(201, 169, 110, 0.15);
-  animation: particle-float 8s ease-in-out infinite;
+  width: 250px;
+  height: 250px;
+  object-fit: contain;
+  opacity: 0.04;
 }
 
-.ecosystem-particle:nth-child(1) { left: 10%; top: 20%; animation-duration: 7s; animation-delay: 0s; }
-.ecosystem-particle:nth-child(2) { left: 30%; top: 60%; animation-duration: 9s; animation-delay: 1s; }
-.ecosystem-particle:nth-child(3) { left: 50%; top: 30%; animation-duration: 6s; animation-delay: 2s; }
-.ecosystem-particle:nth-child(4) { left: 70%; top: 70%; animation-duration: 10s; animation-delay: 0.5s; }
-.ecosystem-particle:nth-child(5) { left: 85%; top: 40%; animation-duration: 8s; animation-delay: 1.5s; }
-.ecosystem-particle:nth-child(6) { left: 15%; top: 80%; animation-duration: 7.5s; animation-delay: 3s; }
-.ecosystem-particle:nth-child(7) { left: 60%; top: 15%; animation-duration: 9.5s; animation-delay: 2.5s; }
-.ecosystem-particle:nth-child(8) { left: 40%; top: 50%; animation-duration: 6.5s; animation-delay: 0.8s; }
-
-/* 确保内容在背景层之上 */
-.ecosystem-section > *:not(.ecosystem-particles) {
-  position: relative;
-  z-index: 1;
+.ecosystem-watermark--tl {
+  top: -30px;
+  left: -30px;
+  transform: rotate(15deg);
 }
 
-@keyframes particle-float {
-  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.15; }
-  50% { transform: translateY(-20px) translateX(10px); opacity: 0.25; }
+.ecosystem-watermark--tr {
+  top: -30px;
+  right: -30px;
+  transform: rotate(-15deg);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ecosystem-particle {
-    animation: none !important;
-  }
+.ecosystem-watermark--bl {
+  bottom: -30px;
+  left: -30px;
+  transform: rotate(-15deg);
 }
+
+.ecosystem-watermark--br {
+  bottom: -30px;
+  right: -30px;
+  transform: rotate(15deg);
+}
+
 
 /* ========== 剪艺宣言 — 纸雕光影 ========== */
 .manifesto-section {
