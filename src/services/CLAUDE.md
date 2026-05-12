@@ -31,7 +31,7 @@
 
 ## 关键依赖与配置
 
-- 登录接口：`https://bpsljpqucopd.sealosbja.site/api/auth/login`
+- 登录接口：`https://bvsgfaqysqva.sealosbja.site/api/auth/login`
 - localStorage 键：
   - `paper-cut-jwt-token`
   - `paper-cut-username`

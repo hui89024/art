@@ -48,9 +48,9 @@
 
 - 使用原生 `fetch`
 - 默认接口：
-  - `https://bpsljpqucopd.sealosbja.site/api/open/collectibles`
-  - `https://bpsljpqucopd.sealosbja.site/api/open/patterns`
-  - `https://bpsljpqucopd.sealosbja.site/api/open/events`
+  - `https://bvsgfaqysqva.sealosbja.site/api/open/collectibles`
+  - `https://bvsgfaqysqva.sealosbja.site/api/open/patterns`
+  - `https://bvsgfaqysqva.sealosbja.site/api/open/events`
 - `events.js` 支持 `VITE_OPEN_EVENTS_API` 环境变量覆盖。
 - `contact.js` 通过飞书 Webhook 推送消息，支持 `VITE_CONTACT_WEBHOOK_URL` 环境变量覆盖。
 

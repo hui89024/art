@@ -1,4 +1,4 @@
-const OPEN_EVENTS_API = (import.meta.env.VITE_OPEN_EVENTS_API || 'https://bpsljpqucopd.sealosbja.site/api/open/events').trim()
+const OPEN_EVENTS_API = (import.meta.env.VITE_OPEN_EVENTS_API || 'https://bvsgfaqysqva.sealosbja.site/api/open/events').trim()
 
 // 从 events URL 提取 origin，拼接 /api/reviews
 const REVIEWS_API = (() => {
@@ -6,7 +6,7 @@ const REVIEWS_API = (() => {
     const url = new URL(OPEN_EVENTS_API)
     return `${url.origin}/api/reviews`
   } catch {
-    return 'https://bpsljpqucopd.sealosbja.site/api/reviews'
+    return 'https://bvsgfaqysqva.sealosbja.site/api/reviews'
   }
 })()
 

@@ -1,5 +1,5 @@
-const OPEN_COLLECTIBLES_API = 'https://bpsljpqucopd.sealosbja.site/api/open/collectibles'
-const OPEN_PATTERNS_API = 'https://bpsljpqucopd.sealosbja.site/api/open/patterns'
+const OPEN_COLLECTIBLES_API = 'https://bvsgfaqysqva.sealosbja.site/api/open/collectibles'
+const OPEN_PATTERNS_API = 'https://bvsgfaqysqva.sealosbja.site/api/open/patterns'
 
 const buildQueryString = (params = {}) => {
   const query = new URLSearchParams()

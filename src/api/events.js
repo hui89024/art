@@ -1,4 +1,4 @@
-const OPEN_EVENTS_API = (import.meta.env.VITE_OPEN_EVENTS_API || 'https://bpsljpqucopd.sealosbja.site/api/open/events').trim()
+const OPEN_EVENTS_API = (import.meta.env.VITE_OPEN_EVENTS_API || 'https://bvsgfaqysqva.sealosbja.site/api/open/events').trim()
 
 const pickText = (...values) => {
   for (const value of values) {

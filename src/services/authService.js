@@ -1,4 +1,4 @@
-const LOGIN_URL = 'https://bpsljpqucopd.sealosbja.site/api/auth/login'
+const LOGIN_URL = 'https://bvsgfaqysqva.sealosbja.site/api/auth/login'
 const TOKEN_KEY = 'paper-cut-jwt-token'
 const USERNAME_KEY = 'paper-cut-username'
 
