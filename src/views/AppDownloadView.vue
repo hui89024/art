@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getReviews } from '@/api/reviews'
-import { PhStar, PhDeviceMobile, PhCamera, PhPalette, PhUsers, PhSparkle, PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue'
-import appScreenshot1 from '@/assets/2026-05-05 102614.png'
-import appScreenshot2 from '@/assets/2026-05-05 102710.png'
-import appScreenshot3 from '@/assets/2026-05-05 102844.png'
+import { PhStar, PhDeviceMobile, PhBrain, PhScissors, PhUsers, PhSparkle, PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue'
+import appScreenshot1 from '@/assets/12-5-2026_9113_h5.yikex.xyz.jpeg'
+import appScreenshot2 from '@/assets/12-5-2026_9910_h5.yikex.xyz.jpeg'
+import appScreenshot3 from '@/assets/12-5-2026_91226_h5.yikex.xyz.jpeg'
+import PhoneAnimation from '@/components/PhoneAnimation.vue'
 
 const screenshotImages = [appScreenshot1, appScreenshot2, appScreenshot3]
 
@@ -162,21 +163,7 @@ const goAndroid = () => {
 
         <!-- Right: Device Mockup -->
         <div class="relative">
-          <div class="relative mx-auto w-[280px] h-[560px] bg-gradient-to-br from-ink-base to-gray-800 rounded-[3rem] p-3 shadow-2xl">
-            <!-- Phone Screen -->
-            <div class="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
-              <!-- Notch -->
-              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-ink-base rounded-b-3xl z-10"></div>
-
-              <!-- Real App Screenshot -->
-              <img
-                v-protect-image
-                :src="screenshotImages[0]"
-                alt="剪艺 APP 主界面截图"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-          </div>
+          <PhoneAnimation class="scale-110" />
 
           <!-- Floating Elements -->
           <div class="absolute -top-4 -right-4 w-24 h-24 bg-accent/10 rounded-full blur-2xl"></div>
@@ -209,17 +196,7 @@ const goAndroid = () => {
 
             <!-- Screenshot Display -->
             <div class="flex-1 max-w-xs">
-              <div class="relative mx-auto w-[240px] h-[480px] bg-gradient-to-br from-ink-base to-gray-800 rounded-[2.5rem] p-2.5 shadow-2xl">
-                <div class="w-full h-full bg-white rounded-[2rem] overflow-hidden relative">
-                  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-ink-base rounded-b-2xl z-10"></div>
-                  <img
-                    v-protect-image
-                    :src="screenshotImages[currentScreenshot]"
-                    :alt="screenshots[currentScreenshot].title + ' 截图'"
-                    class="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
+              <PhoneAnimation :image="screenshotImages[currentScreenshot]" />
             </div>
 
             <!-- Next Button -->
