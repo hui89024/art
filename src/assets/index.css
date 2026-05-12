@@ -68,7 +68,7 @@
     background-attachment: fixed, scroll;
     opacity: 1;
     color: var(--jy-color-text);
-    font-family: 'STKaiti', 'KaiTi', 'STXingkai', 'HanziPen SC', 'Ma Shan Zheng', 'FZKai-Z03', 'Songti SC', serif;
+    font-family: 'KaiTi', 'STKaiti', '楷体', 'Songti SC', serif;
     overflow-x: hidden;
     margin: 0;
   }

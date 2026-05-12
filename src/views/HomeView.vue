@@ -233,7 +233,7 @@
         <div class="max-w-xs">
           <div class="flex items-center gap-3 mb-6">
             <img src="@/assets/配色版矢量（标准）.svg" alt="剪艺标志" class="w-6 h-6 object-contain opacity-80">
-            <h3 class="text-xl font-light font-serif tracking-[0.3em] text-ink-base">剪艺</h3>
+            <h3 class="text-xl font-sans font-medium tracking-[0.3em] text-ink-base">剪艺</h3>
           </div>
           <p class="text-bamboo-muted text-xs leading-relaxed">
             致力于传承与创新中国传统剪纸艺术，让非遗之美走进现代生活。匠心独运，纸上生花。
@@ -471,7 +471,7 @@ onBeforeUnmount(() => {
     radial-gradient(ellipse at 85% 80%, rgba(170,150,120,0.07), transparent 60%),
     /* 底色：浅香槟金到暖米渐变 */
     linear-gradient(135deg, #faf5ed, #f5ede0);
-  background-size: auto, auto, auto, 60px 60px, 60px 60px, auto, auto, auto;
+  background-size: auto, auto, auto, 60px 60px, 60px 60px, auto, auto, auto, auto;
 }
 
 /* 确保内容在背景层之上 */

@@ -234,7 +234,7 @@
           <div class="max-w-sm">
             <div class="flex items-center gap-4 mb-8">
               <img src="@/assets/配色版矢量（标准）.svg" alt="剪艺标志" class="w-10 h-10 object-contain">
-              <h3 class="font-display text-2xl md:text-3xl font-bold text-white tracking-[0.3em]">剪艺</h3>
+              <h3 class="font-sans text-2xl md:text-3xl font-bold text-white tracking-[0.3em]">剪艺</h3>
             </div>
             <p class="text-white text-base leading-relaxed mb-10">
               致力于传承与创新中国传统剪纸艺术，让非遗之美走进现代生活。匠心独运，纸上生花
