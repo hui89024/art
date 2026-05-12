@@ -13,7 +13,7 @@
              animationDuration: `${40 + i * 20}s`,
              animationDirection: i % 2 === 0 ? 'normal' : 'reverse'
            }">
-        <img :src="`/src/assets/窗花${String(17 + (i % 3)).padStart(3, '0')}.png`"
+        <img :src="windowFlowers[(i - 1) % 3]"
              class="w-full h-full object-contain filter brightness-110"
              alt="">
       </div>
@@ -32,7 +32,7 @@
              animationDuration: `${10 + Math.random() * 10}s`,
              opacity: 0.3 + Math.random() * 0.3
            }">
-        <img :src="`/src/assets/窗花${String(17 + (i % 3)).padStart(3, '0')}.png`"
+        <img :src="windowFlowers[(i - 1) % 3]"
              class="w-full h-full object-contain"
              :style="{
                filter: `hue-rotate(${Math.random() * 60}deg) brightness(1.2)`
@@ -167,6 +167,13 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import logoSvg from '@/assets/1.svg'
 import { useRouter } from 'vue-router'
+
+// 静态导入窗花图片资源（生产构建安全）
+import windowFlower17 from '@/assets/窗花017.png'
+import windowFlower18 from '@/assets/窗花018.png'
+import windowFlower19 from '@/assets/窗花019.png'
+
+const windowFlowers = [windowFlower17, windowFlower18, windowFlower19]
 
 const router = useRouter()
 const contentLayer = ref(null)
